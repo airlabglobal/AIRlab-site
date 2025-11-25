@@ -1,12 +1,12 @@
 
 
-# 🌐 Airlab Unilag Website
+# 🌐 AIRLab UNILAG Website
 
-A modern, responsive website built for the **Airlab research group** at the **University of Lagos (Unilag)**. This project serves as the primary online platform for showcasing our research focus, lab members, projects, and recent publications.
+A modern, responsive website built for **AIRLab** (Artificial Intelligence & Robotics Laboratory) at the **University of Lagos (UNILAG)**. This project serves as the primary online platform for showcasing our research focus, lab members, projects, and recent publications.
 
 ## 📖 Overview
 
-This repository contains the full source code for the official Airlab Unilag website. Built with **Next.js** and focused on a sleek, mobile-first design, the website is engineered for speed and maintainability.
+This repository contains the full source code for the official AIRLab UNILAG website. Built with **Next.js** and focused on a sleek, mobile-first design, the website is engineered for speed and maintainability.
 
 The structure is currently set up as a **pure frontend application**, ready for static deployment or integration with a dedicated backend service (if needed later for dynamic content).
 
@@ -50,22 +50,17 @@ You must have the following installed on your system:
 
 ```bash
 git clone https://github.com/your-username/airlab-unilag-website.git
-```
-
-### 2\. Enter the project directory
-
-```bash
 cd airlab-unilag-website
 ```
 
-### 3\. Install dependencies
+### 2\. Install dependencies
 
 ```bash
 npm install
 # OR yarn install
 ```
 
-### 4\. Run the development server
+### 3\. Run the development server
 
 ```bash
 npm run dev
@@ -74,7 +69,11 @@ npm run dev
 
 The website will now be running locally. Open your browser and navigate to:
 
-**http://localhost:3000** (or the port specified in your terminal)
+**http://localhost:9002** (or the port specified in your terminal)
+
+## 🔐 Admin Access
+
+The admin panel is password-protected. Access it at `/admin` with the password: **Airlab_2025**
 
 -----
 
@@ -85,4 +84,15 @@ This project is a static-friendly Next.js application, making deployment straigh
   * **Vercel / Netlify:** Simply connect the repository. The hosting service will automatically detect the Next.js framework and build the site.
   * **Static Hosting:** Run `npm run build` and export the output if needed for custom static hosting.
 
-Made with love- by Lawal Giyath
+## 📊 Data Management
+
+All content (projects, team members, research papers) is managed through JSON files in the `src/data/` directory:
+- `projects.json` - Project listings
+- `team.json` - Team member profiles
+- `research.json` - Research publications
+
+To update content, simply edit these JSON files and the changes will be reflected across the site.
+
+---
+
+Made with ❤️ by the AIRLab Team

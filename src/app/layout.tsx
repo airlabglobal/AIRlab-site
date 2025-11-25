@@ -6,8 +6,8 @@ import Footer from '@/components/layout/Footer';
 import { Toaster } from '@/components/ui/toaster';
 
 export const metadata: Metadata = {
-  title: 'Airlab - AI & Robotics Lab',
-  description: 'The official website of the Artificial Intelligence and Robotics Laboratory at the University of Lagos.',
+  title: 'AIRLab - Artificial Intelligence & Robotics Laboratory | University of Lagos',
+  description: 'AIRLab is the premier Artificial Intelligence and Robotics Laboratory at the University of Lagos, pioneering research in AI, machine learning, robotics, and intelligent systems.',
 };
 
 export default function RootLayout({

@@ -4,10 +4,10 @@ import Link from 'next/link';
 import { Bot, FileText, Users, Newspaper, PlusCircle, Activity, BarChart3 } from 'lucide-react';
 
 const summaryStats = [
-  { title: "Total Projects", value: "12", icon: Bot, color: "text-primary", link: "/admin/projects" },
-  { title: "Research Papers", value: "34", icon: FileText, color: "text-accent", link: "/admin/research" },
-  { title: "Team Members", value: "8", icon: Users, color: "text-green-500", link: "/admin/team" },
-  { title: "News & Events", value: "5", icon: Newspaper, color: "text-orange-500", link: "/admin/news" },
+  { title: "Total Projects", value: "4", icon: Bot, color: "text-primary", link: "/admin/projects" },
+  { title: "Research Papers", value: "6", icon: FileText, color: "text-accent", link: "/admin/research" },
+  { title: "Team Members", value: "13", icon: Users, color: "text-green-500", link: "/admin/team" },
+  { title: "News & Events", value: "3", icon: Newspaper, color: "text-orange-500", link: "/admin/news" },
 ];
 
 const quickActions = [
@@ -67,7 +67,11 @@ export default function AdminDashboardPage() {
           </CardHeader>
           <CardContent>
             <ul className="space-y-3">
-              {["New project 'RoboCup Challenge' added.", "Dr. John Doe updated their profile.", "Research paper 'AI in Climate Change' uploaded."].map((item, idx) => (
+              {[
+                "Research paper 'Deep Learning for Medical Image Analysis' updated.",
+                "New team member 'Jude Tochy' added to the roster.",
+                "Project 'AI-Powered Traffic Management System' status changed to Ongoing."
+              ].map((item, idx) => (
                  <li key={idx} className="text-sm font-body text-foreground/80 border-l-2 border-primary pl-3 py-1">{item}</li>
               ))}
             </ul>

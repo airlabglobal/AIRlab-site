@@ -1,0 +1,56 @@
+[
+  {
+    "_id": "1",
+    "title": "Deep Learning for Medical Image Analysis",
+    "authors": "Dr. Chika Yinka-Banjo, Ayodeji Atunrase",
+    "year": 2024,
+    "description": "Exploring convolutional neural networks for automated detection of diseases in medical imaging, with focus on accessible healthcare solutions for developing regions.",
+    "fileUrl": "#",
+    "imageUrl": "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=600&h=400&fit=crop"
+  },
+  {
+    "_id": "2",
+    "title": "Autonomous Navigation in Unstructured Environments",
+    "authors": "Mrs Omokhaba Blessing Yama, Lawal Giyath",
+    "year": 2023,
+    "description": "Research on reinforcement learning algorithms enabling robots to navigate complex, unpredictable terrains without human intervention.",
+    "fileUrl": "#",
+    "imageUrl": "https://images.unsplash.com/photo-1563207153-f403bf289096?w=600&h=400&fit=crop"
+  },
+  {
+    "_id": "3",
+    "title": "Natural Language Processing for Low-Resource Languages",
+    "authors": "Oluwatobi Anuoluwapo, Lukman Abdulsalam",
+    "year": 2024,
+    "description": "Developing NLP models and datasets for Nigerian languages including Yoruba, Igbo, and Hausa to bridge the digital language divide.",
+    "fileUrl": "#",
+    "imageUrl": "https://images.unsplash.com/photo-1455390582262-044cdead277a?w=600&h=400&fit=crop"
+  },
+  {
+    "_id": "4",
+    "title": "Ethical AI: Bias Detection and Mitigation",
+    "authors": "Dr. Chika Yinka-Banjo, Ifedayo Olowonyo",
+    "year": 2023,
+    "description": "Investigating methods to identify and reduce algorithmic bias in AI systems, ensuring fair and equitable outcomes across diverse populations.",
+    "fileUrl": "#",
+    "imageUrl": "https://images.unsplash.com/photo-1507146153580-69a1fe6d8aa1?w=600&h=400&fit=crop"
+  },
+  {
+    "_id": "5",
+    "title": "Smart Grid Optimization Using Machine Learning",
+    "authors": "Adekunle Abdulazeez, Tomilola Jaiyeoba",
+    "year": 2024,
+    "description": "Applying machine learning techniques to optimize energy distribution in smart grids, reducing waste and improving reliability in power systems.",
+    "fileUrl": "#",
+    "imageUrl": "https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?w=600&h=400&fit=crop"
+  },
+  {
+    "_id": "6",
+    "title": "Human-Robot Interaction in Educational Settings",
+    "authors": "Aaliyah Omar Jabita, Jude Tochy",
+    "year": 2023,
+    "description": "Studying how social robots can enhance learning experiences in classrooms, particularly for STEM education in primary and secondary schools.",
+    "fileUrl": "#",
+    "imageUrl": "https://images.unsplash.com/photo-1546410531-bb4caa6b424d?w=600&h=400&fit=crop"
+  }
+]

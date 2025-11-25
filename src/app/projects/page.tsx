@@ -6,57 +6,17 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { ArrowRight, Layers } from 'lucide-react';
-
-const projects = [
-  {
-    id: "1",
-    title: "AI-Powered Traffic Management System",
-    description: "A smart city initiative to optimize traffic flow using real-time data analysis and adaptive signal control.",
-    imageUrl: "https://placehold.co/600x400.png",
-    imageHint: "city traffic",
-    tags: ["AI", "Smart City", "IoT", "Machine Learning"],
-    status: "Ongoing",
-    link: "/projects/traffic-management"
-  },
-  {
-    id: "2",
-    title: "Robotic Assistant for Elderly Care",
-    description: "Developing a companion robot to assist elderly individuals with daily tasks and provide social interaction.",
-    imageUrl: "https://placehold.co/600x400.png",
-    imageHint: "care robot",
-    tags: ["Robotics", "Healthcare", "HCI", "AI"],
-    status: "Completed",
-    link: "/projects/elderly-care-robot"
-  },
-  {
-    id: "3",
-    title: "Precision Agriculture Drone",
-    description: "Utilizing AI-equipped drones for crop monitoring, pest detection, and optimized resource allocation in agriculture.",
-    imageUrl: "https://placehold.co/600x400.png",
-    imageHint: "agriculture drone",
-    tags: ["AI", "Robotics", "Agriculture", "Computer Vision"],
-    status: "Ongoing",
-    link: "/projects/agri-drone"
-  },
-  {
-    id: "4",
-    title: "Natural Language Interface for Databases",
-    description: "Creating a system that allows users to query complex databases using natural language commands.",
-    imageUrl: "https://placehold.co/600x400.png",
-    imageHint: "database interface",
-    tags: ["NLP", "AI", "Databases", "HCI"],
-    status: "Research Phase",
-    link: "/projects/nlp-database"
-  },
-];
+import projectsData from '@/data/projects.json';
 
 export default function ProjectsPage() {
+  const projects = projectsData;
+
   return (
     <PageWrapper>
       <Section title="Our Projects" subtitle="Innovations in Action">
         <p className="font-body text-lg text-center text-foreground/80 max-w-3xl mx-auto mb-12">
-          Discover the diverse range of projects undertaken at AIROL Unilag. Our work spans various applications
-          of Artificial Intelligence and Robotics, aimed at solving real-world problems.
+          Discover the diverse range of projects undertaken at AIRLab. Our work spans various applications
+          of Artificial Intelligence and Robotics, addressing critical challenges in healthcare, agriculture, urban development, and more.
         </p>
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           {projects.map((project) => (

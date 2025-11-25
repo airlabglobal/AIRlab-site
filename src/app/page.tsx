@@ -7,39 +7,15 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import Link from 'next/link';
 import { ChevronRight, Lightbulb, Users, Zap, Newspaper, Handshake, ArrowRight } from 'lucide-react';
 import Image from 'next/image';
+import projectsData from '@/data/projects.json';
 
 export default function Home() {
-  const showcaseItems = [
-    {
-      title: "Robotic Arm Precision Control",
-      description: "Developing advanced algorithms for high-precision control of robotic arms in manufacturing and assembly tasks.",
-      imageUrl: "https://placehold.co/600x400.png",
-      imageHint: "robotic arm",
-      linkUrl: "/projects/robotic-arm",
-      tags: ["Robotics", "AI", "Control Systems"],
-    },
-    {
-      title: "AI in Medical Diagnosis",
-      description: "Utilizing machine learning models to improve the accuracy and speed of medical image analysis for early disease detection.",
-      imageUrl: "https://placehold.co/600x400.png",
-      imageHint: "medical AI",
-      linkUrl: "/research/medical-ai",
-      tags: ["AI", "Healthcare", "Machine Learning"],
-    },
-    {
-      title: "Autonomous Drone Navigation",
-      description: "Researching and implementing autonomous navigation systems for drones in complex environments using computer vision and SLAM.",
-      imageUrl: "https://placehold.co/600x400.png",
-      imageHint: "autonomous drone",
-      linkUrl: "/projects/autonomous-drone",
-      tags: ["Robotics", "AI", "Autonomous Systems"],
-    },
-  ];
+  const showcaseItems = projectsData.slice(0, 3);
 
   const newsItems = [
-    { title: "Airlab to host International AI Conference in December", date: "Oct 26, 2023", link: "#" },
-    { title: "Our team wins Best Paper Award at Robotics Summit", date: "Sep 15, 2023", link: "#" },
-    { title: "New research grant secured for ethical AI development", date: "Aug 01, 2023", link: "#" },
+    { title: "AIRLab to host International AI Conference in December 2025", date: "Nov 15, 2025", link: "#" },
+    { title: "Our team wins Best Paper Award at African Robotics Summit", date: "Oct 8, 2025", link: "#" },
+    { title: "New research grant secured for ethical AI development", date: "Sep 22, 2025", link: "#" },
   ];
 
   return (
@@ -50,11 +26,11 @@ export default function Home() {
           <div className="grid md:grid-cols-2 gap-8 items-center">
             <div className="text-center md:text-left">
               <h1 className="font-headline text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-6">
-                <span className="block">Innovate. Create.</span>
-                <span className="block text-primary">Inspire with AI.</span>
+                <span className="block">Pioneering the Future</span>
+                <span className="block text-primary">of Intelligent Systems</span>
               </h1>
               <p className="font-body text-lg md:text-xl text-foreground/80 mb-8 max-w-xl mx-auto md:mx-0">
-                Welcome to Airlab, the AI & Robotics Laboratory at the University of Lagos. We are at the forefront of cutting-edge research and development in intelligent systems.
+                Welcome to AIRLab, the Artificial Intelligence & Robotics Laboratory at the University of Lagos. We're advancing the frontiers of AI, machine learning, and robotics to solve Africa's most pressing challenges.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
                 <Button asChild size="lg" className="bg-primary hover:bg-primary/90 text-primary-foreground shadow-lg transform hover:scale-105 transition-transform">
@@ -67,11 +43,11 @@ export default function Home() {
             </div>
             <div className="relative h-64 md:h-auto md:aspect-square">
               <Image 
-                src="/images/pexels-agk42-2599244.jpg"  
-                alt="AI and Robotics conceptual image"
+                src="https://images.unsplash.com/photo-1677442136019-21780ecad995?w=800&h=800&fit=crop"
+                alt="AI and Robotics research at AIRLab"
                 layout="fill"
                 objectFit="contain"
-                className="animate-float "
+                className="animate-float rounded-lg"
               />
             </div>
           </div>
@@ -85,17 +61,17 @@ export default function Home() {
             <div className="p-6 bg-card rounded-lg shadow-lg hover:shadow-xl transition-shadow">
               <Lightbulb className="h-12 w-12 text-primary mx-auto mb-4" />
               <h3 className="font-headline text-2xl font-semibold mb-2">Pioneering Research</h3>
-              <p className="font-body text-foreground/70">Exploring new frontiers in artificial intelligence, machine learning, and robotics.</p>
+              <p className="font-body text-foreground/70">Pushing boundaries in AI, machine learning, and robotics to create innovative solutions for real-world challenges.</p>
             </div>
             <div className="p-6 bg-card rounded-lg shadow-lg hover:shadow-xl transition-shadow">
               <Zap className="h-12 w-12 text-primary mx-auto mb-4" />
               <h3 className="font-headline text-2xl font-semibold mb-2">Impactful Projects</h3>
-              <p className="font-body text-foreground/70">Developing practical solutions to real-world challenges through innovative projects.</p>
+              <p className="font-body text-foreground/70">Building transformative technologies that address healthcare, agriculture, education, and urban development needs.</p>
             </div>
             <div className="p-6 bg-card rounded-lg shadow-lg hover:shadow-xl transition-shadow">
               <Users className="h-12 w-12 text-primary mx-auto mb-4" />
               <h3 className="font-headline text-2xl font-semibold mb-2">Collaborative Team</h3>
-              <p className="font-body text-foreground/70">Fostering a dynamic environment for students and researchers to collaborate and excel.</p>
+              <p className="font-body text-foreground/70">Nurturing the next generation of AI and robotics experts through mentorship, collaboration, and hands-on research.</p>
             </div>
           </div>
         </div>
@@ -125,9 +101,9 @@ export default function Home() {
               <h3 className="font-headline text-3xl lg:text-4xl font-semibold text-primary mb-3">Dr. Chika Yinka-Banjo</h3>
               <p className="font-body text-lg text-accent font-medium mb-4">Lab Coordinator & Senior Lecturer</p>
               <p className="font-body text-foreground/80 mb-6 text-base lg:text-lg">
-                Dr. Chika Yinka Banjo is an esteemed expert in Artificial Intelligence and Human-Computer Interaction. With over a decade of research experience,
-                she leads Airlab's strategic initiatives, mentors young researchers, and champions ethical AI development. Her work focuses on creating intelligent systems
-                that are not only technologically advanced but also beneficial and accessible to society.
+                Dr. Chika Yinka-Banjo is a distinguished expert in Artificial Intelligence and Human-Computer Interaction with over a decade of research excellence.
+                She leads AIRLab's strategic vision, mentors emerging researchers, and champions ethical AI development. Her work focuses on creating intelligent systems
+                that are technologically advanced, socially beneficial, and accessible to underserved communities across Africa.
               </p>
               <Button asChild variant="outline" className="border-primary text-primary hover:bg-primary/10">
                 <Link href="/team/dr-chika-yinka-banjo">Learn More About Dr. Banjo <ArrowRight className="ml-2 h-4 w-4" /></Link>
@@ -143,11 +119,11 @@ export default function Home() {
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {showcaseItems.map((item, index) => (
               <DynamicShowcaseCard
-                key={index}
+                key={item.id}
                 title={item.title}
                 description={item.description}
                 imageUrl={item.imageUrl}
-                linkUrl={item.linkUrl}
+                linkUrl={item.link}
                 tags={item.tags}
                 imageHint={item.imageHint}
                 className={`opacity-0 animate-slide-up animate-float-in delay-300`}
@@ -201,14 +177,14 @@ export default function Home() {
       <Section title="Get Involved" subtitle="Collaborate With Us" className="bg-muted/30">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <p className="font-body text-lg text-foreground/80 max-w-2xl mx-auto mb-8">
-            Airlab is always looking for passionate individuals and organizations to collaborate with.
-            Whether you are a prospective student, researcher, or industry partner, we have opportunities for you.
+            AIRLab welcomes passionate individuals and organizations to join our mission of advancing AI and robotics.
+            Whether you're a prospective student, researcher, or industry partner, we offer exciting opportunities to collaborate and innovate.
           </p>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-4xl mx-auto">
             {[
-              { title: "Prospective Students", description: "Join our vibrant team of students and contribute to cutting-edge research.", link: "/admissions", icon: <Users className="h-8 w-8 mb-3 text-primary"/> },
-              { title: "Research Collaboration", description: "Partner with us on innovative research projects and publications.", link: "/research#collaborate", icon: <Handshake className="h-8 w-8 mb-3 text-primary"/> },
-              { title: "Industry Partnerships", description: "Leverage our expertise to solve real-world challenges and drive innovation in your industry.", link: "/partnerships", icon: <Zap className="h-8 w-8 mb-3 text-primary"/> },
+              { title: "Prospective Students", description: "Join our dynamic community of researchers and contribute to groundbreaking AI and robotics projects.", link: "/contact", icon: <Users className="h-8 w-8 mb-3 text-primary"/> },
+              { title: "Research Collaboration", description: "Partner with us on innovative research initiatives, publications, and grant applications.", link: "/research", icon: <Handshake className="h-8 w-8 mb-3 text-primary"/> },
+              { title: "Industry Partnerships", description: "Leverage our expertise to develop AI solutions that drive innovation and solve complex business challenges.", link: "/contact", icon: <Zap className="h-8 w-8 mb-3 text-primary"/> },
             ].map((item, index) => (
               <Card
                 key={item.title}

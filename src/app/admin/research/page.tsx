@@ -1,13 +1,14 @@
 'use client'  // src/app/admin/research/page.tsx
 
-import { useEffect, useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { PlusCircle, Edit, Trash2, Search, FileText } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import axios from 'axios';
+import { useToast } from '@/hooks/use-toast';
+import researchData from '@/data/research.json';
 
 interface ResearchPaper {
   _id: string;
@@ -16,38 +17,33 @@ interface ResearchPaper {
   year: number;
   fileUrl: string;
   imageUrl: string;
+  description?: string;
 }
 
 export default function AdminResearchPage() {
   const [papers, setPapers] = useState<ResearchPaper[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
+  const [searchQuery, setSearchQuery] = useState('');
+  const { toast } = useToast();
 
   useEffect(() => {
-    // Fetch research papers from the backend
-    const fetchResearch = async () => {
-      try {
-        const response = await axios.get('/api/research');
-        setPapers(response.data);
-        setLoading(false);
-      } catch (error) {
-        console.error('Error fetching research papers:', error);
-        setLoading(false);
-      }
-    };
-    fetchResearch();
+    // Load data from JSON file
+    setPapers(researchData as ResearchPaper[]);
   }, []);
 
-  // Function to delete a paper
-  const deleteResearch = async (id: string) => {
-    try {
-      await axios.delete(`/api/research/${id}`);
-      setPapers((prevPapers) => prevPapers.filter((paper) => paper._id !== id));
-    } catch (error) {
-      console.error('Error deleting research paper:', error);
-    }
+  // Function to delete a paper (now only removes from local state)
+  const deleteResearch = (id: string) => {
+    setPapers((prevPapers) => prevPapers.filter((paper) => paper._id !== id));
+    toast({
+      title: "Paper Deleted",
+      description: "The research paper has been removed from the list.",
+    });
   };
 
-  if (loading) return <p>Loading...</p>;
+  // Filter papers based on search query
+  const filteredPapers = papers.filter(paper =>
+    paper.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    paper.authors.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
   return (
     <div className="space-y-6">
@@ -71,7 +67,12 @@ export default function AdminResearchPage() {
             A list of all publications.
             <div className="mt-4 flex items-center gap-2">
               <Search className="h-5 w-5 text-muted-foreground" />
-              <Input placeholder="Search papers..." className="max-w-sm" />
+              <Input 
+                placeholder="Search papers..." 
+                className="max-w-sm"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+              />
             </div>
           </CardDescription>
         </CardHeader>
@@ -87,7 +88,14 @@ export default function AdminResearchPage() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {papers.map((paper) => (
+              {filteredPapers.length === 0 ? (
+                <TableRow>
+                  <TableCell colSpan={5} className="text-center text-muted-foreground py-8">
+                    {searchQuery ? 'No papers found matching your search.' : 'No research papers available.'}
+                  </TableCell>
+                </TableRow>
+              ) : (
+                filteredPapers.map((paper) => (
                 <TableRow key={paper._id}>
                   <TableCell className="font-medium">{paper._id}</TableCell>
                   <TableCell>{paper.title}</TableCell>
@@ -107,7 +115,7 @@ export default function AdminResearchPage() {
                     </Button>
                   </TableCell>
                 </TableRow>
-              ))}
+              )))}
             </TableBody>
           </Table>
         </CardContent>

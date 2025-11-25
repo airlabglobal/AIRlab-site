@@ -9,7 +9,7 @@ import React from 'react';
 export default function AboutPage() {
   return (
     <PageWrapper>
-      <Section title="About Airlab" subtitle="Pioneering the Future of Intelligence">
+      <Section title="About AIRLab" subtitle="Pioneering the Future of Intelligence">
         <div className="grid md:grid-cols-5 gap-12 items-center">
           <div className="md:col-span-3">
             <h3 className="font-headline text-3xl font-semibold text-primary mb-4">Our Mission</h3>
@@ -28,12 +28,12 @@ export default function AboutPage() {
           <div className="md:col-span-2">
             <Card className="overflow-hidden shadow-xl">
               <Image 
-                src="/images/image69.jpg" 
-                alt="Airlab Team" 
+                src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=600&h=400&fit=crop" 
+                alt="AIRLab Team working on robotics projects" 
                 width={600} 
                 height={400} 
                 className="w-full h-auto object-cover"
-                data-ai-hint="research lab" 
+                data-ai-hint="research lab team collaboration" 
               />
             </Card>
           </div>
@@ -57,11 +57,11 @@ export default function AboutPage() {
         </div>
       </Section>
 
-      <Section title="Our History" subtitle="Journey of Airlab">
+      <Section title="Our History" subtitle="Journey of AIRLab">
         <div className="space-y-8 relative before:absolute before:inset-0 before:ml-5 before:-translate-x-px md:before:mx-auto md:before:translate-x-0 before:h-full before:w-0.5 before:bg-gradient-to-b before:from-transparent before:via-border before:to-transparent">
           {[
-            { year: "2018", event: "Foundation of Airlab", description: "The Artificial Intelligence and Robotics Laboratory was established at the University of Lagos with a vision to foster AI research." },
-            { year: "2020", event: "First Fll Participation", description: "The first team of high school students trained in the lab for coding in 2019 were later trained on robotics to represent AIRol UNILAG at the 2020 FLL competition in Abuja." },
+            { year: "2018", event: "Foundation of AIRLab", description: "The Artificial Intelligence and Robotics Laboratory was established at the University of Lagos with a vision to foster cutting-edge AI and robotics research in Africa." },
+            { year: "2020", event: "First FLL Participation", description: "The first team of high school students trained in the lab for coding in 2019 were later trained on robotics to represent AIRLab UNILAG at the 2020 FLL competition in Abuja." },
             { year: "2022", event: "Launch of Robotics summer school Program", description: "Introduced a dedicated robotics program, attracting top talent and initiating several key projects in autonomous systems." },
             { year: "Present", event: "Expanding Horizons", description: "Continuously growing our team, research areas, and collaborations to tackle new challenges in AI and Robotics." },
           ].map((item, index) => (

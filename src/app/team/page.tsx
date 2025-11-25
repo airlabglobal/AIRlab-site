@@ -4,143 +4,17 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import Image from 'next/image';
 import { Linkedin, Mail, Briefcase } from 'lucide-react';
 import Link from 'next/link';
-
-const teamMembers = [
-  {
-    id: "1",
-    name: "Dr. Chika Yinka-Banjo",
-    role: "Director & Principal Investigator",
-    imageUrl: "https://placehold.co/400x400.png",
-    imageHint: "female professor",
-    bio: "Dr. Nwosu leads AIROL with expertise in machine learning and robotics. Her research focuses on human-robot interaction and AI ethics.",
-    social: { linkedin: "#", email: "mailto:adaeze.nwosu@airol.unilag" },
-  },
-  {
-    id: "2",
-    name: "Mrs Omokhaba Blessing Yama",
-    role: "Senior Researcher",
-    imageUrl: "https://placehold.co/400x400.png",
-    imageHint: "male professor",
-    bio: "Prof. Okeke specializes in computer vision and autonomous systems. He has published extensively in top-tier conferences.",
-    social: { linkedin: "#", email: "mailto:chinedu.okeke@airol.unilag" },
-  },
-  {
-    id: "3",
-    name: "Ayodeji Atunrase",
-    role: "PhD Candidate",
-    imageUrl: "https://placehold.co/400x400.png",
-    imageHint: "female student",
-    bio: "Bolanle's research is on natural language processing for low-resource languages, developing models for local Nigerian languages.",
-    social: { linkedin: "#", email: "mailto:bolanle.adebayo@airol.unilag" },
-  },
-  {
-    id: "4",
-    name: "Oluwatobi Anuoluwapo",
-    role: "Masters Student",
-    imageUrl: "https://placehold.co/400x400.png",
-    imageHint: "male student",
-    bio: "Musa is working on reinforcement learning algorithms for robotic navigation in unstructured environments.",
-    social: { linkedin: "#", email: "mailto:musa.ibrahim@airol.unilag" },
-  },
-  {
-    id: "5",
-    name: "Oluwatobi Anuoluwapo",
-    role: "Masters Student",
-    imageUrl: "https://placehold.co/400x400.png",
-    imageHint: "male student",
-    bio: "Musa is working on reinforcement learning algorithms for robotic navigation in unstructured environments.",
-    social: { linkedin: "#", email: "mailto:musa.ibrahim@airol.unilag" },
-  },
-  {
-    id: "6",
-    name: "Adekunle Abdulazeez",
-    role: "Masters Student",
-    imageUrl: "https://placehold.co/400x400.png",
-    imageHint: "male student",
-    bio: "Musa is working on reinforcement learning algorithms for robotic navigation in unstructured environments.",
-    social: { linkedin: "#", email: "mailto:musa.ibrahim@airol.unilag" },
-  },
-  {
-    id: "7",
-    name: "Lawal Giyath",
-    role: "Masters Student",
-    imageUrl: "https://placehold.co/400x400.png",
-    imageHint: "male student",
-    bio: "Musa is working on reinforcement learning algorithms for robotic navigation in unstructured environments.",
-    social: { linkedin: "#", email: "mailto:musa.ibrahim@airol.unilag" },
-  },
-  {
-    id: "8",
-    name: "Lukman Abdulsalam",
-    role: "Masters Student",
-    imageUrl: "https://placehold.co/400x400.png",
-    imageHint: "male student",
-    bio: "Musa is working on reinforcement learning algorithms for robotic navigation in unstructured environments.",
-    social: { linkedin: "#", email: "mailto:musa.ibrahim@airol.unilag" },
-  },
-  {
-    id: "9",
-    name: "Ifedayo Olowonyo",
-    role: "Masters Student",
-    imageUrl: "https://placehold.co/400x400.png",
-    imageHint: "male student",
-    bio: "Musa is working on reinforcement learning algorithms for robotic navigation in unstructured environments.",
-    social: { linkedin: "#", email: "mailto:musa.ibrahim@airol.unilag" },
-  },
-  {
-    id: "10",
-    name: "Aaliyah Omar Jabita",
-    role: "Masters Student",
-    imageUrl: "https://placehold.co/400x400.png",
-    imageHint: "male student",
-    bio: "Musa is working on reinforcement learning algorithms for robotic navigation in unstructured environments.",
-    social: { linkedin: "#", email: "mailto:musa.ibrahim@airol.unilag" },
-  },
-  {
-    id: "11",
-    name: "David ",
-    role: "Masters Student",
-    imageUrl: "https://placehold.co/400x400.png",
-    imageHint: "male student",
-    bio: "Musa is working on reinforcement learning algorithms for robotic navigation in unstructured environments.",
-    social: { linkedin: "#", email: "mailto:musa.ibrahim@airol.unilag" },
-  },
-  {
-    id: "12",
-    name: "Oluokun Fiyinfoluwa",
-    role: "Masters Student",
-    imageUrl: "https://placehold.co/400x400.png",
-    imageHint: "male student",
-    bio: "Musa is working on reinforcement learning algorithms for robotic navigation in unstructured environments.",
-    social: { linkedin: "#", email: "mailto:musa.ibrahim@airol.unilag" },
-  },
-  {
-    id: "13",
-    name: "Tomilola Jaiyeoba",
-    role: "Masters Student",
-    imageUrl: "https://placehold.co/400x400.png",
-    imageHint: "male student",
-    bio: "Musa is working on reinforcement learning algorithms for robotic navigation in unstructured environments.",
-    social: { linkedin: "#", email: "mailto:musa.ibrahim@airol.unilag" },
-  },
-  {
-    id: "14",
-    name: "Jude Tochy",
-    role: "Masters Student",
-    imageUrl: "https://placehold.co/400x400.png",
-    imageHint: "male student",
-    bio: "Musa is working on reinforcement learning algorithms for robotic navigation in unstructured environments.",
-    social: { linkedin: "#", email: "mailto:musa.ibrahim@airol.unilag" },
-  },
-];
+import teamData from '@/data/team.json';
 
 export default function TeamPage() {
+  const teamMembers = teamData;
+
   return (
     <PageWrapper>
-      <Section title="Our Team" subtitle="Meet the Minds Behind AIROL">
+      <Section title="Our Team" subtitle="Meet the Minds Behind AIRLab">
         <p className="font-body text-lg text-center text-foreground/80 max-w-3xl mx-auto mb-12">
-          AIROL is powered by a dedicated team of researchers, faculty, and students passionate about
-          advancing the fields of Artificial Intelligence and Robotics.
+          AIRLab is powered by a dedicated team of researchers, faculty, and students passionate about
+          advancing Artificial Intelligence and Robotics to solve real-world challenges.
         </p>
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
           {teamMembers.map((member) => (

@@ -21,16 +21,20 @@ const nextConfig: NextConfig = {
         protocol: 'https',
         hostname: 'drive.google.com',
         port: '',
-        pathname: '/**', // Allows any path from drive.google.com
+        pathname: '/**',
       },
       {
         protocol: 'https',
         hostname: 'ik.imagekit.io',
         port: '',
         pathname: '/**',
-      }
-      
-
+      },
+      {
+        protocol: 'https',
+        hostname: 'images.unsplash.com',
+        port: '',
+        pathname: '/**',
+      },
     ],
   },
   

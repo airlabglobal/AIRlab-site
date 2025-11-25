@@ -1,7 +1,6 @@
 'use client';
 
 import { useState } from 'react';
-import axios from 'axios';
 import { useRouter } from 'next/navigation';
 
 export default function ResearchUploadPage() {
@@ -23,78 +22,99 @@ export default function ResearchUploadPage() {
     }
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-
-    const formData = new FormData();
-    formData.append('title', title);
-    formData.append('description', description);
-    formData.append('file', file!);
-    formData.append('image', image!);
-
-    try {
-      await axios.post('/api/research/upload', formData);
-      router.push('/admin/research');
-    } catch (error) {
-      console.error('Error uploading research:', error);
+    
+    if (!title || !description || !file || !image) {
+      alert('Please fill in all fields before submitting.');
+      return;
     }
+    
+    // Simulate successful upload
+    console.log('Research paper submitted:', { title, description, file: file.name, image: image.name });
+    alert(`Research paper "${title}" has been prepared for upload. Note: Backend functionality is not implemented - this is a demo only.`);
+    
+    // Reset form
+    setTitle('');
+    setDescription('');
+    setFile(null);
+    setImage(null);
+    
+    // Redirect after a short delay
+    setTimeout(() => {
+      router.push('/admin/research');
+    }, 1500);
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 py-10 px-4">
-      <div className="max-w-2xl mx-auto bg-white shadow-md rounded-2xl p-8">
-        <h1 className="text-2xl font-bold mb-6 text-gray-800">Upload New Research</h1>
+    <div className="min-h-screen py-10 px-4">
+      <div className="max-w-2xl mx-auto bg-card shadow-lg rounded-2xl p-8 border">
+        <h1 className="text-3xl font-headline font-bold mb-2">Upload New Research</h1>
+        <p className="text-muted-foreground font-body mb-6">Add a new research paper to the AIRLab collection</p>
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>
-            <label className="block text-sm font-medium text-gray-700">Title</label>
+            <label className="block text-sm font-medium mb-2">Title</label>
             <input
               type="text"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               required
-              className="mt-1 block w-full border border-gray-300 rounded-lg shadow-sm px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              placeholder="Enter research paper title"
+              className="w-full border rounded-lg shadow-sm px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary bg-background"
             />
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700">Description</label>
+            <label className="block text-sm font-medium mb-2">Description</label>
             <textarea
               value={description}
               onChange={(e) => setDescription(e.target.value)}
               required
               rows={4}
-              className="mt-1 block w-full border border-gray-300 rounded-lg shadow-sm px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              placeholder="Provide a brief description of the research"
+              className="w-full border rounded-lg shadow-sm px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary bg-background"
             />
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700">Research File (PDF)</label>
+            <label className="block text-sm font-medium mb-2">Research File (PDF)</label>
             <input
               type="file"
               accept=".pdf"
               onChange={handleFileChange}
               required
-              className="mt-1 block w-full"
+              className="w-full border rounded-lg shadow-sm px-4 py-2 bg-background file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-primary file:text-primary-foreground hover:file:bg-primary/90"
             />
+            {file && <p className="text-sm text-muted-foreground mt-1">Selected: {file.name}</p>}
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700">Cover Image (JPG, PNG)</label>
+            <label className="block text-sm font-medium mb-2">Cover Image (JPG, PNG)</label>
             <input
               type="file"
-              accept=".jpg,.png"
+              accept=".jpg,.png,.jpeg"
               onChange={handleImageChange}
               required
-              className="mt-1 block w-full"
+              className="w-full border rounded-lg shadow-sm px-4 py-2 bg-background file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-primary file:text-primary-foreground hover:file:bg-primary/90"
             />
+            {image && <p className="text-sm text-muted-foreground mt-1">Selected: {image.name}</p>}
           </div>
 
-          <button
-            type="submit"
-            className="w-full bg-blue-600 text-white py-3 px-4 rounded-lg hover:bg-blue-700 transition-colors font-semibold"
-          >
-            Upload Research
-          </button>
+          <div className="flex gap-4">
+            <button
+              type="button"
+              onClick={() => router.push('/admin/research')}
+              className="flex-1 bg-muted text-foreground py-3 px-4 rounded-lg hover:bg-muted/80 transition-colors font-semibold"
+            >
+              Cancel
+            </button>
+            <button
+              type="submit"
+              className="flex-1 bg-primary text-primary-foreground py-3 px-4 rounded-lg hover:bg-primary/90 transition-colors font-semibold"
+            >
+              Upload Research
+            </button>
+          </div>
         </form>
       </div>
     </div>

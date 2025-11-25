@@ -1,0 +1,42 @@
+[
+  {
+    "id": "1",
+    "title": "AI-Powered Traffic Management System",
+    "description": "A smart city initiative to optimize traffic flow using real-time data analysis and adaptive signal control, reducing congestion in Lagos metropolitan area.",
+    "imageUrl": "https://images.unsplash.com/photo-1449824913935-59a10b8d2000?w=600&h=400&fit=crop",
+    "imageHint": "city traffic",
+    "tags": ["AI", "Smart City", "IoT", "Machine Learning"],
+    "status": "Ongoing",
+    "link": "/projects/traffic-management"
+  },
+  {
+    "id": "2",
+    "title": "Robotic Assistant for Elderly Care",
+    "description": "Developing a companion robot to assist elderly individuals with daily tasks, medication reminders, and provide social interaction to combat loneliness.",
+    "imageUrl": "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=600&h=400&fit=crop",
+    "imageHint": "care robot",
+    "tags": ["Robotics", "Healthcare", "HCI", "AI"],
+    "status": "Completed",
+    "link": "/projects/elderly-care-robot"
+  },
+  {
+    "id": "3",
+    "title": "Precision Agriculture Drone",
+    "description": "Utilizing AI-equipped drones for crop monitoring, pest detection, and optimized resource allocation to improve agricultural yields across Nigeria.",
+    "imageUrl": "https://images.unsplash.com/photo-1473968512647-3e447244af8f?w=600&h=400&fit=crop",
+    "imageHint": "agriculture drone",
+    "tags": ["AI", "Robotics", "Agriculture", "Computer Vision"],
+    "status": "Ongoing",
+    "link": "/projects/agri-drone"
+  },
+  {
+    "id": "4",
+    "title": "Natural Language Interface for Databases",
+    "description": "Creating a system that allows users to query complex databases using natural language commands in multiple Nigerian languages.",
+    "imageUrl": "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=600&h=400&fit=crop",
+    "imageHint": "database interface",
+    "tags": ["NLP", "AI", "Databases", "HCI"],
+    "status": "Research Phase",
+    "link": "/projects/nlp-database"
+  }
+]
