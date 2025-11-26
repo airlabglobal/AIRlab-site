@@ -1,14 +1,14 @@
-# AIRLab Website - Recent Updates
+# AIRLAB Website - Recent Updates
 
 ## Branding Updates ✅
 
 ### Name Standardization
-- **Changed from**: "Airlab" / "AIROL" (inconsistent)
-- **Changed to**: "AIRLab" (Artificial Intelligence & Robotics Laboratory)
+- **Changed from**: "AIRLAB" / "AIROL" (inconsistent)
+- **Changed to**: "AIRLAB" (Artificial Intelligence & Robotics Laboratory)
 - Updated across all pages, titles, and content
 
 ### Page Title
-- **New**: "AIRLab - Artificial Intelligence & Robotics Laboratory | University of Lagos"
+- **New**: "AIRLAB - Artificial Intelligence & Robotics Laboratory | University of Lagos"
 - Improved SEO with descriptive, keyword-rich title
 
 ## Content Improvements ✅
@@ -28,7 +28,7 @@
 - **Fixed**: Now displays actual content instead of empty state
 
 ### About Page
-- Updated all references to "AIRLab"
+- Updated all references to "AIRLAB"
 - Corrected "FLL" capitalization
 - Better mission and vision statements
 
@@ -68,7 +68,7 @@ Created centralized data management in `src/data/`:
 ## Admin Panel Improvements ✅
 
 ### Password Protection
-- **Password**: `Airlab_2025`
+- **Password**: `AIRLAB_2025`
 - Session-based authentication
 - Professional login UI with lock icon
 
@@ -101,7 +101,7 @@ Created centralized data management in `src/data/`:
 
 ### Recommendations
 - See `docs/image-recommendations.md` for detailed guide
-- Priority: Replace with actual AIRLab photos
+- Priority: Replace with actual AIRLAB photos
 - 13 team member photos needed
 - Lab interior shots recommended
 - Project and research photos would enhance authenticity
@@ -128,7 +128,7 @@ Created centralized data management in `src/data/`:
 ## What Still Needs Work
 
 ### High Priority
-1. **Replace placeholder images** with actual AIRLab photos
+1. **Replace placeholder images** with actual AIRLAB photos
 2. **Update team member bios** with accurate information
 3. **Add real project details** and links
 4. **Update research paper links** to actual PDFs
@@ -172,7 +172,7 @@ Created centralized data management in `src/data/`:
 
 ### Accessing Admin:
 1. Navigate to `/admin`
-2. Enter password: `Airlab_2025`
+2. Enter password: `AIRLAB_2025`
 3. Access granted for the session
 
 ### Managing Research Papers:
@@ -190,7 +190,7 @@ Created centralized data management in `src/data/`:
 ## Summary
 
 The website now has:
-- ✅ Consistent "AIRLab" branding throughout
+- ✅ Consistent "AIRLAB" branding throughout
 - ✅ Professional, engaging copy
 - ✅ Structured JSON data for easy updates
 - ✅ Functional admin panel with password protection
@@ -201,4 +201,4 @@ The website now has:
 - ✅ Improved UX across all pages
 - ✅ No errors or broken functionality
 
-Next steps: Replace placeholder images with actual AIRLab photos and update content with real information.
+Next steps: Replace placeholder images with actual AIRLAB photos and update content with real information.

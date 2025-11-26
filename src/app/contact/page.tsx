@@ -41,7 +41,7 @@ export default function ContactPage() {
 
   return (
     <PageWrapper>
-      <Section title="Get In Touch" subtitle="Contact Airlab">
+      <Section title="Get In Touch" subtitle="Contact AIRLAB">
         <div className="grid md:grid-cols-2 gap-12">
           {/* Contact Information */}
           <div className="space-y-8">
@@ -63,7 +63,7 @@ export default function ContactPage() {
                   <Mail className="h-6 w-6 text-accent mr-3 mt-1 shrink-0" />
                   <div>
                     <h4 className="font-semibold">Email</h4>
-                    <a href="mailto:info@airlab.unilag.edu.ng" className="text-foreground/70 hover:text-primary font-body transition-colors">airol@unilag.edu.ng</a>
+                    <a href="mailto:info@AIRLAB.unilag.edu.ng" className="text-foreground/70 hover:text-primary font-body transition-colors">airol@unilag.edu.ng</a>
                   </div>
                 </li>
                 <li className="flex items-start">
@@ -87,7 +87,7 @@ export default function ContactPage() {
                 allowFullScreen
                 loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade"
-                title="Airlab Location"
+                title="AIRLAB Location"
                 className="w-full h-full object-cover"
                 data-ai-hint="university map"
               />

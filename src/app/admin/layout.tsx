@@ -20,7 +20,7 @@ const adminNavItems = [
   // { href: '/admin/settings', label: 'Settings', icon: Settings }, // Example for future
 ];
 
-const ADMIN_PASSWORD = 'Airlab_2025';
+const ADMIN_PASSWORD = 'AIRLAB_2025';
 
 export default function AdminLayout({
   children,

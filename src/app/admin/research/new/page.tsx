@@ -50,7 +50,7 @@ export default function ResearchUploadPage() {
     <div className="min-h-screen py-10 px-4">
       <div className="max-w-2xl mx-auto bg-card shadow-lg rounded-2xl p-8 border">
         <h1 className="text-3xl font-headline font-bold mb-2">Upload New Research</h1>
-        <p className="text-muted-foreground font-body mb-6">Add a new research paper to the AIRLab collection</p>
+        <p className="text-muted-foreground font-body mb-6">Add a new research paper to the AIRLAB collection</p>
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>
             <label className="block text-sm font-medium mb-2">Title</label>

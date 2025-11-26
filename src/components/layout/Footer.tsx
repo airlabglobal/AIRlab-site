@@ -18,10 +18,10 @@ export default function Footer() {
           </Link>
         </div>
         <p className="text-sm">
-          &copy; {currentYear} Airlab. All rights reserved.
+          &copy; {currentYear} AIRLAB. All rights reserved.
         </p>
         <p className="text-xs mt-1">
-          Airlab - Artificial Intelligence & Robotics Laboratory, University of Lagos.
+          AIRLAB - Artificial Intelligence & Robotics Laboratory, University of Lagos.
         </p>
       </div>
     </footer>

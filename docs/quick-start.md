@@ -1,4 +1,4 @@
-# AIRLab Website - Quick Start Guide
+# AIRLAB Website - Quick Start Guide
 
 ## 🚀 Getting Started
 
@@ -10,7 +10,7 @@ Visit: http://localhost:9002
 
 ### Admin Access
 - URL: http://localhost:9002/admin
-- Password: `Airlab_2025`
+- Password: `AIRLAB_2025`
 
 ## 📝 Updating Content
 

@@ -15,7 +15,7 @@ export default function ProjectsPage() {
     <PageWrapper>
       <Section title="Our Projects" subtitle="Innovations in Action">
         <p className="font-body text-lg text-center text-foreground/80 max-w-3xl mx-auto mb-12">
-          Discover the diverse range of projects undertaken at AIRLab. Our work spans various applications
+          Discover the diverse range of projects undertaken at AIRLAB. Our work spans various applications
           of Artificial Intelligence and Robotics, addressing critical challenges in healthcare, agriculture, urban development, and more.
         </p>
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">

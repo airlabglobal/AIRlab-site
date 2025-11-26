@@ -11,9 +11,9 @@ export default function TeamPage() {
 
   return (
     <PageWrapper>
-      <Section title="Our Team" subtitle="Meet the Minds Behind AIRLab">
+      <Section title="Our Team" subtitle="Meet the Minds Behind AIRLAB">
         <p className="font-body text-lg text-center text-foreground/80 max-w-3xl mx-auto mb-12">
-          AIRLab is powered by a dedicated team of researchers, faculty, and students passionate about
+          AIRLAB is powered by a dedicated team of researchers, faculty, and students passionate about
           advancing Artificial Intelligence and Robotics to solve real-world challenges.
         </p>
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">

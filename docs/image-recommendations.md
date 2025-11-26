@@ -1,7 +1,7 @@
-# Image Recommendations for AIRLab Website
+# Image Recommendations for AIRLAB Website
 
 ## Current Status
-The website currently uses placeholder images from Unsplash. For a more authentic and professional look, you should replace these with actual photos from AIRLab.
+The website currently uses placeholder images from Unsplash. For a more authentic and professional look, you should replace these with actual photos from AIRLAB.
 
 ## Recommended Photos to Take
 
@@ -21,7 +21,7 @@ The website currently uses placeholder images from Unsplash. For a more authenti
 ### 3. About Page - Lab Photo
 - **Current**: Generic research lab stock photo
 - **Recommended**:
-  - Interior shot of AIRLab showing the workspace
+  - Interior shot of AIRLAB showing the workspace
   - Team members working together
   - Lab equipment and technology setup
   - **Dimensions**: 600x400px, landscape
@@ -66,7 +66,7 @@ The website currently uses placeholder images from Unsplash. For a more authenti
 - Good lighting is essential - avoid harsh shadows
 - Show people actively working when possible
 - Capture both wide shots and detail shots
-- Include AIRLab branding where visible
+- Include AIRLAB branding where visible
 - Show diversity of projects and activities
 
 ### For Action Shots:
@@ -126,7 +126,7 @@ Then update the JSON files in `src/data/` with the correct paths:
 ## Notes
 
 - All current placeholder images are from Unsplash and are free to use
-- However, using actual AIRLab photos will make the site more authentic
+- However, using actual AIRLAB photos will make the site more authentic
 - Consider organizing a photo session with all team members
 - Take multiple shots of each subject to have options
 - Get permission from team members before using their photos publicly

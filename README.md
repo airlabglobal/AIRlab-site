@@ -1,12 +1,12 @@
 
 
-# 🌐 AIRLab UNILAG Website
+# 🌐 AIRLAB UNILAG Website
 
-A modern, responsive website built for **AIRLab** (Artificial Intelligence & Robotics Laboratory) at the **University of Lagos (UNILAG)**. This project serves as the primary online platform for showcasing our research focus, lab members, projects, and recent publications.
+A modern, responsive website built for **AIRLAB** (Artificial Intelligence & Robotics Laboratory) at the **University of Lagos (UNILAG)**. This project serves as the primary online platform for showcasing our research focus, lab members, projects, and recent publications.
 
 ## 📖 Overview
 
-This repository contains the full source code for the official AIRLab UNILAG website. Built with **Next.js** and focused on a sleek, mobile-first design, the website is engineered for speed and maintainability.
+This repository contains the full source code for the official AIRLAB UNILAG website. Built with **Next.js** and focused on a sleek, mobile-first design, the website is engineered for speed and maintainability.
 
 The structure is currently set up as a **pure frontend application**, ready for static deployment or integration with a dedicated backend service (if needed later for dynamic content).
 
@@ -49,8 +49,8 @@ You must have the following installed on your system:
 ### 1\. Clone the repository
 
 ```bash
-git clone https://github.com/your-username/airlab-unilag-website.git
-cd airlab-unilag-website
+git clone https://github.com/your-username/AIRLAB-unilag-website.git
+cd AIRLAB-unilag-website
 ```
 
 ### 2\. Install dependencies
@@ -73,7 +73,7 @@ The website will now be running locally. Open your browser and navigate to:
 
 ## 🔐 Admin Access
 
-The admin panel is password-protected. Access it at `/admin` with the password: **Airlab_2025**
+The admin panel is password-protected. Access it at `/admin` with the password: **AIRLAB_2025**
 
 -----
 
@@ -95,4 +95,4 @@ To update content, simply edit these JSON files and the changes will be reflecte
 
 ---
 
-Made with ❤️ by the AIRLab Team
+Made with ❤️ by the AIRLAB Team

@@ -13,7 +13,7 @@ export default function ResearchPage() {
 
   return (
     <PageWrapper>
-      <Section title="Research at AIRLab" subtitle="Exploring the Frontiers of AI & Robotics">
+      <Section title="Research at AIRLAB" subtitle="Exploring the Frontiers of AI & Robotics">
         <p className="font-body text-lg text-center text-foreground/80 max-w-3xl mx-auto mb-12">
           Our research spans diverse topics in Artificial Intelligence, Machine Learning, and Robotics,
           pushing the boundaries of knowledge while addressing real-world challenges in Africa and beyond.
