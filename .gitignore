@@ -38,7 +38,6 @@ yarn-error.log*
 next-env.d.ts
 
 .genkit/*
-.env*
 
 # firebase
 firebase-debug.log
@@ -46,4 +45,5 @@ firestore-debug.log
 
 #environment variables
 .env.local
+.env
 /src/generated/prisma
