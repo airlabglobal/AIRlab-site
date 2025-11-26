@@ -20,7 +20,7 @@ const adminNavItems = [
   // { href: '/admin/settings', label: 'Settings', icon: Settings }, // Example for future
 ];
 
-const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD;
+const ADMIN_PASSWORD = process.env.NEXT_PUBLIC_ADMIN_PASSWORD!;
 
 export default function AdminLayout({
   children,
@@ -33,6 +33,7 @@ export default function AdminLayout({
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   
+
   useEffect(() => {
     // Check local storage for sidebar state or default to false
     const storedSidebarState = localStorage.getItem('adminSidebarCollapsed');
@@ -55,6 +56,7 @@ export default function AdminLayout({
 
   const handlePasswordSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    console.log(ADMIN_PASSWORD);
     if (password === ADMIN_PASSWORD) {
       setIsAuthenticated(true);
       sessionStorage.setItem('adminAuthenticated', 'true');
