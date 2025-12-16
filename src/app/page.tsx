@@ -1,3 +1,5 @@
+"use client";
+
 import PageWrapper from "@/components/layout/PageWrapper";
 import Section from "@/components/ui/Section";
 import DynamicShowcaseCard from "@/components/ui/DynamicShowcaseCard";
@@ -5,10 +7,10 @@ import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
-  CardDescription,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { DataStatus, CardSkeleton } from "@/components/ui/DataStatus";
 import Link from "next/link";
 import {
   ChevronRight,
@@ -19,12 +21,31 @@ import {
   Handshake,
   ArrowRight,
 } from "lucide-react";
-import Image from "next/image";
-import projectsData from "@/data/projects.json";
-import newsItems from "@/data/news.json";
+import { OptimizedImage, responsiveSizes, imageDimensions } from "@/components/ui/OptimizedImage";
+import { useProjects, useNews } from "@/hooks/useDataLoader";
+import SectionErrorBoundary from "@/components/error/SectionErrorBoundary";
+import { errorMonitor } from "@/lib/errorMonitoring";
 
 export default function Home() {
-  const showcaseItems = projectsData.slice(0, 3);
+  const { 
+    data: projectsData, 
+    loading: projectsLoading, 
+    error: projectsError,
+    isValid: projectsValid,
+    isFallback: projectsFallback,
+    retry: retryProjects
+  } = useProjects();
+
+  const { 
+    data: newsData, 
+    loading: newsLoading, 
+    error: newsError,
+    isValid: newsValid,
+    isFallback: newsFallback,
+    retry: retryNews
+  } = useNews();
+
+  const showcaseItems = projectsData?.slice(0, 3) || [];
 
   return (
     <PageWrapper className="!px-0 !py-0">
@@ -68,12 +89,16 @@ export default function Home() {
               </div>
             </div>
             <div className="relative h-64 md:h-auto md:aspect-square">
-              <Image
+              <OptimizedImage
                 src="https://images.unsplash.com/photo-1677442136019-21780ecad995?w=800&h=800&fit=crop"
                 alt="AI and Robotics research at AIRLAB"
-                layout="fill"
-                objectFit="contain"
+                fill
+                sizes={responsiveSizes.hero}
                 className="animate-float rounded-lg"
+                objectFit="contain"
+                priority={true}
+                quality={85}
+                fallbackSrc="https://placehold.co/800x800/e2e8f0/64748b?text=AI+Research"
               />
             </div>
           </div>
@@ -127,14 +152,19 @@ export default function Home() {
               className="md:col-span-2 opacity-0 animate-slide-in-from-left"
               style={{ animationDelay: "0.2s" }}
             >
-              <Image
-                src="/images/image12.jpg"
-                alt="Dr. Chika Yinka-Banjo"
-                width={400}
-                height={400}
-                className="rounded-full mx-auto md:mx-0 shadow-lg object-cover w-48 h-48 md:w-64 md:h-64 lg:w-80 lg:h-80"
-                data-ai-hint="female academic"
-              />
+              <div className="relative w-48 h-48 md:w-64 md:h-64 lg:w-80 lg:h-80 mx-auto md:mx-0">
+                <OptimizedImage
+                  src="/images/image12.jpg"
+                  alt="Dr. Chika Yinka-Banjo"
+                  fill
+                  sizes={responsiveSizes.thumbnail}
+                  className="rounded-full shadow-lg"
+                  objectFit="cover"
+                  quality={90}
+                  priority={true}
+                  fallbackSrc="https://placehold.co/400x400/e2e8f0/64748b?text=Dr.+Chika"
+                />
+              </div>
             </div>
             <div
               className="md:col-span-3 opacity-0 animate-slide-in-from-right"
@@ -176,20 +206,45 @@ export default function Home() {
         className="bg-muted/30"
       >
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {showcaseItems.map((item, index) => (
-              <DynamicShowcaseCard
-                key={item.id}
-                title={item.title}
-                description={item.description}
-                imageUrl={item.imageUrl}
-                linkUrl={item.link}
-                tags={item.tags}
-                imageHint={item.imageHint}
-                className={`opacity-0 animate-slide-up animate-float-in delay-300`}
-              />
-            ))}
-          </div>
+          <SectionErrorBoundary 
+            sectionName="Featured Projects"
+            onError={(error, errorInfo) => {
+              errorMonitor.logError(error, errorInfo, { 
+                context: 'home-showcase',
+                section: 'featured-projects'
+              });
+            }}
+          >
+            <DataStatus
+              loading={projectsLoading}
+              error={projectsError}
+              isValid={projectsValid}
+              isFallback={projectsFallback}
+              onRetry={retryProjects}
+              loadingComponent={
+                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                  {Array.from({ length: 3 }).map((_, i) => (
+                    <CardSkeleton key={i} />
+                  ))}
+                </div>
+              }
+            >
+              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {showcaseItems.map((item, index) => (
+                  <DynamicShowcaseCard
+                    key={item.id}
+                    title={item.title}
+                    description={item.description}
+                    imageUrl={item.imageUrl}
+                    linkUrl={item.link}
+                    tags={item.tags}
+                    imageHint={item.imageHint}
+                    className={`opacity-0 animate-slide-up animate-float-in delay-300`}
+                  />
+                ))}
+              </div>
+            </DataStatus>
+          </SectionErrorBoundary>
           <div className="text-center mt-12">
             <Button
               asChild
@@ -207,35 +262,59 @@ export default function Home() {
       {/* Latest News Section */}
       <Section title="Latest News & Updates" subtitle="Stay Informed">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid md:grid-cols-3 gap-8">
-            {newsItems.map((item, index) => (
-              <Card
-                key={index}
-                className="shadow-lg hover:shadow-xl transition-shadow opacity-0 animate-slide-up"
-                style={{ animationDelay: `${0.3 + (index + 1) * 0.15}s` }}
-              >
-                <CardHeader>
-                  <CardTitle className="font-headline text-xl text-primary group-hover:text-accent transition-colors">
-                    {item.title}
-                  </CardTitle>
-                  <p className="text-sm text-muted-foreground font-body">
-                    {item.date}
-                  </p>
-                </CardHeader>
-                <CardContent>
-                  <Button
-                    asChild
-                    variant="link"
-                    className="p-0 text-accent hover:text-primary"
+          <SectionErrorBoundary 
+            sectionName="Latest News"
+            onError={(error, errorInfo) => {
+              errorMonitor.logError(error, errorInfo, { 
+                context: 'home-news',
+                section: 'latest-news'
+              });
+            }}
+          >
+            <DataStatus
+              loading={newsLoading}
+              error={newsError}
+              isValid={newsValid}
+              isFallback={newsFallback}
+              onRetry={retryNews}
+              loadingComponent={
+                <div className="grid md:grid-cols-3 gap-8">
+                  {Array.from({ length: 3 }).map((_, i) => (
+                    <CardSkeleton key={i} />
+                  ))}
+                </div>
+              }
+            >
+              <div className="grid md:grid-cols-3 gap-8">
+                {newsData?.map((item) => (
+                  <Card
+                    key={item.title}
+                    className="shadow-lg hover:shadow-xl transition-shadow opacity-0 animate-slide-up"
                   >
-                    <Link href={item.link}>
-                      Read More <ArrowRight className="ml-2 h-4 w-4" />
-                    </Link>
-                  </Button>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
+                    <CardHeader>
+                      <CardTitle className="font-headline text-xl text-primary group-hover:text-accent transition-colors">
+                        {item.title}
+                      </CardTitle>
+                      <p className="text-sm text-muted-foreground font-body">
+                        {item.date}
+                      </p>
+                    </CardHeader>
+                    <CardContent>
+                      <Button
+                        asChild
+                        variant="link"
+                        className="p-0 text-accent hover:text-primary"
+                      >
+                        <Link href={item.link}>
+                          Read More <ArrowRight className="ml-2 h-4 w-4" />
+                        </Link>
+                      </Button>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+            </DataStatus>
+          </SectionErrorBoundary>
           <div className="text-center mt-12">
             <Button
               asChild

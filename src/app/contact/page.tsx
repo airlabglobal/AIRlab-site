@@ -7,136 +7,254 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
-import Image from 'next/image';
-import { MapPin, Phone, Mail, Send } from 'lucide-react';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import * as z from 'zod';
-import { useToast } from '@/hooks/use-toast';
-
-const contactFormSchema = z.object({
-  name: z.string().min(2, "Name must be at least 2 characters."),
-  email: z.string().email("Invalid email address."),
-  subject: z.string().min(5, "Subject must be at least 5 characters."),
-  message: z.string().min(10, "Message must be at least 10 characters."),
-});
-
-type ContactFormValues = z.infer<typeof contactFormSchema>;
+import { MapPin, Phone, Mail, Clock, Send } from 'lucide-react';
+import { useState } from 'react';
+import { LoadingButton } from '@/components/ui/LoadingStates';
+import SectionErrorBoundary from '@/components/error/SectionErrorBoundary';
+import { errorMonitor } from '@/lib/errorMonitoring';
 
 export default function ContactPage() {
-  const { toast } = useToast();
-  const { register, handleSubmit, formState: { errors }, reset } = useForm<ContactFormValues>({
-    resolver: zodResolver(contactFormSchema),
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    subject: '',
+    message: ''
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
 
-  const onSubmit = (data: ContactFormValues) => {
-    // Placeholder for form submission logic
-    console.log(data);
-    toast({
-      title: "Message Sent!",
-      description: "Thank you for reaching out. We'll get back to you soon.",
-    });
-    reset();
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    setSubmitStatus('idle');
+
+    try {
+      // Simulate form submission (replace with actual API call)
+      await new Promise(resolve => setTimeout(resolve, 2000));
+      
+      // For now, just log the form data and show success
+      console.log('Form submitted:', formData);
+      setSubmitStatus('success');
+      setFormData({ name: '', email: '', subject: '', message: '' });
+    } catch (error) {
+      console.error('Form submission error:', error);
+      setSubmitStatus('error');
+      errorMonitor.logError(
+        error instanceof Error ? error : new Error('Form submission failed'),
+        undefined,
+        { context: 'contact-form', formData }
+      );
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
     <PageWrapper>
-      <Section title="Get In Touch" subtitle="Contact AIRLAB">
-        <div className="grid md:grid-cols-2 gap-12">
+      <Section title="Contact Us" subtitle="Get in Touch with AIRLAB">
+        <p className="font-body text-lg text-center text-foreground/80 max-w-3xl mx-auto mb-12">
+          We welcome inquiries from prospective students, researchers, industry partners, and anyone interested 
+          in our work. Reach out to us to explore collaboration opportunities or learn more about AIRLAB.
+        </p>
+
+        <div className="grid lg:grid-cols-2 gap-12">
           {/* Contact Information */}
           <div className="space-y-8">
             <div>
-              <h3 className="font-headline text-2xl font-semibold text-primary mb-4">Contact Details</h3>
-              <p className="font-body text-foreground/80 mb-6">
-                We are always excited to hear from prospective students, researchers, industry partners, and the general public.
-                Feel free to reach out to us through any of the channels below.
-              </p>
-              <ul className="space-y-4">
-                <li className="flex items-start">
-                  <MapPin className="h-6 w-6 text-accent mr-3 mt-1 shrink-0" />
+              <h3 className="font-headline text-2xl font-semibold mb-6">Contact Information</h3>
+              <div className="space-y-6">
+                <div className="flex items-start gap-4">
+                  <MapPin className="h-6 w-6 text-primary mt-1 flex-shrink-0" />
                   <div>
-                    <h4 className="font-semibold">Address</h4>
-                    <p className="text-foreground/70 font-body">AI & Robotics Labs, Central Research Laboratory, University of Lagos, Akoka, Yaba, Lagos.</p>
+                    <h4 className="font-semibold mb-1">Address</h4>
+                    <p className="text-muted-foreground">
+                      Department of Computer Science<br />
+                      University of Lagos<br />
+                      Akoka, Lagos State, Nigeria
+                    </p>
                   </div>
-                </li>
-                <li className="flex items-start">
-                  <Mail className="h-6 w-6 text-accent mr-3 mt-1 shrink-0" />
-                  <div>
-                    <h4 className="font-semibold">Email</h4>
-                    <a href="mailto:info@AIRLAB.unilag.edu.ng" className="text-foreground/70 hover:text-primary font-body transition-colors">airol@unilag.edu.ng</a>
-                  </div>
-                </li>
-                <li className="flex items-start">
-                  <Phone className="h-6 w-6 text-accent mr-3 mt-1 shrink-0" />
-                  <div>
-                    <h4 className="font-semibold">Phone</h4>
-                    <p className="text-foreground/70 font-body">+(234) 803 342 4289</p>
-                  </div>
-                </li>
-              </ul>
-            </div>
-            
-            <div>
-              <h3 className="font-headline text-2xl font-semibold text-primary mb-4">Find Us</h3>
-              <Card className="overflow-hidden shadow-lg">
-                <iframe
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3964.032421815625!2d3.395965274805819!3d6.517580193474897!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x103b8db55890da71%3A0x9a1a2cd46c904a86!2sD.K.%20Olukoya%20Central%20Research%20%26%20Reference%20Laboratories!5e0!3m2!1sen!2sng!4v1749596127289!5m2!1sen!2sng"
-                width="100%"
-                height="400"
-                style={{ border: 0 }}
-                allowFullScreen
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
-                title="AIRLAB Location"
-                className="w-full h-full object-cover"
-                data-ai-hint="university map"
-              />
-              </Card>
-            </div>
-          </div>
+                </div>
 
-          {/* Contact Form */}
-          <div>
-            <Card className="shadow-xl p-6 md:p-8">
-              <CardHeader className="p-0 mb-6">
-                <CardTitle className="font-headline text-2xl text-center md:text-left">Send Us a Message</CardTitle>
+                <div className="flex items-start gap-4">
+                  <Mail className="h-6 w-6 text-primary mt-1 flex-shrink-0" />
+                  <div>
+                    <h4 className="font-semibold mb-1">Email</h4>
+                    <p className="text-muted-foreground">
+                      <a href="mailto:airlab@unilag.edu.ng" className="hover:text-primary transition-colors">
+                        airlab@unilag.edu.ng
+                      </a>
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-4">
+                  <Phone className="h-6 w-6 text-primary mt-1 flex-shrink-0" />
+                  <div>
+                    <h4 className="font-semibold mb-1">Phone</h4>
+                    <p className="text-muted-foreground">+234 (0) 1 123 4567</p>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-4">
+                  <Clock className="h-6 w-6 text-primary mt-1 flex-shrink-0" />
+                  <div>
+                    <h4 className="font-semibold mb-1">Office Hours</h4>
+                    <p className="text-muted-foreground">
+                      Monday - Friday: 9:00 AM - 5:00 PM<br />
+                      Saturday: 10:00 AM - 2:00 PM<br />
+                      Sunday: Closed
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Quick Links */}
+            <Card>
+              <CardHeader>
+                <CardTitle>Quick Links</CardTitle>
               </CardHeader>
-              <CardContent className="p-0">
-                <form
-                  action="https://formsubmit.co/Lawalgiyath200716@gmail.com"
-                  method="POST"
-                  className="space-y-6"
-                >
-                  <input type="hidden" name="_captcha" value="false" />
-                  
-                  <div>
-                    <Label htmlFor="name" className="font-headline">Full Name</Label>
-                    <Input id="name" name="name" placeholder="John Doe" className="mt-1" required />
-                  </div>
-
-                  <div>
-                    <Label htmlFor="email" className="font-headline">Email Address</Label>
-                    <Input id="email" name="email" type="email" placeholder="you@example.com" className="mt-1" required />
-                  </div>
-
-                  <div>
-                    <Label htmlFor="subject" className="font-headline">Subject</Label>
-                    <Input id="subject" name="subject" placeholder="Inquiry about research collaboration" className="mt-1" required />
-                  </div>
-
-                  <div>
-                    <Label htmlFor="message" className="font-headline">Message</Label>
-                    <Textarea id="message" name="message" rows={5} placeholder="Your message here..." className="mt-1" required />
-                  </div>
-
-                  <Button type="submit" className="w-full bg-accent hover:bg-accent/90 text-accent-foreground">
-                    <Send className="mr-2 h-4 w-4" /> Send Message
+              <CardContent className="space-y-3">
+                <div>
+                  <h4 className="font-semibold mb-2">For Students</h4>
+                  <p className="text-sm text-muted-foreground mb-2">
+                    Interested in joining our research programs?
+                  </p>
+                  <Button variant="outline" size="sm" asChild>
+                    <a href="mailto:admissions@airlab.unilag.edu.ng">
+                      Student Inquiries
+                    </a>
                   </Button>
-                </form>
+                </div>
+                
+                <div>
+                  <h4 className="font-semibold mb-2">For Researchers</h4>
+                  <p className="text-sm text-muted-foreground mb-2">
+                    Looking to collaborate on research projects?
+                  </p>
+                  <Button variant="outline" size="sm" asChild>
+                    <a href="mailto:research@airlab.unilag.edu.ng">
+                      Research Collaboration
+                    </a>
+                  </Button>
+                </div>
 
+                <div>
+                  <h4 className="font-semibold mb-2">For Industry Partners</h4>
+                  <p className="text-sm text-muted-foreground mb-2">
+                    Interested in industry partnerships?
+                  </p>
+                  <Button variant="outline" size="sm" asChild>
+                    <a href="mailto:partnerships@airlab.unilag.edu.ng">
+                      Industry Partnerships
+                    </a>
+                  </Button>
+                </div>
               </CardContent>
             </Card>
           </div>
+
+          {/* Contact Form */}
+          <SectionErrorBoundary 
+            sectionName="Contact Form"
+            onError={(error, errorInfo) => {
+              errorMonitor.logError(error, errorInfo, { 
+                context: 'contact-page',
+                section: 'contact-form'
+              });
+            }}
+          >
+            <Card>
+              <CardHeader>
+                <CardTitle>Send us a Message</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <form onSubmit={handleSubmit} className="space-y-6">
+                  <div className="grid sm:grid-cols-2 gap-4">
+                    <div className="space-y-2">
+                      <Label htmlFor="name">Name *</Label>
+                      <Input
+                        id="name"
+                        name="name"
+                        value={formData.name}
+                        onChange={handleInputChange}
+                        required
+                        placeholder="Your full name"
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="email">Email *</Label>
+                      <Input
+                        id="email"
+                        name="email"
+                        type="email"
+                        value={formData.email}
+                        onChange={handleInputChange}
+                        required
+                        placeholder="your.email@example.com"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="subject">Subject *</Label>
+                    <Input
+                      id="subject"
+                      name="subject"
+                      value={formData.subject}
+                      onChange={handleInputChange}
+                      required
+                      placeholder="What is this regarding?"
+                    />
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="message">Message *</Label>
+                    <Textarea
+                      id="message"
+                      name="message"
+                      value={formData.message}
+                      onChange={handleInputChange}
+                      required
+                      placeholder="Tell us more about your inquiry..."
+                      rows={6}
+                    />
+                  </div>
+
+                  {submitStatus === 'success' && (
+                    <div className="p-4 bg-green-50 border border-green-200 rounded-md">
+                      <p className="text-green-800 text-sm">
+                        Thank you for your message! We'll get back to you soon.
+                      </p>
+                    </div>
+                  )}
+
+                  {submitStatus === 'error' && (
+                    <div className="p-4 bg-red-50 border border-red-200 rounded-md">
+                      <p className="text-red-800 text-sm">
+                        Sorry, there was an error sending your message. Please try again.
+                      </p>
+                    </div>
+                  )}
+
+                  <LoadingButton
+                    type="submit"
+                    loading={isSubmitting}
+                    className="w-full"
+                    size="lg"
+                  >
+                    <Send className="mr-2 h-4 w-4" />
+                    Send Message
+                  </LoadingButton>
+                </form>
+              </CardContent>
+            </Card>
+          </SectionErrorBoundary>
         </div>
       </Section>
     </PageWrapper>

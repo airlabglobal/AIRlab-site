@@ -1,9 +1,9 @@
-import Image from 'next/image';
 import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
+import { OptimizedImage, responsiveSizes, imageDimensions } from '@/components/ui/OptimizedImage';
 import { cn } from '@/lib/utils';
 
 interface DynamicShowcaseCardProps {
@@ -31,16 +31,19 @@ export default function DynamicShowcaseCard({
       className
       )}>
       <CardHeader className="p-0">
-        <div className="aspect-video relative overflow-hidden">
-          <Image
+        <div className="aspect-video relative overflow-hidden rounded-t-lg">
+          <OptimizedImage
             src={imageUrl}
             alt={title}
-            layout="fill"
+            fill
+            sizes={responsiveSizes.card}
+            className="group-hover:scale-105 transition-transform duration-500 rounded-t-lg"
             objectFit="cover"
-            className="group-hover:scale-105 transition-transform duration-500"
-            data-ai-hint={imageHint}
+            quality={80}
+            priority={false}
+            fallbackSrc="https://placehold.co/600x400/e2e8f0/64748b?text=Project+Image"
           />
-           <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
+          <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
         </div>
       </CardHeader>
       <CardContent className="p-6">

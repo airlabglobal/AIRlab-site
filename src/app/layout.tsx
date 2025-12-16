@@ -4,6 +4,8 @@ import { ThemeProvider } from '@/components/theme/ThemeProvider';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 import { Toaster } from '@/components/ui/toaster';
+import GlobalErrorBoundary from '@/components/error/GlobalErrorBoundary';
+import { errorMonitor } from '@/lib/errorMonitoring';
 
 export const metadata: Metadata = {
   title: 'AIRLAB - Artificial Intelligence & Robotics Laboratory | University of Lagos',
@@ -23,17 +25,23 @@ export default function RootLayout({
         <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Inter:wght@400;500;700&display=swap" rel="stylesheet" />
       </head>
       <body className="font-body antialiased flex flex-col min-h-screen">
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="dark"
-          enableSystem
-          disableTransitionOnChange
+        <GlobalErrorBoundary
+          onError={(error, errorInfo) => {
+            errorMonitor.logError(error, errorInfo, { context: 'global' });
+          }}
         >
-          <Header />
-          <main className="flex-grow">{children}</main>
-          <Footer />
-          <Toaster />
-        </ThemeProvider>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="dark"
+            enableSystem
+            disableTransitionOnChange
+          >
+            <Header />
+            <main className="flex-grow">{children}</main>
+            <Footer />
+            <Toaster />
+          </ThemeProvider>
+        </GlobalErrorBoundary>
       </body>
     </html>
   );
