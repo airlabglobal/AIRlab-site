@@ -2,9 +2,10 @@ import PageWrapper from '@/components/layout/PageWrapper';
 import Section from '@/components/ui/Section';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import Image from 'next/image';
-import { Linkedin, Mail, Briefcase } from 'lucide-react';
+import { Briefcase } from 'lucide-react';
 import Link from 'next/link';
 import teamData from '@/data/team.json';
+import { FaLinkedin } from 'react-icons/fa6';
 
 export default function TeamPage() {
   const teamMembers = teamData;
@@ -40,12 +41,7 @@ export default function TeamPage() {
               <CardFooter className="p-4 bg-muted/30 flex justify-center space-x-3">
                 {member.social.linkedin && (
                   <Link href={member.social.linkedin} target="_blank" rel="noopener noreferrer" aria-label={`${member.name} LinkedIn Profile`}>
-                    <Linkedin className="h-5 w-5 text-foreground/70 hover:text-primary transition-colors" />
-                  </Link>
-                )}
-                {member.social.email && (
-                  <Link href={member.social.email} aria-label={`Email ${member.name}`}>
-                    <Mail className="h-5 w-5 text-foreground/70 hover:text-primary transition-colors" />
+                    <FaLinkedin className="h-5 w-5 text-foreground/70 hover:text-primary transition-colors" />
                   </Link>
                 )}
               </CardFooter>

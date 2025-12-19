@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { FaGithub, FaLinkedin, FaXTwitter, FaInstagram } from "react-icons/fa6";
 import { SocialLinks } from "@/data/socials";
+import { Mail, PhoneCall } from "lucide-react";
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
@@ -37,13 +38,27 @@ export default function Footer() {
           >
             <FaInstagram className="h-6 w-6" />
           </Link>
+          <Link
+            href={SocialLinks.email}
+            aria-label="Email"
+            className="hover:text-primary transition-colors"
+          >
+            <Mail className="h-6 w-6" />
+          </Link>
+          <Link
+            href={SocialLinks.phone}
+            aria-label="Phone"
+            className="hover:text-primary transition-colors"
+          >
+            <PhoneCall className="h-6 w-6" />
+          </Link>
         </div>
         <p className="text-sm">
           &copy; {currentYear} AIRLAB. All rights reserved.
         </p>
         <p className="text-xs mt-1">
-          AIRLAB - Artificial Intelligence & Robotics Laboratory, University of
-          Lagos.
+          AI & Robotics Labs, Central Research Laboratory, University of Lagos,
+          Akoka, Yaba, Lagos.
         </p>
       </div>
     </footer>
