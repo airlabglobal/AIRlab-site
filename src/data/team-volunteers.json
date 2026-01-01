@@ -1,0 +1,90 @@
+[
+  {
+    "id": "1",
+    "name": "Lukmon Abdulsalam",
+    "role": "Robotics Lead",
+    "imageUrl": "https://i.postimg.cc/MKnHnwkt/20240709-122144.jpg",
+    "imageHint": "mechanical engineer",
+    "bio": "Lukmon is a software engineer by practice and Robotics engineer by study.",
+    "social": {
+      "linkedin": "www.linkedin.com/in/Lukmon-Abdulsalam"
+    }
+  },
+  {
+    "id": "2",
+    "name": "Okoye Jude",
+    "role": "Software Engineer",
+    "imageUrl": "https://i.postimg.cc/bvgJHsCt/jude1.jpg",
+    "imageHint": "software engineer",
+    "bio": "Jude is focused on building solutions that solve hard real world problems and building generational wealth.",
+    "social": {
+      "linkedin": "#"
+    }
+  },
+  {
+    "id": "3",
+    "name": "Magaret Awojide",
+    "role": "AI Researcher",
+    "imageUrl": "https://i.postimg.cc/BvcqvdHX/IMG-9062.jpg",
+    "imageHint": "female researcher",
+    "bio": "Margaret is a data professional with a background in statistics and mathematics, specializing in data analysis, data science, and data storytelling. She has experience working in the media sector, where she applies market research and analytics to generate insights and support decision-making. During her academic years, she volunteered as a Tableau ambassador, supporting data visualization learning and community engagement. At AIRLAB, she supported research and analytics and contributed to capacity-building workshops.",
+    "social": {
+      "linkedin": "https://www.linkedin.com/in/margaret-awojide/"
+    }
+  },
+  {
+    "id": "4",
+    "name": "Ifedayo Olowoyo",
+    "role": "Robotics Engineer",
+    "imageUrl": "https://i.postimg.cc/d15qKpTd/IMG-20250923-173101.jpg",
+    "imageHint": "robotics expert",
+    "bio": "Ifedayo is a technology and engineering enthusiast with a strong interest in electronics, robotics, and intelligent systems. He is actively involved in designing and building innovative hardware projects, including embedded systems, IoT solutions, and automation based applications. With a passion for research, hands-on development, and problem solving approach.",
+    "social": {
+      "linkedin": "https://www.linkedin.com/in/olowoyoifedayo22"
+    }
+  },
+  {
+    "id": "5",
+    "name": "Mbanefo Oziomachukwu",
+    "role": "Graphic Designer",
+    "imageUrl": "https://i.postimg.cc/1X5mNJsx/IMG-4081.jpg",
+    "imageHint": "male student",
+    "bio": "A versatile creative professional, Mbanefo Oziomachukwu brings a comprehensive background in Graphic Design, Brand Identity, and Motion Graphics. Hespecializes in translating complex brand values into cohesive visual systems that move. From crafting the foundational logo to animating the final broadcast assets, Mbanefo Oziomachukwu offers a full-spectrum design service. His work is characterized by clean aesthetics, purposeful motion, and a strong focus on effective visual communication.",
+    "social": {
+      "linkedin": "http://linkedin.com/in/mbanefo-oziomachukwu-594a84283"
+    }
+  },
+  {
+    "id": "6",
+    "name": "Damilola Latifat",
+    "role": "Robotics Assistant",
+    "imageUrl": "https://i.postimg.cc/kg1KnQ2D/E98C0A94-2159-44D6-880C-3389B7756D1F.jpg",
+    "imageHint": "female assistant",
+    "bio": "⁠Latifat is a robotics enthusiast and marketing associate at PipeOps with a strong passion for robotics, engineering, and hands-on hardware work. She bakes as a creative hobby. She is known for her strong maintenance skills, open-mindedness and determination to achieve her goals.",
+    "social": {
+      "linkedin": "https://www.linkedin.com/in/damilola-latifat"
+    }
+  },
+  {
+    "id": "7",
+    "name": "Joel Ejime",
+    "role": "Contents Lead",
+    "imageUrl": "https://i.postimg.cc/7LjH96WX/Joel-Picture.png",
+    "imageHint": "male student",
+    "bio": "Joel has a background in electrical engineering and robotics and contributes at the Artificial Intelligence and Robotics Laboratory (AIRLAB), supporting writing, social media management, and storytelling that bring visibility, creativity, and polish to the lab’s technical work and public presence.",
+    "social": {
+      "linkedin": "https://www.linkedin.com/in/ejimejoel/"
+    }
+  },
+  {
+    "id": "8",
+    "name": "Richie Adigwe",
+    "role": "Software Engineer",
+    "imageUrl": "https://i.postimg.cc/MpQ0S3y9/IMG-8458.jpg",
+    "imageHint": "male student",
+    "bio": "Richie has a background in Computer Science with a strong interest in AI and Software Engineering. He is passionate about building automations, AI integration, and developing APIs.",
+    "social": {
+      "linkedin": "https://www.linkedin.com/in/richie-adigwe"
+    }
+  }
+]
