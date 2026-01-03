@@ -51,7 +51,7 @@
     "imageHint": "male student",
     "bio": "A versatile creative professional, Mbanefo Oziomachukwu brings a comprehensive background in Graphic Design, Brand Identity, and Motion Graphics. Hespecializes in translating complex brand values into cohesive visual systems that move. From crafting the foundational logo to animating the final broadcast assets, Mbanefo Oziomachukwu offers a full-spectrum design service. His work is characterized by clean aesthetics, purposeful motion, and a strong focus on effective visual communication.",
     "social": {
-      "linkedin": "http://linkedin.com/in/mbanefo-oziomachukwu-594a84283"
+      "linkedin": "http://linkedin.com/in/mbanefo-oziomachukwu"
     }
   },
   {
@@ -85,6 +85,61 @@
     "bio": "Richie has a background in Computer Science with a strong interest in AI and Software Engineering. He is passionate about building automations, AI integration, and developing APIs.",
     "social": {
       "linkedin": "https://www.linkedin.com/in/richie-adigwe"
+    }
+  },
+  {
+    "id": "9",
+    "name": "Ayomide Atunrase",
+    "role": "AI/ML Engineer",
+    "imageUrl": "https://i.postimg.cc/LsgWTnkQ/Atunrase_Ayomide_17_05.jpg",
+    "imageHint": "male ai researcher",
+    "bio": "Ayomide Atunrase is an AI/ML engineer, data engineer, and researcher focused on building practical, production-ready intelligence systems. His work spans applied machine learning, small and large language models, agentic workflows, and open-source tooling, with a strong interest in real-world AI deployment and automation pipelines. He is deeply motivated by environmental impact and the application of AI to biomedical and healthcare challenges, and is driven to build scalable solutions that address problems at national, Africa-wide, and global scales.",
+    "social": {
+      "linkedin": "https://www.linkedin.com/in/ayo-atunrase"
+    }
+  },
+  {
+    "id": "10",
+    "name": "Egbetokun Timilehin",
+    "role": "Software Developer",
+    "imageUrl": "https://i.postimg.cc/h4mXhY2Q/IMG-0417.jpg",
+    "imageHint": "male student",
+    "bio": "Egbetokun Timilehin is a Nigerian software developer and engineering student known for his work in technology and robotics.",
+    "social": {
+      "linkedin": "https://www.linkedin.com/in/egbetokun-timilehin"
+    }
+  },
+  {
+    "id": "11",
+    "name": "Lawal Giyath",
+    "role": "Software Developer",
+    "imageUrl": "https://i.postimg.cc/fy6ct1XJ/photo-5796573375940463552-y.jpg",
+    "imageHint": "software developer",
+    "bio": "Lawal Giyath is characterized by a commitment to technical excellence and a drive for continuous learning. Having navigated the complexities of back-to-back FTC seasons and hackathons, they have developed a sophisticated understanding of mechanical systems,  IoT systems and iterative problem-solving. Whether tackling hardware builds or software integration, Giyath brings a disciplined, competitive edge to every project they undertake.",
+    "social": {
+      "linkedin": "https://www.linkedin.com/in/richie-adigwe"
+    }
+  },
+  {
+    "id": "12",
+    "name": "Anuoluwapo Oluwatobi",
+    "role": "Robotics Instructor",
+    "imageUrl": "https://i.postimg.cc/x1TpjHnf/Me.jpg",
+    "imageHint": "female instructor",
+    "bio": "Anuoluwapo Oluwatobi is an aspiring mechanical engineer with a strong interest in applied research and practical engineering, particularly in the development of functional, real-world systems. Her experience spans robotics, mechanical system design, CAD modeling and simulation, and hands-on fabrication, where she applies engineering theory to the analysis, design, testing, and refinement of physical systems. Through sustained, project-based work, she has developed a thoughtful, detail-oriented, and execution-focused problem-solving approach that bridges theoretical rigor with manufacturable and experimentally validated solutions.",
+    "social": {
+      "linkedin": "https://www.linkedin.com/in/anuoluwatobi/"
+    }
+  },
+  {
+    "id": "13",
+    "name": "Zaynab Awofeso",
+    "role": "AI/ML Researcher",
+    "imageUrl": "https://i.postimg.cc/dtPJTZdZ/Zaynab-Awofeso.avif",
+    "imageHint": "female researcher",
+    "bio": "Zaynab is a computer science student and researcher whose work centers on efficiency and optimization in machine learning. One of her strongest convictions is that the universe’s resources are limited, and this naturally shapes the kinds of questions that keep her up at 3 a.m., like how we can strip systems to their core and design methods that are truly resource-aware. Beyond research, she enjoys writing as a form of artistic expression and a way to make sense of the world.",
+    "social": {
+      "linkedin": "https://www.linkedin.com/in/zaynab-awofeso/"
     }
   }
 ]
