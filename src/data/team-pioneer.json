@@ -1,46 +1,134 @@
 [
   {
     "id": "1",
-    "name": "Dr. Chika Yinka-Banjo",
-    "role": "Director",
+    "name": "Mrs Omokhaba Blessing Yama",
+    "role": "Phd Candidate & Lab Manager",
     "imageUrl": "/images/image12.jpg",
-    "imageHint": "female professor",
-    "bio": "Dr. Yinka-Banjo leads AIRLAB with expertise in Artificial Intelligence and Human-Computer Interaction. Her research focuses on ethical AI development and accessible technology solutions.",
+    "imageHint": "female researcher",
+    "bio": "",
     "social": {
-      "linkedin": "#"
+      "linkedin": "https://www.linkedin.com/in/omokhoba-blessing-yama/"
     }
   },
   {
     "id": "2",
-    "name": "Mrs Omokhaba Blessing Yama",
-    "role": "Senior Researcher",
-    "imageUrl": "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=400&h=400&fit=crop",
-    "imageHint": "female researcher",
-    "bio": "Mrs. Yama specializes in robotics and autonomous systems. She has extensive experience in developing intelligent control systems for real-world applications.",
+    "name": "Ajose Aishat",
+    "role": "Software Engineer",
+    "imageUrl": "https://i.postimg.cc/SYKrjfDh/aishat.jpg",
+    "imageHint": "female engineer",
+    "bio": "",
     "social": {
-      "linkedin": "#"
+      "linkedin": "https://www.linkedin.com/in/ajose-aishat"
     }
   },
   {
     "id": "3",
-    "name": "Ayodeji Atunrase",
-    "role": "PhD Candidate",
-    "imageUrl": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop",
-    "imageHint": "male student",
-    "bio": "Ayodeji's research focuses on deep learning applications in medical imaging, working to make healthcare diagnostics more accessible and accurate.",
+    "name": "Bukunmi Osinuga",
+    "role": "Software Engineer",
+    "imageUrl": "https://i.postimg.cc/Fdpp9BgQ/bukunmi.jpg",
+    "imageHint": "female engineer",
+    "bio": "",
     "social": {
-      "linkedin": "#"
+      "linkedin": "http://www.linkedin.com/in/osinuga-oluwabukunmi"
     }
   },
   {
     "id": "4",
-    "name": "Ayodeji Atunrase",
-    "role": "PhD Candidate",
-    "imageUrl": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop",
-    "imageHint": "male student",
-    "bio": "Ayodeji's research focuses on deep learning applications in medical imaging, working to make healthcare diagnostics more accessible and accurate.",
+    "name": "Stacey Onuora",
+    "role": "Software Engineer",
+    "imageUrl": "https://i.postimg.cc/CnKNdsm0/chiamaka.jpg",
+    "imageHint": "female student",
+    "bio": "",
     "social": {
-      "linkedin": "#"
+      "linkedin": "https://www.linkedin.com/in/stacey-onuora"
+    }
+  },
+  {
+    "id": "5",
+    "name": "Chibuzor Nwalor",
+    "role": "Software Engineer Consultant",
+    "imageUrl": "https://i.postimg.cc/JHhqt5K2/chibuzor.jpg",
+    "imageHint": "male consultant",
+    "bio": "",
+    "social": {
+      "linkedin": "https://www.linkedin.com/in/chibuzor-nwalor-8383668b/"
+    }
+  },
+  {
+    "id": "6",
+    "name": "Chieto Chiedu",
+    "role": "Software Engineer",
+    "imageUrl": "https://i.postimg.cc/3411KcCT/chiedu.jpg",
+    "imageHint": "female student",
+    "bio": "",
+    "social": {
+      "linkedin": "https://www.linkedin.com/in/chieto-chiedu"
+    }
+  },
+  {
+    "id": "7",
+    "name": "Ehiorobo Evans",
+    "role": "Senior Software Engineer",
+    "imageUrl": "https://i.postimg.cc/Wq4ntwXP/evans.jpg",
+    "imageHint": "male student",
+    "bio": "",
+    "social": {
+      "linkedin": "https://www.linkedin.com/in/evans-ehiorobo"
+    }
+  },
+  {
+    "id": "8",
+    "name": "Joel Adebayo",
+    "role": "Robotics and STEM Coach",
+    "imageUrl": "https://i.postimg.cc/VrggYV93/joel.jpg",
+    "imageHint": "male student",
+    "bio": "",
+    "social": {
+      "linkedin": "https://www.linkedin.com/in/jayteeadebayo"
+    }
+  },
+  {
+    "id": "9",
+    "name": "Joyce Adelusi",
+    "role": "Senior Software Engineer",
+    "imageUrl": "https://i.postimg.cc/phCC26YM/joyce.jpg",
+    "imageHint": "female engineer",
+    "bio": "",
+    "social": {
+      "linkedin": "https://www.linkedin.com/in/joyceadelusi"
+    }
+  },
+  {
+    "id": "10",
+    "name": "Nwachukwu Ugo",
+    "role": "AI Engineer",
+    "imageUrl": "https://i.postimg.cc/YLS3jz8J/nwachukwu.jpg",
+    "imageHint": "male student",
+    "bio": "",
+    "social": {
+      "linkedin": "https://www.linkedin.com/in/ugo-nwachuku/"
+    }
+  },
+  {
+    "id": "11",
+    "name": "Tobi Ekayode",
+    "role": "Software Engineer",
+    "imageUrl": "https://i.postimg.cc/5Qt3jSnd/tobi.jpg",
+    "imageHint": "male student",
+    "bio": "",
+    "social": {
+      "linkedin": "https://www.linkedin.com/in/ekayode"
+    }
+  },
+  {
+    "id": "12",
+    "name": "Ogban Asuquo Ugot",
+    "role": "Senior Software Engineer",
+    "imageUrl": "https://i.postimg.cc/D4zgmPB7/ugot.jpg",
+    "imageHint": "male student",
+    "bio": "",
+    "social": {
+      "linkedin": "https://www.linkedin.com/in/ogban-asuquo-ugot"
     }
   }
 ]
