@@ -5,14 +5,99 @@
     "description": "The Artificial Intelligence and Robotics Laboratory was established at the University of Lagos with a vision to foster cutting-edge AI and robotics research in Africa."
   },
   {
+    "year": "2018",
+    "event": "Robot-Soccer Competition, Ethiopia",
+    "description": "Our team represented Nigeria in a robot-soccer competition held in Ethiopia between 29th June – 5th July 2018 with our team emerging in 4th place. This is a yearly event and our team learned a lot. The application of such a competition has certain positive aftermath in education, and this motivated us in organizing the first of its kind ‘UNILAG Robotics & AI competition’ (12th December 2018) as a prelude to an up-scaled, nationwide Robotics & AI competition for tertiary institutions."
+  },
+  {
+    "year": "2018",
+    "event": "Workshops on Robotics",
+    "description": "Workshops on robotics were organized by AIRLAB to prepare the students for the forthcoming competition. The maiden edition was held on 20th October 2018 at UNILAG. These workshops introduced participants to quick starts on robotics projects, working with microcontrollers and creating software for robotics projects amongst many other related topics. The workshop was attended by undergraduate students of UNILAG."
+  },
+  {
+    "year": "2018",
+    "event": "UNILAG Robotics Competition",
+    "description": "The maiden edition of the UNILAG robotics competition took place on the 12th of December, 2018. The competition was well attended by students, the staff of UNILAG and interest groups from the industry."
+  },
+  {
+    "year": "2019",
+    "event": "Pan-Africa Robotics Competition (Ghana)",
+    "description": "Themed 'Solvable challenges: The making of the African Smart City'. Three of our students competed in the making of African smart cities in July 2019 held in Central University Ghana."
+  },
+  {
+    "year": "2019",
+    "event": "First Lego Robotics Training",
+    "description": "AIRLAB collaborated with Coderina Education and the Technology Foundation to organize free training on FIRST® LEGO® League (FLL®) Robotics for (6-10) High School students and (4) UNILAG undergraduate students (mentors/coaches)"
+  },
+  {
+    "year": "2019",
+    "event": "UNILAG Tour Guide App Development",
+    "description": "A mobile application was proposed by the Vice-Chancellor to direct new students and visitors to navigate around the campus without hassles. This app was developed by the team from AIRLAB."
+  },
+  {
     "year": "2020",
-    "event": "First FLL Participation",
-    "description": "The first team of high school students trained in the lab for coding in 2019 were later trained on robotics to represent AIRLAB UNILAG at the 2020 FLL competition in Abuja."
+    "event": "Code the Curve Competition",
+    "description": "Organised in partnership with IBM and SAP, the CodeTheCurve Hackathon calls young developers and innovators to use their digital skills, creativity and entrepreneurial spirit to join forces to inspire and develop digital solutions to current and future pandemia-challenges. With nearly 200 applications received from scores of countries worldwide. Our team were one of the top forty winner selected around the world."
+  },
+  {
+    "year": "2020",
+    "event": "FLL Robotics - CITY SHAPER",
+    "description": "A team of high school students trained in the lab for coding in 2019 were later trained on robotics to represent AIRol UNILAG at the 2020 FLL competition in Abuja. The competition took place in February 2020. The team came home as a winner in CORE VALUE category out of 40 teams represented in the competition."
+  },
+  {
+    "year": "2021",
+    "event": "Championship Competition (Greece)",
+    "description": "Foundation-building technical training."
+  },
+  {
+    "year": "2021",
+    "event": "Summer Coding and Robotics Training",
+    "description": "Foundation-building technical training."
   },
   {
     "year": "2022",
-    "event": "Launch of Robotics summer school Program",
-    "description": "Introduced a dedicated robotics program, attracting top talent and initiating several key projects in autonomous systems."
+    "event": "National Robotics Competition",
+    "description": "Foundation-building technical training."
+  },
+  {
+    "year": "2022",
+    "event": "Free Summer AI and Robotic Program",
+    "description": "Foundation-building technical training."
+  },
+  {
+    "year": "2023",
+    "event": "FIRST Tech Challenge (FTC)",
+    "description": "Foundation-building technical training."
+  },
+  {
+    "year": "2023",
+    "event": "FIRST Tech Challenge (FTC)",
+    "description": "Foundation-building technical training."
+  },
+  {
+    "year": "2023",
+    "event": "AI Bootcamp (EduAI Hub) X AIRLAB",
+    "description": "Foundation-building technical training."
+  },
+  {
+    "year": "2024",
+    "event": "AIRLAB x BLSC - STEM Summer Camp",
+    "description": "Foundation-building technical training."
+  },
+  {
+    "year": "2024",
+    "event": "ECO-STEM for Girls (AFRETEC)",
+    "description": "Foundation-building technical training."
+  },
+  {
+    "year": "2025",
+    "event": "Lerobot, TNKR and AIRLAB Hackathon",
+    "description": "Foundation-building technical training."
+  },
+  {
+    "year": "2025",
+    "event": "AI and Robotic Summer Program",
+    "description": "Foundation-building technical training."
   },
   {
     "year": "Present",
