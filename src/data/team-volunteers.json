@@ -99,6 +99,17 @@
     }
   },
   {
+    "id": "11",
+    "name": "Lawal Giyath",
+    "role": "Software Developer",
+    "imageUrl": "https://i.postimg.cc/fy6ct1XJ/photo-5796573375940463552-y.jpg",
+    "imageHint": "software developer",
+    "bio": "Lawal Giyath is characterized by a commitment to technical excellence and a drive for continuous learning. Having navigated the complexities of back-to-back FTC seasons and hackathons, they have developed a sophisticated understanding of mechanical systems,  IoT systems and iterative problem-solving. Whether tackling hardware builds or software integration, Giyath brings a disciplined, competitive edge to every project they undertake.",
+    "social": {
+      "linkedin": "https://www.linkedin.com/in/lawal-giyath-6ab470282"
+    }
+  },
+  {
     "id": "7",
     "name": "Joel Ejime",
     "role": "Contents Lead",
@@ -130,17 +141,6 @@
     "bio": "Egbetokun Timilehin is a Nigerian software developer and engineering student known for his work in technology and robotics.",
     "social": {
       "linkedin": "https://www.linkedin.com/in/egbetokun-timilehin"
-    }
-  },
-  {
-    "id": "11",
-    "name": "Lawal Giyath",
-    "role": "Software Developer",
-    "imageUrl": "https://i.postimg.cc/fy6ct1XJ/photo-5796573375940463552-y.jpg",
-    "imageHint": "software developer",
-    "bio": "Lawal Giyath is characterized by a commitment to technical excellence and a drive for continuous learning. Having navigated the complexities of back-to-back FTC seasons and hackathons, they have developed a sophisticated understanding of mechanical systems,  IoT systems and iterative problem-solving. Whether tackling hardware builds or software integration, Giyath brings a disciplined, competitive edge to every project they undertake.",
-    "social": {
-      "linkedin": "https://www.linkedin.com/in/richie-adigwe"
     }
   }
 ]
