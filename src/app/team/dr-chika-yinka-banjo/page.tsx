@@ -1,37 +1,28 @@
 'use client'
 
 import Image from 'next/image'
-import AOS from "aos";
-import "aos/dist/aos.css";
-import { useEffect } from 'react';
 
 export default function DrChikaYinkaBanjoPage() {
-  useEffect(() => {
-    // Ensure AOS only runs on the client-side
-    if (typeof window !== "undefined") {
-      AOS.init({
-        once: true,
-        duration: 800,
-      });
-    }
-  }, []);
-
   return (
     <div className="min-h-screen bg-background text-foreground py-12 px-4 md:px-12">
       <div className="max-w-5xl mx-auto flex flex-col md:flex-row items-center gap-10">
         
         {/* IMAGE SECTION */}
-        <div className="relative w-full md:w-1/2 aspect-square rounded-tl-3xl rounded-br-3xl overflow-hidden shadow-lg" data-aos="fade-up">
+        <div className="relative w-full md:w-1/2 aspect-square rounded-tl-3xl rounded-br-3xl overflow-hidden shadow-lg motion-safe:animate-slide-up">
           <Image
-            src="/images/image12.jpg" // Make sure this image exists in public/images/
+            src="/images/image12.jpg"
             alt="Dr. Chika Yinka-Banjo"
             fill
+            sizes="(max-width: 768px) 100vw, 50vw"
             className="object-cover"
+            priority
+            placeholder="blur"
+            blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R//2Q=="
           />
         </div>
 
         {/* TEXT SECTION */}
-        <div className="w-full md:w-1/2 space-y-4">
+        <div className="w-full md:w-1/2 space-y-4 motion-safe:animate-slide-up" style={{ animationDelay: '0.2s' }}>
           <h1 className="text-3xl md:text-4xl font-headline font-bold text-primary">Dr. Chika Yinka-Banjo</h1>
           <p className="text-base md:text-lg leading-relaxed text-muted-foreground">
             Dr. Chika Yinka-Banjo is a pioneering figure in robotics and artificial intelligence in Nigeria.
