@@ -4,17 +4,17 @@ import Link from 'next/link';
 import { Bot, FileText, Users, Newspaper, PlusCircle, Activity, BarChart3 } from 'lucide-react';
 
 const summaryStats = [
-  { title: "Total Projects", value: "4", icon: Bot, color: "text-primary", link: "/admin/projects" },
-  { title: "Research Papers", value: "6", icon: FileText, color: "text-accent", link: "/admin/research" },
-  { title: "Team Members", value: "13", icon: Users, color: "text-green-500", link: "/admin/team" },
-  { title: "News & Events", value: "3", icon: Newspaper, color: "text-orange-500", link: "/admin/news" },
+  { title: "Total Projects", value: "4", icon: Bot, color: "text-primary", link: "/admin-air-airlabalaba/projects" },
+  { title: "Research Papers", value: "6", icon: FileText, color: "text-accent", link: "/admin-air-airlabalaba/research" },
+  { title: "Team Members", value: "13", icon: Users, color: "text-green-500", link: "/admin-air-airlabalaba/team" },
+  { title: "News & Events", value: "3", icon: Newspaper, color: "text-orange-500", link: "/admin-air-airlabalaba/news" },
 ];
 
 const quickActions = [
-  { label: "Add New Project", icon: PlusCircle, link: "/admin/projects/new" },
-  { label: "Upload Research Paper", icon: PlusCircle, link: "/admin/research/new" },
-  { label: "Add Team Member", icon: PlusCircle, link: "/admin/team/new" },
-  { label: "Create News/Event", icon: PlusCircle, link: "/admin/news/new" },
+  { label: "Add New Project", icon: PlusCircle, link: "/admin-air-airlabalaba/projects/new" },
+  { label: "Upload Research Paper", icon: PlusCircle, link: "/admin-air-airlabalaba/research/new" },
+  { label: "Add Team Member", icon: PlusCircle, link: "/admin-air-airlabalaba/team/new" },
+  { label: "Create News/Event", icon: PlusCircle, link: "/admin-air-airlabalaba/news/new" },
 ];
 
 export default function AdminDashboardPage() {

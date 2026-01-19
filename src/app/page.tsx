@@ -71,9 +71,12 @@ export default function Home() {
               <Image
                 src="https://images.unsplash.com/photo-1677442136019-21780ecad995?w=800&h=800&fit=crop"
                 alt="AI and Robotics research at AIRLAB"
-                layout="fill"
-                objectFit="contain"
-                className="animate-float rounded-lg"
+                fill
+                sizes="(max-width: 768px) 100vw, 50vw"
+                className="object-contain rounded-lg motion-safe:animate-float motion-reduce:animate-none"
+                priority
+                placeholder="blur"
+                blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R//2Q=="
               />
             </div>
           </div>
@@ -186,7 +189,9 @@ export default function Home() {
                 linkUrl={item.link}
                 tags={item.tags}
                 imageHint={item.imageHint}
-                className={`opacity-0 animate-slide-up animate-float-in delay-300`}
+                priority={index === 0}
+                className="motion-safe:animate-slide-up motion-reduce:animate-none"
+                style={{ animationDelay: `${index * 0.1}s` }}
               />
             ))}
           </div>

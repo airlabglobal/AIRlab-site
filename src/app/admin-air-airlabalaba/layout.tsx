@@ -12,12 +12,11 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import React, { useState, useEffect } from 'react';
 
 const adminNavItems = [
-  { href: '/admin', label: 'Dashboard', icon: LayoutDashboard },
-  { href: '/admin/projects', label: 'Projects', icon: Bot },
-  { href: '/admin/research', label: 'Research Papers', icon: FileText },
-  { href: '/admin/team', label: 'Team Members', icon: Users },
-  { href: '/admin/news', label: 'News & Events', icon: Newspaper },
-  // { href: '/admin/settings', label: 'Settings', icon: Settings }, // Example for future
+  { href: '/admin-air-airlabalaba', label: 'Dashboard', icon: LayoutDashboard },
+  { href: '/admin-air-airlabalaba/projects', label: 'Projects', icon: Bot },
+  { href: '/admin-air-airlabalaba/research', label: 'Research Papers', icon: FileText },
+  { href: '/admin-air-airlabalaba/team', label: 'Team Members', icon: Users },
+  { href: '/admin-air-airlabalaba/news', label: 'News & Events', icon: Newspaper },
 ];
 
 const ADMIN_PASSWORD = process.env.NEXT_PUBLIC_ADMIN_PASSWORD!;
@@ -35,16 +34,18 @@ export default function AdminLayout({
   
 
   useEffect(() => {
-    // Check local storage for sidebar state or default to false
-    const storedSidebarState = localStorage.getItem('adminSidebarCollapsed');
-    if (storedSidebarState) {
-      setIsSidebarCollapsed(JSON.parse(storedSidebarState));
-    }
-    
     // Check if user is already authenticated
     const authStatus = sessionStorage.getItem('adminAuthenticated');
     if (authStatus === 'true') {
       setIsAuthenticated(true);
+    }
+    
+    // Check local storage for sidebar state only after authentication
+    if (authStatus === 'true') {
+      const storedSidebarState = localStorage.getItem('adminSidebarCollapsed');
+      if (storedSidebarState) {
+        setIsSidebarCollapsed(JSON.parse(storedSidebarState));
+      }
     }
   }, []);
 

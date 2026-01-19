@@ -14,6 +14,7 @@ interface DynamicShowcaseCardProps {
   tags?: string[];
   imageHint?: string;
   className?: string;
+  priority?: boolean;
 }
 
 export default function DynamicShowcaseCard({
@@ -24,20 +25,25 @@ export default function DynamicShowcaseCard({
   tags,
   imageHint,
   className,
+  priority = false,
 }: DynamicShowcaseCardProps) {
   return (
     <Card className={cn(
-      "overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-300 ease-in-out transform hover:-translate-y-2 group animate-float",
+      "overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-300 ease-in-out transform hover:-translate-y-2 group",
+      "motion-safe:animate-float motion-reduce:animate-none",
       className
       )}>
       <CardHeader className="p-0">
-        <div className="aspect-video relative overflow-hidden">
+        <div className="aspect-video relative overflow-hidden bg-muted">
           <Image
             src={imageUrl}
             alt={title}
-            layout="fill"
-            objectFit="cover"
-            className="group-hover:scale-105 transition-transform duration-500"
+            fill
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            className="object-cover group-hover:scale-105 transition-transform duration-500"
+            priority={priority}
+            placeholder="blur"
+            blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R//2Q=="
             data-ai-hint={imageHint}
           />
            <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
