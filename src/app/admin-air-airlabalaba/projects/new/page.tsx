@@ -9,28 +9,30 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/hooks/use-toast';
 import { BackButton } from '@/components/ui/back-button';
-import { FileText, Upload } from 'lucide-react';
+import { Bot, Plus } from 'lucide-react';
 
-interface NewResearchPaper {
+interface NewProject {
   title: string;
-  authors: string;
-  year: number;
-  fileUrl: string;
-  imageUrl: string;
   description: string;
+  imageUrl: string;
+  imageHint: string;
+  tags: string[];
+  status: string;
+  link: string;
 }
 
-export default function NewResearchPage() {
+export default function NewProjectPage() {
   const router = useRouter();
   const { toast } = useToast();
   const [loading, setLoading] = useState(false);
-  const [paper, setPaper] = useState<NewResearchPaper>({
+  const [project, setProject] = useState<NewProject>({
     title: '',
-    authors: '',
-    year: new Date().getFullYear(),
-    fileUrl: '',
-    imageUrl: '',
     description: '',
+    imageUrl: '',
+    imageHint: '',
+    tags: [],
+    status: 'Ongoing',
+    link: '',
   });
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -38,31 +40,31 @@ export default function NewResearchPage() {
     setLoading(true);
 
     try {
-      const response = await fetch('/api/admin/research', {
+      const response = await fetch('/api/admin/projects', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(paper),
+        body: JSON.stringify(project),
       });
 
       if (response.ok) {
         toast({
           title: "Success",
-          description: "Research paper added successfully",
+          description: "Project added successfully",
         });
-        router.push('/admin-air-airlabalaba/research');
+        router.push('/admin-air-airlabalaba/projects');
       } else {
         toast({
           title: "Error",
-          description: "Failed to add research paper",
+          description: "Failed to add project",
           variant: "destructive",
         });
       }
     } catch (error) {
       toast({
         title: "Error",
-        description: "Failed to add research paper",
+        description: "Failed to add project",
         variant: "destructive",
       });
     } finally {
@@ -73,20 +75,20 @@ export default function NewResearchPage() {
   return (
     <div className="space-y-6">
       <div className="flex items-center gap-4">
-        <BackButton fallbackUrl="/admin-air-airlabalaba/research" />
+        <BackButton fallbackUrl="/admin-air-airlabalaba/projects" />
         <div>
           <h2 className="font-headline text-3xl font-semibold flex items-center">
-            <FileText className="mr-3 h-8 w-8 text-primary" /> Add New Research Paper
+            <Bot className="mr-3 h-8 w-8 text-primary" /> Add New Project
           </h2>
-          <p className="text-muted-foreground font-body">Upload a new research publication to the system.</p>
+          <p className="text-muted-foreground font-body">Create a new project entry in the system.</p>
         </div>
       </div>
 
       <Card className="shadow-lg">
         <CardHeader>
-          <CardTitle className="font-headline">Research Paper Details</CardTitle>
+          <CardTitle className="font-headline">Project Details</CardTitle>
           <CardDescription className="font-body">
-            Fill in the information for the new research paper.
+            Fill in the information for the new project.
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -98,53 +100,51 @@ export default function NewResearchPage() {
                 </Label>
                 <Input
                   id="title"
-                  value={paper.title}
-                  onChange={(e) => setPaper({...paper, title: e.target.value})}
+                  value={project.title}
+                  onChange={(e) => setProject({...project, title: e.target.value})}
                   className="col-span-3"
-                  required
-                />
-              </div>
-              
-              <div className="grid grid-cols-4 items-center gap-4">
-                <Label htmlFor="authors" className="text-right">
-                  Authors *
-                </Label>
-                <Input
-                  id="authors"
-                  value={paper.authors}
-                  onChange={(e) => setPaper({...paper, authors: e.target.value})}
-                  className="col-span-3"
-                  placeholder="e.g., John Doe, Jane Smith"
-                  required
-                />
-              </div>
-              
-              <div className="grid grid-cols-4 items-center gap-4">
-                <Label htmlFor="year" className="text-right">
-                  Year *
-                </Label>
-                <Input
-                  id="year"
-                  type="number"
-                  value={paper.year}
-                  onChange={(e) => setPaper({...paper, year: parseInt(e.target.value)})}
-                  className="col-span-3"
-                  min="1900"
-                  max={new Date().getFullYear() + 5}
                   required
                 />
               </div>
               
               <div className="grid grid-cols-4 items-center gap-4">
                 <Label htmlFor="description" className="text-right">
-                  Description
+                  Description *
                 </Label>
                 <Textarea
                   id="description"
-                  value={paper.description}
-                  onChange={(e) => setPaper({...paper, description: e.target.value})}
+                  value={project.description}
+                  onChange={(e) => setProject({...project, description: e.target.value})}
                   className="col-span-3"
-                  placeholder="Brief description of the research paper..."
+                  placeholder="Describe the project objectives and scope..."
+                  required
+                />
+              </div>
+              
+              <div className="grid grid-cols-4 items-center gap-4">
+                <Label htmlFor="status" className="text-right">
+                  Status *
+                </Label>
+                <Input
+                  id="status"
+                  value={project.status}
+                  onChange={(e) => setProject({...project, status: e.target.value})}
+                  className="col-span-3"
+                  placeholder="e.g., Ongoing, Completed, Planning"
+                  required
+                />
+              </div>
+              
+              <div className="grid grid-cols-4 items-center gap-4">
+                <Label htmlFor="tags" className="text-right">
+                  Tags
+                </Label>
+                <Input
+                  id="tags"
+                  value={project.tags.join(', ')}
+                  onChange={(e) => setProject({...project, tags: e.target.value.split(', ').filter(tag => tag.trim())})}
+                  className="col-span-3"
+                  placeholder="AI, Machine Learning, Research (separate with commas)"
                 />
               </div>
               
@@ -154,24 +154,36 @@ export default function NewResearchPage() {
                 </Label>
                 <Input
                   id="imageUrl"
-                  value={paper.imageUrl}
-                  onChange={(e) => setPaper({...paper, imageUrl: e.target.value})}
+                  value={project.imageUrl}
+                  onChange={(e) => setProject({...project, imageUrl: e.target.value})}
                   className="col-span-3"
-                  placeholder="https://example.com/image.jpg"
+                  placeholder="https://example.com/project-image.jpg"
                 />
               </div>
               
               <div className="grid grid-cols-4 items-center gap-4">
-                <Label htmlFor="fileUrl" className="text-right">
-                  File URL *
+                <Label htmlFor="imageHint" className="text-right">
+                  Image Alt Text
                 </Label>
                 <Input
-                  id="fileUrl"
-                  value={paper.fileUrl}
-                  onChange={(e) => setPaper({...paper, fileUrl: e.target.value})}
+                  id="imageHint"
+                  value={project.imageHint}
+                  onChange={(e) => setProject({...project, imageHint: e.target.value})}
                   className="col-span-3"
-                  placeholder="https://example.com/paper.pdf"
-                  required
+                  placeholder="Brief description of the image for accessibility"
+                />
+              </div>
+              
+              <div className="grid grid-cols-4 items-center gap-4">
+                <Label htmlFor="link" className="text-right">
+                  Project Link
+                </Label>
+                <Input
+                  id="link"
+                  value={project.link}
+                  onChange={(e) => setProject({...project, link: e.target.value})}
+                  className="col-span-3"
+                  placeholder="https://github.com/project-repo or project page URL"
                 />
               </div>
             </div>
@@ -191,13 +203,13 @@ export default function NewResearchPage() {
               >
                 {loading ? (
                   <>
-                    <Upload className="mr-2 h-4 w-4 animate-spin" />
+                    <Plus className="mr-2 h-4 w-4 animate-spin" />
                     Adding...
                   </>
                 ) : (
                   <>
-                    <Upload className="mr-2 h-4 w-4" />
-                    Add Research Paper
+                    <Plus className="mr-2 h-4 w-4" />
+                    Add Project
                   </>
                 )}
               </Button>

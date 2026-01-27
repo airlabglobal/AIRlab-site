@@ -8,6 +8,8 @@ import { PlusCircle, Edit, Trash2, Search, FileText } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { useToast } from '@/hooks/use-toast';
+import { Skeleton } from '@/components/ui/skeleton';
+import { BackButton } from '@/components/ui/back-button';
 import {
   Dialog,
   DialogContent,
@@ -27,6 +29,25 @@ interface ResearchPaper {
   fileUrl: string;
   imageUrl: string;
   description?: string;
+}
+
+function ResearchTableSkeleton() {
+  return (
+    <div className="space-y-4">
+      {Array.from({ length: 5 }).map((_, i) => (
+        <div key={i} className="flex items-center space-x-4 p-4">
+          <Skeleton className="h-4 w-12" />
+          <Skeleton className="h-4 w-48" />
+          <Skeleton className="h-4 w-32" />
+          <Skeleton className="h-4 w-16" />
+          <div className="flex space-x-2 ml-auto">
+            <Skeleton className="h-8 w-8" />
+            <Skeleton className="h-8 w-8" />
+          </div>
+        </div>
+      ))}
+    </div>
+  );
 }
 
 export default function AdminResearchPage() {
@@ -141,18 +162,17 @@ export default function AdminResearchPage() {
     paper.authors.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
-  if (loading) {
-    return <div className="flex justify-center items-center h-64">Loading...</div>;
-  }
-
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <div>
-          <h2 className="font-headline text-3xl font-semibold flex items-center">
-            <FileText className="mr-3 h-8 w-8 text-primary" /> Manage Research Papers
-          </h2>
-          <p className="text-muted-foreground font-body">Upload, edit, or remove research publications.</p>
+        <div className="flex items-center gap-4">
+          <BackButton />
+          <div>
+            <h2 className="font-headline text-3xl font-semibold flex items-center">
+              <FileText className="mr-3 h-8 w-8 text-primary" /> Manage Research Papers
+            </h2>
+            <p className="text-muted-foreground font-body">Upload, edit, or remove research publications.</p>
+          </div>
         </div>
         <Button asChild className="bg-primary hover:bg-primary/90 text-primary-foreground">
           <Link href="/admin-air-airlabalaba/research/new">
@@ -178,52 +198,56 @@ export default function AdminResearchPage() {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>ID</TableHead>
-                <TableHead>Title</TableHead>
-                <TableHead>Authors</TableHead>
-                <TableHead>Year</TableHead>
-                <TableHead className="text-right">Actions</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {filteredPapers.length === 0 ? (
+          {loading ? (
+            <ResearchTableSkeleton />
+          ) : (
+            <Table>
+              <TableHeader>
                 <TableRow>
-                  <TableCell colSpan={5} className="text-center text-muted-foreground py-8">
-                    {searchQuery ? 'No papers found matching your search.' : 'No research papers available.'}
-                  </TableCell>
+                  <TableHead>ID</TableHead>
+                  <TableHead>Title</TableHead>
+                  <TableHead>Authors</TableHead>
+                  <TableHead>Year</TableHead>
+                  <TableHead className="text-right">Actions</TableHead>
                 </TableRow>
-              ) : (
-                filteredPapers.map((paper) => (
-                <TableRow key={paper._id}>
-                  <TableCell className="font-medium">{paper._id}</TableCell>
-                  <TableCell className="max-w-xs truncate">{paper.title}</TableCell>
-                  <TableCell>{paper.authors}</TableCell>
-                  <TableCell>{paper.year}</TableCell>
-                  <TableCell className="text-right space-x-2">
-                    <Button 
-                      variant="ghost" 
-                      size="icon" 
-                      aria-label="Edit Paper"
-                      onClick={() => handleEdit(paper)}
-                    >
-                      <Edit className="h-4 w-4 text-blue-500" />
-                    </Button>
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      aria-label="Delete Paper"
-                      onClick={() => handleDelete(paper._id)}
-                    >
-                      <Trash2 className="h-4 w-4 text-destructive" />
-                    </Button>
-                  </TableCell>
-                </TableRow>
-              )))}
-            </TableBody>
-          </Table>
+              </TableHeader>
+              <TableBody>
+                {filteredPapers.length === 0 ? (
+                  <TableRow>
+                    <TableCell colSpan={5} className="text-center text-muted-foreground py-8">
+                      {searchQuery ? 'No papers found matching your search.' : 'No research papers available.'}
+                    </TableCell>
+                  </TableRow>
+                ) : (
+                  filteredPapers.map((paper) => (
+                  <TableRow key={paper._id}>
+                    <TableCell className="font-medium">{paper._id}</TableCell>
+                    <TableCell className="max-w-xs truncate">{paper.title}</TableCell>
+                    <TableCell>{paper.authors}</TableCell>
+                    <TableCell>{paper.year}</TableCell>
+                    <TableCell className="text-right space-x-2">
+                      <Button 
+                        variant="ghost" 
+                        size="icon" 
+                        aria-label="Edit Paper"
+                        onClick={() => handleEdit(paper)}
+                      >
+                        <Edit className="h-4 w-4 text-blue-500" />
+                      </Button>
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        aria-label="Delete Paper"
+                        onClick={() => handleDelete(paper._id)}
+                      >
+                        <Trash2 className="h-4 w-4 text-destructive" />
+                      </Button>
+                    </TableCell>
+                  </TableRow>
+                )))}
+              </TableBody>
+            </Table>
+          )}
         </CardContent>
       </Card>
 
