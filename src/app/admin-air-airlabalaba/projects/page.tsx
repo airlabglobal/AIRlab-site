@@ -9,6 +9,8 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import { Badge } from '@/components/ui/badge';
 import { useState, useEffect } from 'react';
 import { useToast } from '@/hooks/use-toast';
+import { Skeleton } from '@/components/ui/skeleton';
+import { BackButton } from '@/components/ui/back-button';
 import {
   Dialog,
   DialogContent,
@@ -29,6 +31,28 @@ interface Project {
   tags: string[];
   status: string;
   link: string;
+}
+
+function ProjectTableSkeleton() {
+  return (
+    <div className="space-y-4">
+      {Array.from({ length: 5 }).map((_, i) => (
+        <div key={i} className="flex items-center space-x-4 p-4">
+          <Skeleton className="h-4 w-12" />
+          <Skeleton className="h-4 w-48" />
+          <Skeleton className="h-6 w-20" />
+          <div className="flex space-x-1">
+            <Skeleton className="h-5 w-16" />
+            <Skeleton className="h-5 w-16" />
+          </div>
+          <div className="flex space-x-2 ml-auto">
+            <Skeleton className="h-8 w-8" />
+            <Skeleton className="h-8 w-8" />
+          </div>
+        </div>
+      ))}
+    </div>
+  );
 }
 
 export default function AdminProjectsPage() {
@@ -143,18 +167,17 @@ export default function AdminProjectsPage() {
     project.description.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  if (loading) {
-    return <div className="flex justify-center items-center h-64">Loading...</div>;
-  }
-
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <div>
-          <h2 className="font-headline text-3xl font-semibold flex items-center">
-            <Bot className="mr-3 h-8 w-8 text-primary" /> Manage Projects
-          </h2>
-          <p className="text-muted-foreground font-body">Add, edit, or remove lab projects.</p>
+        <div className="flex items-center gap-4">
+          <BackButton />
+          <div>
+            <h2 className="font-headline text-3xl font-semibold flex items-center">
+              <Bot className="mr-3 h-8 w-8 text-primary" /> Manage Projects
+            </h2>
+            <p className="text-muted-foreground font-body">Add, edit, or remove lab projects.</p>
+          </div>
         </div>
         <Button asChild className="bg-primary hover:bg-primary/90 text-primary-foreground">
           <Link href="/admin-air-airlabalaba/projects/new">
@@ -180,63 +203,74 @@ export default function AdminProjectsPage() {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>ID</TableHead>
-                <TableHead>Title</TableHead>
-                <TableHead>Status</TableHead>
-                <TableHead>Tags</TableHead>
-                <TableHead className="text-right">Actions</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {filteredProjects.map((project) => (
-                <TableRow key={project.id}>
-                  <TableCell className="font-medium">{project.id}</TableCell>
-                  <TableCell>{project.title}</TableCell>
-                  <TableCell>
-                    <Badge variant={project.status === 'Completed' ? 'default' : 'secondary'}
-                           className={project.status === 'Completed' ? 'bg-green-600 text-white' : 'bg-yellow-500 text-black'}>
-                      {project.status}
-                    </Badge>
-                  </TableCell>
-                  <TableCell>
-                    <div className="flex flex-wrap gap-1">
-                      {project.tags?.slice(0, 2).map((tag, index) => (
-                        <Badge key={index} variant="outline" className="text-xs">
-                          {tag}
-                        </Badge>
-                      ))}
-                      {project.tags?.length > 2 && (
-                        <Badge variant="outline" className="text-xs">
-                          +{project.tags.length - 2}
-                        </Badge>
-                      )}
-                    </div>
-                  </TableCell>
-                  <TableCell className="text-right space-x-2">
-                    <Button 
-                      variant="ghost" 
-                      size="icon" 
-                      aria-label="Edit Project"
-                      onClick={() => handleEdit(project)}
-                    >
-                      <Edit className="h-4 w-4 text-blue-500" />
-                    </Button>
-                    <Button 
-                      variant="ghost" 
-                      size="icon" 
-                      aria-label="Delete Project"
-                      onClick={() => handleDelete(project.id)}
-                    >
-                      <Trash2 className="h-4 w-4 text-destructive" />
-                    </Button>
-                  </TableCell>
+          {loading ? (
+            <ProjectTableSkeleton />
+          ) : (
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>ID</TableHead>
+                  <TableHead>Title</TableHead>
+                  <TableHead>Status</TableHead>
+                  <TableHead>Tags</TableHead>
+                  <TableHead className="text-right">Actions</TableHead>
                 </TableRow>
-              ))}
-            </TableBody>
-          </Table>
+              </TableHeader>
+              <TableBody>
+                {filteredProjects.length === 0 ? (
+                  <TableRow>
+                    <TableCell colSpan={5} className="text-center text-muted-foreground py-8">
+                      {searchTerm ? 'No projects found matching your search.' : 'No projects available.'}
+                    </TableCell>
+                  </TableRow>
+                ) : (
+                  filteredProjects.map((project) => (
+                  <TableRow key={project.id}>
+                    <TableCell className="font-medium">{project.id}</TableCell>
+                    <TableCell>{project.title}</TableCell>
+                    <TableCell>
+                      <Badge variant={project.status === 'Completed' ? 'default' : 'secondary'}
+                             className={project.status === 'Completed' ? 'bg-green-600 text-white' : 'bg-yellow-500 text-black'}>
+                        {project.status}
+                      </Badge>
+                    </TableCell>
+                    <TableCell>
+                      <div className="flex flex-wrap gap-1">
+                        {project.tags?.slice(0, 2).map((tag, index) => (
+                          <Badge key={index} variant="outline" className="text-xs">
+                            {tag}
+                          </Badge>
+                        ))}
+                        {project.tags?.length > 2 && (
+                          <Badge variant="outline" className="text-xs">
+                            +{project.tags.length - 2}
+                          </Badge>
+                        )}
+                      </div>
+                    </TableCell>
+                    <TableCell className="text-right space-x-2">
+                      <Button 
+                        variant="ghost" 
+                        size="icon" 
+                        aria-label="Edit Project"
+                        onClick={() => handleEdit(project)}
+                      >
+                        <Edit className="h-4 w-4 text-blue-500" />
+                      </Button>
+                      <Button 
+                        variant="ghost" 
+                        size="icon" 
+                        aria-label="Delete Project"
+                        onClick={() => handleDelete(project.id)}
+                      >
+                        <Trash2 className="h-4 w-4 text-destructive" />
+                      </Button>
+                    </TableCell>
+                  </TableRow>
+                )))}
+              </TableBody>
+            </Table>
+          )}
         </CardContent>
       </Card>
 

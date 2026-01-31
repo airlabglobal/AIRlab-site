@@ -9,28 +9,35 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/hooks/use-toast';
 import { BackButton } from '@/components/ui/back-button';
-import { FileText, Upload } from 'lucide-react';
+import { Newspaper, Plus } from 'lucide-react';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 
-interface NewResearchPaper {
+interface NewNewsItem {
   title: string;
-  authors: string;
-  year: number;
-  fileUrl: string;
+  content: string;
+  type: 'News' | 'Event';
+  date: string;
   imageUrl: string;
-  description: string;
+  author: string;
 }
 
-export default function NewResearchPage() {
+export default function NewNewsPage() {
   const router = useRouter();
   const { toast } = useToast();
   const [loading, setLoading] = useState(false);
-  const [paper, setPaper] = useState<NewResearchPaper>({
+  const [newsItem, setNewsItem] = useState<NewNewsItem>({
     title: '',
-    authors: '',
-    year: new Date().getFullYear(),
-    fileUrl: '',
+    content: '',
+    type: 'News',
+    date: new Date().toISOString().split('T')[0],
     imageUrl: '',
-    description: '',
+    author: '',
   });
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -38,31 +45,31 @@ export default function NewResearchPage() {
     setLoading(true);
 
     try {
-      const response = await fetch('/api/admin/research', {
+      const response = await fetch('/api/admin/news', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(paper),
+        body: JSON.stringify(newsItem),
       });
 
       if (response.ok) {
         toast({
           title: "Success",
-          description: "Research paper added successfully",
+          description: "News item created successfully",
         });
-        router.push('/admin-air-airlabalaba/research');
+        router.push('/admin-air-airlabalaba/news');
       } else {
         toast({
           title: "Error",
-          description: "Failed to add research paper",
+          description: "Failed to create news item",
           variant: "destructive",
         });
       }
     } catch (error) {
       toast({
         title: "Error",
-        description: "Failed to add research paper",
+        description: "Failed to create news item",
         variant: "destructive",
       });
     } finally {
@@ -73,78 +80,95 @@ export default function NewResearchPage() {
   return (
     <div className="space-y-6">
       <div className="flex items-center gap-4">
-        <BackButton fallbackUrl="/admin-air-airlabalaba/research" />
+        <BackButton fallbackUrl="/admin-air-airlabalaba/news" />
         <div>
           <h2 className="font-headline text-3xl font-semibold flex items-center">
-            <FileText className="mr-3 h-8 w-8 text-primary" /> Add New Research Paper
+            <Newspaper className="mr-3 h-8 w-8 text-primary" /> Create News Item
           </h2>
-          <p className="text-muted-foreground font-body">Upload a new research publication to the system.</p>
+          <p className="text-muted-foreground font-body">Add a new news article or event to the system.</p>
         </div>
       </div>
 
       <Card className="shadow-lg">
         <CardHeader>
-          <CardTitle className="font-headline">Research Paper Details</CardTitle>
+          <CardTitle className="font-headline">News Item Details</CardTitle>
           <CardDescription className="font-body">
-            Fill in the information for the new research paper.
+            Fill in the information for the new news item or event.
           </CardDescription>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-6">
             <div className="grid gap-4">
               <div className="grid grid-cols-4 items-center gap-4">
+                <Label htmlFor="type" className="text-right">
+                  Type *
+                </Label>
+                <Select 
+                  value={newsItem.type} 
+                  onValueChange={(value: 'News' | 'Event') => setNewsItem({...newsItem, type: value})}
+                >
+                  <SelectTrigger className="col-span-3">
+                    <SelectValue placeholder="Select type" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="News">News</SelectItem>
+                    <SelectItem value="Event">Event</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              
+              <div className="grid grid-cols-4 items-center gap-4">
                 <Label htmlFor="title" className="text-right">
                   Title *
                 </Label>
                 <Input
                   id="title"
-                  value={paper.title}
-                  onChange={(e) => setPaper({...paper, title: e.target.value})}
+                  value={newsItem.title}
+                  onChange={(e) => setNewsItem({...newsItem, title: e.target.value})}
                   className="col-span-3"
                   required
                 />
               </div>
               
               <div className="grid grid-cols-4 items-center gap-4">
-                <Label htmlFor="authors" className="text-right">
-                  Authors *
-                </Label>
-                <Input
-                  id="authors"
-                  value={paper.authors}
-                  onChange={(e) => setPaper({...paper, authors: e.target.value})}
-                  className="col-span-3"
-                  placeholder="e.g., John Doe, Jane Smith"
-                  required
-                />
-              </div>
-              
-              <div className="grid grid-cols-4 items-center gap-4">
-                <Label htmlFor="year" className="text-right">
-                  Year *
-                </Label>
-                <Input
-                  id="year"
-                  type="number"
-                  value={paper.year}
-                  onChange={(e) => setPaper({...paper, year: parseInt(e.target.value)})}
-                  className="col-span-3"
-                  min="1900"
-                  max={new Date().getFullYear() + 5}
-                  required
-                />
-              </div>
-              
-              <div className="grid grid-cols-4 items-center gap-4">
-                <Label htmlFor="description" className="text-right">
-                  Description
+                <Label htmlFor="content" className="text-right">
+                  Content *
                 </Label>
                 <Textarea
-                  id="description"
-                  value={paper.description}
-                  onChange={(e) => setPaper({...paper, description: e.target.value})}
+                  id="content"
+                  value={newsItem.content}
+                  onChange={(e) => setNewsItem({...newsItem, content: e.target.value})}
                   className="col-span-3"
-                  placeholder="Brief description of the research paper..."
+                  placeholder="Write the full content of the news article or event description..."
+                  rows={6}
+                  required
+                />
+              </div>
+              
+              <div className="grid grid-cols-4 items-center gap-4">
+                <Label htmlFor="date" className="text-right">
+                  Date *
+                </Label>
+                <Input
+                  id="date"
+                  type="date"
+                  value={newsItem.date}
+                  onChange={(e) => setNewsItem({...newsItem, date: e.target.value})}
+                  className="col-span-3"
+                  required
+                />
+              </div>
+              
+              <div className="grid grid-cols-4 items-center gap-4">
+                <Label htmlFor="author" className="text-right">
+                  Author
+                </Label>
+                <Input
+                  id="author"
+                  value={newsItem.author}
+                  onChange={(e) => setNewsItem({...newsItem, author: e.target.value})}
+                  className="col-span-3"
+                  placeholder="Author name"
                 />
               </div>
               
@@ -154,24 +178,10 @@ export default function NewResearchPage() {
                 </Label>
                 <Input
                   id="imageUrl"
-                  value={paper.imageUrl}
-                  onChange={(e) => setPaper({...paper, imageUrl: e.target.value})}
+                  value={newsItem.imageUrl}
+                  onChange={(e) => setNewsItem({...newsItem, imageUrl: e.target.value})}
                   className="col-span-3"
-                  placeholder="https://example.com/image.jpg"
-                />
-              </div>
-              
-              <div className="grid grid-cols-4 items-center gap-4">
-                <Label htmlFor="fileUrl" className="text-right">
-                  File URL *
-                </Label>
-                <Input
-                  id="fileUrl"
-                  value={paper.fileUrl}
-                  onChange={(e) => setPaper({...paper, fileUrl: e.target.value})}
-                  className="col-span-3"
-                  placeholder="https://example.com/paper.pdf"
-                  required
+                  placeholder="https://example.com/news-image.jpg"
                 />
               </div>
             </div>
@@ -191,13 +201,13 @@ export default function NewResearchPage() {
               >
                 {loading ? (
                   <>
-                    <Upload className="mr-2 h-4 w-4 animate-spin" />
-                    Adding...
+                    <Plus className="mr-2 h-4 w-4 animate-spin" />
+                    Creating...
                   </>
                 ) : (
                   <>
-                    <Upload className="mr-2 h-4 w-4" />
-                    Add Research Paper
+                    <Plus className="mr-2 h-4 w-4" />
+                    Create {newsItem.type}
                   </>
                 )}
               </Button>
