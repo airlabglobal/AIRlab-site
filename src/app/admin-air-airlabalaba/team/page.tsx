@@ -10,7 +10,6 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { useState, useEffect } from 'react';
 import { useToast } from '@/hooks/use-toast';
 import { Skeleton } from '@/components/ui/skeleton';
-import { BackButton } from '@/components/ui/back-button';
 import {
   Dialog,
   DialogContent,
@@ -178,7 +177,6 @@ export default function AdminTeamPage() {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-4">
-          <BackButton />
           <div>
             <h2 className="font-headline text-3xl font-semibold flex items-center">
               <Users className="mr-3 h-8 w-8 text-primary" /> Manage Team Members

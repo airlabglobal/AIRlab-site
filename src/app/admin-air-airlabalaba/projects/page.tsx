@@ -10,7 +10,6 @@ import { Badge } from '@/components/ui/badge';
 import { useState, useEffect } from 'react';
 import { useToast } from '@/hooks/use-toast';
 import { Skeleton } from '@/components/ui/skeleton';
-import { BackButton } from '@/components/ui/back-button';
 import {
   Dialog,
   DialogContent,
@@ -171,7 +170,6 @@ export default function AdminProjectsPage() {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-4">
-          <BackButton />
           <div>
             <h2 className="font-headline text-3xl font-semibold flex items-center">
               <Bot className="mr-3 h-8 w-8 text-primary" /> Manage Projects
