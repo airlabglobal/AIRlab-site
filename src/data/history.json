@@ -46,58 +46,88 @@
   },
   {
     "year": "2021",
+    "event": "FLL Robotics Competition - REPLAY",
+    "description": "An All-girls team of high school students trained at our lab were trained to represent AIRLAB UNILAG at the 2021 FLL competition in Abuja. Our team came 3rd best out of 132 teams, winner of the CORE VALUE category, 1st position in Robot design, and 3rd position in Robot performance.",
+    "link" : "https://unilag.edu.ng/?p=8763",
+    "image" : "/images/hero-image.png"
+  },
+  {
+    "year": "2021",
     "event": "Championship Competition (Greece)",
-    "description": "Foundation-building technical training."
+    "description": "Our team (airol) competed internationally at Greece on the 24th - 27th of June."
   },
   {
     "year": "2021",
     "event": "Summer Coding and Robotics Training",
-    "description": "Foundation-building technical training."
+    "description": "UNILAG CSR sponsored by FunmiAyinke Humanitarian Foundation, happened during the long vacation of schools in Lagos. There were two set of classes, one set was for 8-12 years and the other set for 13-17years.",
+    "link" : "https://unilag.edu.ng/?p=9960"
   },
   {
     "year": "2022",
     "event": "National Robotics Competition",
-    "description": "Foundation-building technical training."
+    "description": "Our Teens Robotics team (Team ConTech) took the 3rd Position at the First Tech Challenge (FTC 2022), a national robotics competition held at Baze University, Abuja.",
+    "link" : "https://unilag.edu.ng/?p=12564"
   },
   {
     "year": "2022",
     "event": "Free Summer AI and Robotic Program",
-    "description": "Foundation-building technical training."
+    "description": "We hosted a one-month summer programme that trained participants between the ages of 8 and 16 in the basics of coding and robotics. It also exposed the young participants to software applications which they deployed in the creation of different projects.",
+    "link" : "https://unilag.edu.ng/?p=13796"
   },
   {
     "year": "2023",
     "event": "FIRST Tech Challenge (FTC)",
-    "description": "Foundation-building technical training."
-  },
-  {
-    "year": "2023",
-    "event": "FIRST Tech Challenge (FTC)",
-    "description": "Foundation-building technical training."
+    "description": "Our Kids and Teem Arm won big at the FIRST Robotics Competition held between Monday, February 13 and Tuesday, February 14, 2023 in Lagos and Abuja. The Competition featured various challenges including First Lego League (FLL) for kids between ages 8 and 12 years and First Tech Challenge (FTC) for teenagers between ages 13 and 16 years.",
+    "link" : "https://unilag.edu.ng/?p=19556"
   },
   {
     "year": "2023",
     "event": "AI Bootcamp (EduAI Hub) X AIRLAB",
-    "description": "Foundation-building technical training."
+    "description": "The 4-day bootcamp which began on Tuesday, April 11, 2023 provided a platform for the training of 25 high school students – 15 females and 10 males – selected from over 200 applicants across Lagos state.",
+    "link" : "https://unilag.edu.ng/?p=21063"
+  },
+  {
+    "year": "2023",
+    "event": "AI and Robotics Bootcamp for Ogun State Students",
+    "description": "We supported the House of Rep (Hon. Adewunmi Oriyomi Onanuga) for Ogun State Constituency with the support of DaisyGo Concepts Limited, and the National Mathematical Centre in a one-week Bootcamp in Robotics for 20 students and 8 tutors from Ogun state."
+  },
+  {
+    "year": "2024",
+    "event": "First Tech Challenge (FTC)",
+    "description": "Our Teens Robotics team (ConTech) comprising of 11 students and 2 coaches, achieved 1st place in the Think Award Category for best Robot design, and 3rd place in the Inspire Award Category.",
+    "link" : "https://unilag.edu.ng/?p=33368"
   },
   {
     "year": "2024",
     "event": "AIRLAB x BLSC - STEM Summer Camp",
-    "description": "Foundation-building technical training."
+    "description": "We partnered with Blended Learning and Study Centre (BLSC) to run a two-week summer program on AI and Robotics.The program catered to participants aged 8 to 17, with a total of 79 students attending. The classes were organized into three categories: First Lego League, First Tech Challenge, and Drone Technology.",
+    "link" : "https://unilag.edu.ng/?p=41262"
   },
   {
     "year": "2024",
-    "event": "ECO-STEM for Girls (AFRETEC)",
-    "description": "Foundation-building technical training."
+    "event": "Naija Coder X AIRLAB",
+    "description": "In partnership with NaijaCoder, we ran a Python programming summer camp. It was a free coding program designed for high school students in Nigeria, and hosted 42 participants who gained valuable knowledge in Python programming."
   },
   {
     "year": "2025",
-    "event": "Lerobot, TNKR and AIRLAB Hackathon",
-    "description": "Foundation-building technical training."
+    "event": "AI and Robotics training for Young Adults in Remo Federal Constituency, Ogun State",
+    "description": "We supported the House of Rep (Hon. Adewunmi Oriyomi Onanuga) for Ogun State Constituency with the support of DaisyGo Concepts Limited, and the National Mathematical Centre in a one-week Bootcamp in Robotics for 20 students and 14 tutors from Ogun state."
+  },
+  {
+    "year": "2025",
+    "event": "Global Robotics Hackathon",
+    "description": "We partnered with Lerobot and TNKR to organize a robotics hackathon. The focus of the hackathon was for participants to build robots capable of playing chess with humans."
+  },
+  {
+    "year": "2025",
+    "event": "Naija Coder X AIRLAB",
+    "description": "Partnering with NaijaCoder, we ran a Python programming summer camp. It was a free coding program designed for high school students in Nigeria, and hosted 40 participants who gained valuable knowledge in Python programming."
   },
   {
     "year": "2025",
     "event": "AI and Robotic Summer Program",
-    "description": "Foundation-building technical training."
+    "description": "We hosted a 4 week summer program on AI and Robotics. The program catered to participants aged 8 to 18, with a total of 79 students attending. The classes were organized into three categories: REV Robotics, Drone Technology and 3D Printing.",
+    "link" : "https://unilag.edu.ng/unilag-airlab-summer-bootcamp-trains-79-learners-in-robotics-drone-technology/"
   },
   {
     "year": "Present",

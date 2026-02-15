@@ -18,7 +18,7 @@
     "imageHint": "software engineer",
     "bio": "Jude is focused on building solutions that solve hard real world problems and building generational wealth.",
     "social": {
-      "linkedin": "#"
+      "linkedin": "https://www.linkedin.com/in/jude-tochy"
     }
   },
   {
@@ -141,15 +141,5 @@
     "social": {
       "linkedin": "https://www.linkedin.com/in/egbetokun-timilehin"
     }
-  },
-  {
-    "name": "Testing team",
-    "role": "Mr Money",
-    "email": "mrmoney@gmail.com",
-    "imageUrl": "https://i.postimg.cc/7LjH96WX/Joel-Picture.png",
-    "bio": "Mr money with the vibe",
-    "linkedin": "https://www.linkedin.com/in/richie-adigwe",
-    "twitter": "",
-    "id": "14"
   }
 ]

@@ -2,9 +2,23 @@ import PageWrapper from "@/components/layout/PageWrapper";
 import Section from "@/components/ui/Section";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import Image from "next/image";
-import { Users, Target, Telescope, CheckCircle } from "lucide-react";
+import {
+  Users,
+  Target,
+  Telescope,
+  CheckCircle,
+  ExternalLink,
+} from "lucide-react";
 import React from "react";
 import historyData from "@/data/history.json";
+
+interface HistoryItem {
+  year: string;
+  event: string;
+  description: string;
+  image?: string;
+  link?: string;
+}
 
 export default function AboutPage() {
   return (
@@ -103,7 +117,7 @@ export default function AboutPage() {
 
       <Section title="Our History" subtitle="Journey of AIRLAB">
         <div className="space-y-8 relative before:absolute before:inset-0 before:ml-5 before:-translate-x-px md:before:mx-auto md:before:translate-x-0 before:h-full before:w-0.5 before:bg-gradient-to-b before:from-transparent before:via-border before:to-transparent">
-          {historyData.map((item, index) => (
+          {historyData.map((item: HistoryItem, index) => (
             <div
               key={index}
               className="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group"
@@ -116,13 +130,25 @@ export default function AboutPage() {
                   <h4 className="font-headline text-lg font-semibold text-primary">
                     {item.event}
                   </h4>
-                  <time className="font-body text-xs text-accent">
+                  <time className="font-body text-xs font-semibold text-accent bg-accent/10 px-2 py-1 rounded-full whitespace-nowrap">
                     {item.year}
                   </time>
                 </div>
                 <p className="font-body text-sm text-foreground/70">
                   {item.description}
                 </p>
+                {item.link && (
+                  <div className="mt-4 pt-3 border-t border-border/50 flex justify-end">
+                    <a
+                      href={item.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-xs font-medium text-primary flex items-center gap-1 hover:underline"
+                    >
+                      Read more <ExternalLink className="w-3 h-3" />
+                    </a>
+                  </div>
+                )}
               </div>
             </div>
           ))}
