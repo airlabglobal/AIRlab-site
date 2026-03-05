@@ -70,8 +70,8 @@ export default function AdminProjectsPage() {
     try {
       const response = await fetch('/api/admin/projects');
       if (response.ok) {
-        const data = await response.json();
-        setProjects(data);
+        const result = await response.json();
+        setProjects(result.data || []);
       } else {
         toast({
           title: "Error",

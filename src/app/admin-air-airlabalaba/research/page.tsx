@@ -65,8 +65,8 @@ export default function AdminResearchPage() {
     try {
       const response = await fetch('/api/admin/research');
       if (response.ok) {
-        const data = await response.json();
-        setPapers(data);
+        const result = await response.json();
+        setPapers(result.data || []);
       } else {
         toast({
           title: "Error",

@@ -88,10 +88,53 @@ This project is a static-friendly Next.js application, making deployment straigh
 
 All content (projects, team members, research papers) is managed through JSON files in the `src/data/` directory:
 - `projects.json` - Project listings
-- `team.json` - Team member profiles
+- `team-*.json` - Team member profiles
 - `research.json` - Research publications
+- `news.json` - News and events
 
 To update content, simply edit these JSON files and the changes will be reflected across the site.
+
+## 🧪 Testing
+
+### Quick Test
+```bash
+npm run build        # Test production build
+npm run typecheck    # Check TypeScript
+npm run lint         # Run linter
+```
+
+### Comprehensive Testing
+See detailed testing documentation:
+- `QUICK_TEST_GUIDE.md` - 5-minute quick start
+- `TESTING_CHECKLIST.md` - Complete manual testing guide
+- `TEST_RESULTS.md` - Current test status
+- `SECURITY_RECOMMENDATIONS.md` - Security improvements
+
+### Run Tests
+```bash
+npm test             # Run automated tests (after setup)
+```
+
+## 🔒 Security
+
+The admin panel is password-protected. Default password: **AIRLAB_2025**
+
+⚠️ **Important:** Before deploying to production, review `SECURITY_RECOMMENDATIONS.md` for critical security improvements including:
+- Server-side API authentication
+- Input validation
+- Rate limiting
+- File operation locking
+
+## 📝 Recent Fixes
+
+- ✅ Removed missing framer-motion dependency
+- ✅ Fixed broken social media links
+- ✅ Added admin authentication
+- ✅ Standardized data ID generation
+- ✅ Cleaned up redundant code
+- ✅ Fixed animation issues
+
+See `ISSUES_FOUND.md` for complete list of fixes and remaining issues.
 
 ---
 

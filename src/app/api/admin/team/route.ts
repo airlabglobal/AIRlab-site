@@ -1,8 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { isAuthenticated } from '@/lib/auth';
+import { teamMemberSchema } from '@/lib/validations';
+import { TeamMember } from '@/types';
 import fs from 'fs';
 import path from 'path';
 
-const teamPaths = {
+// Support multiple team files
+const teamFiles = {
   leading: path.join(process.cwd(), 'src/data/team-leading.json'),
   pioneer: path.join(process.cwd(), 'src/data/team-pioneer.json'),
   volunteers: path.join(process.cwd(), 'src/data/team-volunteers.json'),
@@ -11,90 +15,191 @@ const teamPaths = {
 export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url);
-    const category = searchParams.get('category') as keyof typeof teamPaths;
-    
-    if (!category || !teamPaths[category]) {
-      return NextResponse.json({ error: 'Invalid category' }, { status: 400 });
+    const category = searchParams.get('category') || 'all';
+
+    if (category === 'all') {
+      const allTeam = {
+        leading: JSON.parse(fs.readFileSync(teamFiles.leading, 'utf8')),
+        pioneer: JSON.parse(fs.readFileSync(teamFiles.pioneer, 'utf8')),
+        volunteers: JSON.parse(fs.readFileSync(teamFiles.volunteers, 'utf8')),
+      };
+      return NextResponse.json({ success: true, data: allTeam });
     }
-    
-    const data = fs.readFileSync(teamPaths[category], 'utf8');
+
+    const filePath = teamFiles[category as keyof typeof teamFiles];
+    if (!filePath) {
+      return NextResponse.json(
+        { success: false, error: 'Invalid category' },
+        { status: 400 }
+      );
+    }
+
+    const data = fs.readFileSync(filePath, 'utf8');
     const team = JSON.parse(data);
-    return NextResponse.json(team);
+    return NextResponse.json({ success: true, data: team });
   } catch (error) {
-    return NextResponse.json({ error: 'Failed to read team data' }, { status: 500 });
+    console.error('Failed to read team:', error);
+    return NextResponse.json(
+      { success: false, error: 'Failed to read team' },
+      { status: 500 }
+    );
   }
 }
 
 export async function POST(request: NextRequest) {
   try {
-    const { category, ...newMember } = await request.json();
-    
-    if (!category || !teamPaths[category as keyof typeof teamPaths]) {
-      return NextResponse.json({ error: 'Invalid category' }, { status: 400 });
+    const authenticated = await isAuthenticated();
+    if (!authenticated) {
+      return NextResponse.json(
+        { success: false, error: 'Unauthorized' },
+        { status: 401 }
+      );
     }
+
+    const body = await request.json();
+    const { category, ...memberData } = body;
+
+    if (!category || !teamFiles[category as keyof typeof teamFiles]) {
+      return NextResponse.json(
+        { success: false, error: 'Valid category required (leading, pioneer, volunteers)' },
+        { status: 400 }
+      );
+    }
+
+    const validationResult = teamMemberSchema.safeParse(memberData);
     
-    const filePath = teamPaths[category as keyof typeof teamPaths];
+    if (!validationResult.success) {
+      return NextResponse.json(
+        { success: false, error: 'Validation failed', details: validationResult.error.errors },
+        { status: 400 }
+      );
+    }
+
+    const newMember = validationResult.data;
+    const filePath = teamFiles[category as keyof typeof teamFiles];
     const data = fs.readFileSync(filePath, 'utf8');
-    const team = JSON.parse(data);
+    const team: TeamMember[] = JSON.parse(data);
     
-    // Generate new ID
-    const maxId = Math.max(...team.map((m: any) => parseInt(m.id) || 0));
+    const maxId = Math.max(...team.map((m) => parseInt(m.id) || 0), 0);
     newMember.id = (maxId + 1).toString();
     
     team.push(newMember);
     fs.writeFileSync(filePath, JSON.stringify(team, null, 2));
     
-    return NextResponse.json(newMember, { status: 201 });
+    return NextResponse.json({ success: true, data: newMember }, { status: 201 });
   } catch (error) {
-    return NextResponse.json({ error: 'Failed to create team member' }, { status: 500 });
+    console.error('Failed to create team member:', error);
+    return NextResponse.json(
+      { success: false, error: 'Failed to create team member' },
+      { status: 500 }
+    );
   }
 }
 
 export async function PUT(request: NextRequest) {
   try {
-    const { category, ...updatedMember } = await request.json();
-    
-    if (!category || !teamPaths[category as keyof typeof teamPaths]) {
-      return NextResponse.json({ error: 'Invalid category' }, { status: 400 });
+    const authenticated = await isAuthenticated();
+    if (!authenticated) {
+      return NextResponse.json(
+        { success: false, error: 'Unauthorized' },
+        { status: 401 }
+      );
     }
+
+    const body = await request.json();
+    const { category, ...memberData } = body;
+
+    if (!category || !teamFiles[category as keyof typeof teamFiles]) {
+      return NextResponse.json(
+        { success: false, error: 'Valid category required' },
+        { status: 400 }
+      );
+    }
+
+    const validationResult = teamMemberSchema.safeParse(memberData);
     
-    const filePath = teamPaths[category as keyof typeof teamPaths];
+    if (!validationResult.success) {
+      return NextResponse.json(
+        { success: false, error: 'Validation failed', details: validationResult.error.errors },
+        { status: 400 }
+      );
+    }
+
+    const updatedMember = validationResult.data;
+    const filePath = teamFiles[category as keyof typeof teamFiles];
     const data = fs.readFileSync(filePath, 'utf8');
-    const team = JSON.parse(data);
+    const team: TeamMember[] = JSON.parse(data);
     
-    const index = team.findIndex((m: any) => m.id === updatedMember.id);
+    const index = team.findIndex((m) => m.id === updatedMember.id);
     if (index === -1) {
-      return NextResponse.json({ error: 'Team member not found' }, { status: 404 });
+      return NextResponse.json(
+        { success: false, error: 'Team member not found' },
+        { status: 404 }
+      );
     }
     
     team[index] = updatedMember;
     fs.writeFileSync(filePath, JSON.stringify(team, null, 2));
     
-    return NextResponse.json(updatedMember);
+    return NextResponse.json({ success: true, data: updatedMember });
   } catch (error) {
-    return NextResponse.json({ error: 'Failed to update team member' }, { status: 500 });
+    console.error('Failed to update team member:', error);
+    return NextResponse.json(
+      { success: false, error: 'Failed to update team member' },
+      { status: 500 }
+    );
   }
 }
 
 export async function DELETE(request: NextRequest) {
   try {
+    const authenticated = await isAuthenticated();
+    if (!authenticated) {
+      return NextResponse.json(
+        { success: false, error: 'Unauthorized' },
+        { status: 401 }
+      );
+    }
+
     const { searchParams } = new URL(request.url);
     const id = searchParams.get('id');
-    const category = searchParams.get('category') as keyof typeof teamPaths;
+    const category = searchParams.get('category');
     
-    if (!id || !category || !teamPaths[category]) {
-      return NextResponse.json({ error: 'ID and valid category required' }, { status: 400 });
+    if (!id || !category) {
+      return NextResponse.json(
+        { success: false, error: 'Team member ID and category required' },
+        { status: 400 }
+      );
+    }
+
+    const filePath = teamFiles[category as keyof typeof teamFiles];
+    if (!filePath) {
+      return NextResponse.json(
+        { success: false, error: 'Invalid category' },
+        { status: 400 }
+      );
     }
     
-    const filePath = teamPaths[category];
     const data = fs.readFileSync(filePath, 'utf8');
-    const team = JSON.parse(data);
+    const team: TeamMember[] = JSON.parse(data);
     
-    const filteredTeam = team.filter((m: any) => m.id !== id);
+    const filteredTeam = team.filter((m) => m.id !== id);
+    
+    if (filteredTeam.length === team.length) {
+      return NextResponse.json(
+        { success: false, error: 'Team member not found' },
+        { status: 404 }
+      );
+    }
+    
     fs.writeFileSync(filePath, JSON.stringify(filteredTeam, null, 2));
     
-    return NextResponse.json({ message: 'Team member deleted successfully' });
+    return NextResponse.json({ success: true, message: 'Team member deleted successfully' });
   } catch (error) {
-    return NextResponse.json({ error: 'Failed to delete team member' }, { status: 500 });
+    console.error('Failed to delete team member:', error);
+    return NextResponse.json(
+      { success: false, error: 'Failed to delete team member' },
+      { status: 500 }
+    );
   }
 }

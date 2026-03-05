@@ -73,8 +73,8 @@ export default function AdminNewsPage() {
     try {
       const response = await fetch('/api/admin/news');
       if (response.ok) {
-        const data = await response.json();
-        setNewsItems(data);
+        const result = await response.json();
+        setNewsItems(result.data || []);
       } else {
         toast({
           title: "Error",

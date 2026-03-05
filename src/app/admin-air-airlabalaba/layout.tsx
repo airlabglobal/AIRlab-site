@@ -1,104 +1,179 @@
 "use client";
 
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
-import { LayoutDashboard, Bot, FileText, Users, Newspaper, CalendarDays, ChevronLeft, ChevronRight, Settings, Lock, LogOut } from 'lucide-react';
-import { cn } from '@/lib/utils';
-import Logo from '@/components/layout/Logo';
+import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
-import React, { useState, useEffect } from 'react';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Lock, LogOut } from 'lucide-react';
+import { useToast } from '@/hooks/use-toast';
 
-const adminNavItems = [
-  { href: '/admin-air-airlabalaba', label: 'Dashboard', icon: LayoutDashboard },
-  { href: '/admin-air-airlabalaba/projects', label: 'Projects', icon: Bot },
-  { href: '/admin-air-airlabalaba/research', label: 'Research Papers', icon: FileText },
-  { href: '/admin-air-airlabalaba/team', label: 'Team Members', icon: Users },
-  { href: '/admin-air-airlabalaba/news', label: 'News & Events', icon: Newspaper },
-];
-
-export default function AdminLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
-  const pathname = usePathname();
-  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
+export default function AdminLayout({ children }: { children: React.ReactNode }) {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+  const [isLoading, setIsLoading] = useState(true);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const router = useRouter();
+  const { toast } = useToast();
 
   useEffect(() => {
-    // Check local storage for sidebar state
-    const storedSidebarState = localStorage.getItem('adminSidebarCollapsed');
-    if (storedSidebarState) {
-      setIsSidebarCollapsed(JSON.parse(storedSidebarState));
-    }
+    checkAuth();
   }, []);
 
-  const toggleSidebar = () => {
-    const newState = !isSidebarCollapsed;
-    setIsSidebarCollapsed(newState);
-    localStorage.setItem('adminSidebarCollapsed', JSON.stringify(newState));
+  const checkAuth = async () => {
+    try {
+      const response = await fetch('/api/auth/verify');
+      const data = await response.json();
+      setIsAuthenticated(data.authenticated);
+    } catch (error) {
+      console.error('Auth check failed:', error);
+      setIsAuthenticated(false);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
-  return (
-    <TooltipProvider>
-      <div className="flex h-screen bg-muted/40">
-        <aside className={cn(
-          "flex flex-col border-r bg-background transition-all duration-300 ease-in-out",
-          isSidebarCollapsed ? "w-20" : "w-64"
-        )}>
-          <div className={cn(
-            "flex h-20 items-center border-b px-6 shrink-0",
-            isSidebarCollapsed ? "justify-center" : "justify-between"
-          )}>
-            {!isSidebarCollapsed && <Logo />}
-            {isSidebarCollapsed && <Bot className="h-8 w-8 text-primary" />}
-          </div>
-          <nav className="flex-grow px-4 py-6 space-y-2 overflow-y-auto">
-            {adminNavItems.map((item) => (
-              <Tooltip key={item.label} delayDuration={0}>
-                <TooltipTrigger asChild>
-                  <Link
-                    href={item.href}
-                    className={cn(
-                      'flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary hover:bg-primary/10',
-                      pathname === item.href && 'bg-primary/10 text-primary font-semibold',
-                      isSidebarCollapsed && "justify-center"
-                    )}
-                  >
-                    <item.icon className="h-5 w-5" />
-                    {!isSidebarCollapsed && <span className="truncate">{item.label}</span>}
-                  </Link>
-                </TooltipTrigger>
-                {isSidebarCollapsed && <TooltipContent side="right">{item.label}</TooltipContent>}
-              </Tooltip>
-            ))}
-          </nav>
-          <div className="mt-auto p-4 border-t">
-            <Button variant="ghost" size={isSidebarCollapsed ? "icon" : "default"} onClick={toggleSidebar} className="w-full justify-center">
-              {isSidebarCollapsed ? <ChevronRight className="h-5 w-5" /> : <ChevronLeft className="h-5 w-5" />}
-              {!isSidebarCollapsed && <span className="ml-2">Collapse</span>}
-              <span className="sr-only">{isSidebarCollapsed ? "Expand sidebar" : "Collapse sidebar"}</span>
-            </Button>
-          </div>
-        </aside>
-        <div className="flex flex-col flex-1 overflow-hidden">
-          <header className="flex h-20 items-center justify-between gap-4 border-b bg-background px-6 sticky top-0 z-30">
-            <h1 className="font-headline text-xl font-semibold">Admin Dashboard</h1>
-            <Button 
-              variant="outline" 
-              size="sm" 
-              onClick={() => window.location.href = '/'}
-              className="flex items-center gap-2 hover:bg-primary hover:text-primary-foreground transition-colors"
-            >
-              <LogOut className="h-4 w-4" />
-              <span>Exit Admin</span>
-            </Button>
-          </header>
-          <main className="flex-1 overflow-y-auto p-6">
-            {children}
-          </main>
-        </div>
+  const handleLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError('');
+    setIsSubmitting(true);
+    
+    try {
+      const response = await fetch('/api/auth/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ password }),
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        setIsAuthenticated(true);
+        toast({
+          title: "Success",
+          description: "Logged in successfully",
+        });
+      } else {
+        setError(data.error || 'Invalid password');
+        setPassword('');
+      }
+    } catch (error) {
+      setError('Authentication failed. Please try again.');
+      setPassword('');
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const handleLogout = async () => {
+    try {
+      await fetch('/api/auth/logout', { method: 'POST' });
+      setIsAuthenticated(false);
+      setPassword('');
+      toast({
+        title: "Logged out",
+        description: "You have been logged out successfully",
+      });
+      router.push('/');
+    } catch (error) {
+      console.error('Logout failed:', error);
+    }
+  };
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
       </div>
-    </TooltipProvider>
+    );
+  }
+
+  if (!isAuthenticated) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-background to-muted/30 p-4">
+        <Card className="w-full max-w-md shadow-xl">
+          <CardHeader className="space-y-1 text-center">
+            <div className="flex justify-center mb-4">
+              <div className="p-3 bg-primary/10 rounded-full">
+                <Lock className="h-8 w-8 text-primary" />
+              </div>
+            </div>
+            <CardTitle className="text-2xl font-headline">Admin Access</CardTitle>
+            <CardDescription className="font-body">
+              Enter the admin password to access the dashboard
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <form onSubmit={handleLogin} className="space-y-4">
+              <div className="space-y-2">
+                <Label htmlFor="password" className="font-headline">Password</Label>
+                <Input
+                  id="password"
+                  type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder="Enter admin password"
+                  className="font-body"
+                  required
+                  autoFocus
+                  disabled={isSubmitting}
+                />
+                {error && (
+                  <p className="text-sm text-destructive font-body">{error}</p>
+                )}
+              </div>
+              <Button 
+                type="submit" 
+                className="w-full bg-primary hover:bg-primary/90"
+                disabled={isSubmitting}
+              >
+                {isSubmitting ? 'Logging in...' : 'Login'}
+              </Button>
+              <div className="text-center">
+                <Button
+                  type="button"
+                  variant="link"
+                  onClick={() => router.push('/')}
+                  className="text-sm text-muted-foreground"
+                >
+                  Back to Home
+                </Button>
+              </div>
+            </form>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
+
+  return (
+    <div className="min-h-screen bg-background">
+      <header className="border-b bg-card shadow-sm sticky top-0 z-10">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-4">
+          <div className="flex items-center justify-between">
+            <div>
+              <h1 className="text-2xl font-bold font-headline text-primary">AIRLAB Admin</h1>
+              <p className="text-sm text-muted-foreground font-body">Content Management System</p>
+            </div>
+            <Button
+              onClick={handleLogout}
+              variant="outline"
+              size="sm"
+              className="border-destructive text-destructive hover:bg-destructive/10"
+            >
+              <LogOut className="h-4 w-4 mr-2" />
+              Logout
+            </Button>
+          </div>
+        </div>
+      </header>
+      <main className="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        {children}
+      </main>
+    </div>
   );
 }

@@ -1,4 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { isAuthenticated } from '@/lib/auth';
+import { newsSchema } from '@/lib/validations';
+import { NewsItem } from '@/types';
 import fs from 'fs';
 import path from 'path';
 
@@ -8,67 +11,141 @@ export async function GET() {
   try {
     const data = fs.readFileSync(newsPath, 'utf8');
     const news = JSON.parse(data);
-    return NextResponse.json(news);
+    return NextResponse.json({ success: true, data: news });
   } catch (error) {
-    return NextResponse.json({ error: 'Failed to read news' }, { status: 500 });
+    console.error('Failed to read news:', error);
+    return NextResponse.json(
+      { success: false, error: 'Failed to read news' },
+      { status: 500 }
+    );
   }
 }
 
 export async function POST(request: NextRequest) {
   try {
-    const newNews = await request.json();
+    const authenticated = await isAuthenticated();
+    if (!authenticated) {
+      return NextResponse.json(
+        { success: false, error: 'Unauthorized' },
+        { status: 401 }
+      );
+    }
+
+    const body = await request.json();
+    const validationResult = newsSchema.safeParse(body);
+    
+    if (!validationResult.success) {
+      return NextResponse.json(
+        { success: false, error: 'Validation failed', details: validationResult.error.errors },
+        { status: 400 }
+      );
+    }
+
+    const newItem = validationResult.data;
     const data = fs.readFileSync(newsPath, 'utf8');
-    const news = JSON.parse(data);
+    const news: NewsItem[] = JSON.parse(data);
     
-    // Generate new ID based on array length
-    newNews.id = news.length + 1;
+    const maxId = Math.max(...news.map((n) => parseInt(n.id) || 0), 0);
+    newItem.id = (maxId + 1).toString();
     
-    news.push(newNews);
+    news.unshift(newItem); // Add to beginning
     fs.writeFileSync(newsPath, JSON.stringify(news, null, 2));
     
-    return NextResponse.json(newNews, { status: 201 });
+    return NextResponse.json({ success: true, data: newItem }, { status: 201 });
   } catch (error) {
-    return NextResponse.json({ error: 'Failed to create news' }, { status: 500 });
+    console.error('Failed to create news:', error);
+    return NextResponse.json(
+      { success: false, error: 'Failed to create news' },
+      { status: 500 }
+    );
   }
 }
 
 export async function PUT(request: NextRequest) {
   try {
-    const updatedNews = await request.json();
-    const data = fs.readFileSync(newsPath, 'utf8');
-    const news = JSON.parse(data);
+    const authenticated = await isAuthenticated();
+    if (!authenticated) {
+      return NextResponse.json(
+        { success: false, error: 'Unauthorized' },
+        { status: 401 }
+      );
+    }
+
+    const body = await request.json();
+    const validationResult = newsSchema.safeParse(body);
     
-    const index = news.findIndex((n: any) => n.id === updatedNews.id);
+    if (!validationResult.success) {
+      return NextResponse.json(
+        { success: false, error: 'Validation failed', details: validationResult.error.errors },
+        { status: 400 }
+      );
+    }
+
+    const updatedItem = validationResult.data;
+    const data = fs.readFileSync(newsPath, 'utf8');
+    const news: NewsItem[] = JSON.parse(data);
+    
+    const index = news.findIndex((n) => n.id === updatedItem.id);
     if (index === -1) {
-      return NextResponse.json({ error: 'News not found' }, { status: 404 });
+      return NextResponse.json(
+        { success: false, error: 'News item not found' },
+        { status: 404 }
+      );
     }
     
-    news[index] = updatedNews;
+    news[index] = updatedItem;
     fs.writeFileSync(newsPath, JSON.stringify(news, null, 2));
     
-    return NextResponse.json(updatedNews);
+    return NextResponse.json({ success: true, data: updatedItem });
   } catch (error) {
-    return NextResponse.json({ error: 'Failed to update news' }, { status: 500 });
+    console.error('Failed to update news:', error);
+    return NextResponse.json(
+      { success: false, error: 'Failed to update news' },
+      { status: 500 }
+    );
   }
 }
 
 export async function DELETE(request: NextRequest) {
   try {
+    const authenticated = await isAuthenticated();
+    if (!authenticated) {
+      return NextResponse.json(
+        { success: false, error: 'Unauthorized' },
+        { status: 401 }
+      );
+    }
+
     const { searchParams } = new URL(request.url);
     const id = searchParams.get('id');
     
     if (!id) {
-      return NextResponse.json({ error: 'News ID required' }, { status: 400 });
+      return NextResponse.json(
+        { success: false, error: 'News ID required' },
+        { status: 400 }
+      );
     }
     
     const data = fs.readFileSync(newsPath, 'utf8');
-    const news = JSON.parse(data);
+    const news: NewsItem[] = JSON.parse(data);
     
-    const filteredNews = news.filter((n: any) => n.id !== parseInt(id));
+    const filteredNews = news.filter((n) => n.id !== id);
+    
+    if (filteredNews.length === news.length) {
+      return NextResponse.json(
+        { success: false, error: 'News item not found' },
+        { status: 404 }
+      );
+    }
+    
     fs.writeFileSync(newsPath, JSON.stringify(filteredNews, null, 2));
     
-    return NextResponse.json({ message: 'News deleted successfully' });
+    return NextResponse.json({ success: true, message: 'News deleted successfully' });
   } catch (error) {
-    return NextResponse.json({ error: 'Failed to delete news' }, { status: 500 });
+    console.error('Failed to delete news:', error);
+    return NextResponse.json(
+      { success: false, error: 'Failed to delete news' },
+      { status: 500 }
+    );
   }
 }

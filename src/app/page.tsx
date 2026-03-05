@@ -25,6 +25,8 @@ import newsItems from "@/data/news.json";
 
 export default function Home() {
   const showcaseItems = projectsData.slice(0, 3);
+  const hasProjects = projectsData.length > 0;
+  const hasNews = newsItems.length > 0;
 
   return (
     <PageWrapper className="!px-0 !py-0">
@@ -69,14 +71,12 @@ export default function Home() {
             </div>
             <div className="relative h-64 md:h-auto md:aspect-square">
               <Image
-                src="https://images.unsplash.com/photo-1677442136019-21780ecad995?w=800&h=800&fit=crop"
+                src="/images/pexels-agk42-2599244.jpg"
                 alt="AI and Robotics research at AIRLAB"
                 fill
                 sizes="(max-width: 768px) 100vw, 50vw"
                 className="object-contain rounded-lg motion-safe:animate-float motion-reduce:animate-none"
                 priority
-                placeholder="blur"
-                blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R//2Q=="
               />
             </div>
           </div>
@@ -179,80 +179,111 @@ export default function Home() {
         className="bg-muted/30"
       >
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {showcaseItems.map((item, index) => (
-              <DynamicShowcaseCard
-                key={item.id}
-                title={item.title}
-                description={item.description}
-                imageUrl={item.imageUrl}
-                linkUrl={item.link}
-                tags={item.tags}
-                imageHint={item.imageHint}
-                priority={index === 0}
-                className="motion-safe:animate-slide-up motion-reduce:animate-none"
-                style={{ animationDelay: `${index * 0.1}s` }}
-              />
-            ))}
-          </div>
-          <div className="text-center mt-12">
-            <Button
-              asChild
-              size="lg"
-              variant="outline"
-              className="border-accent text-accent hover:bg-accent/10"
-            >
-              <Link href="/projects">
-                View All Projects <ChevronRight className="ml-2 h-5 w-5" />
-              </Link>
-            </Button>
-          </div>
+          {hasProjects ? (
+            <>
+              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {showcaseItems.map((item, index) => (
+                  <DynamicShowcaseCard
+                    key={item.id}
+                    title={item.title}
+                    description={item.description}
+                    imageUrl={item.imageUrl}
+                    linkUrl={item.link}
+                    tags={item.tags}
+                    imageHint={item.imageHint}
+                    priority={index === 0}
+                    className="motion-safe:animate-slide-up motion-reduce:animate-none"
+                    style={{ animationDelay: `${index * 0.1}s` }}
+                  />
+                ))}
+              </div>
+              <div className="text-center mt-12">
+                <Button
+                  asChild
+                  size="lg"
+                  variant="outline"
+                  className="border-accent text-accent hover:bg-accent/10"
+                >
+                  <Link href="/projects">
+                    View All Projects <ChevronRight className="ml-2 h-5 w-5" />
+                  </Link>
+                </Button>
+              </div>
+            </>
+          ) : (
+            <div className="text-center py-12">
+              <p className="text-muted-foreground text-lg mb-6">
+                No projects available yet. Check back soon for our latest innovations!
+              </p>
+              <Button
+                asChild
+                size="lg"
+                variant="outline"
+                className="border-primary text-primary hover:bg-primary/10"
+              >
+                <Link href="/about">
+                  Learn More About AIRLAB <ChevronRight className="ml-2 h-5 w-5" />
+                </Link>
+              </Button>
+            </div>
+          )}
         </div>
       </Section>
       {/* Latest News Section */}
       <Section title="Latest News & Updates" subtitle="Stay Informed">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid md:grid-cols-3 gap-8">
-            {newsItems.map((item, index) => (
-              <Card
-                key={index}
-                className="shadow-lg hover:shadow-xl transition-shadow opacity-0 animate-slide-up"
-                style={{ animationDelay: `${0.3 + (index + 1) * 0.15}s` }}
-              >
-                <CardHeader>
-                  <CardTitle className="font-headline text-xl text-primary group-hover:text-accent transition-colors">
-                    {item.title}
-                  </CardTitle>
-                  <p className="text-sm text-muted-foreground font-body">
-                    {item.date}
-                  </p>
-                </CardHeader>
-                <CardContent>
-                  <Button
-                    asChild
-                    variant="link"
-                    className="p-0 text-accent hover:text-primary"
+          {hasNews ? (
+            <>
+              <div className="grid md:grid-cols-3 gap-8">
+                {newsItems.map((item, index) => (
+                  <Card
+                    key={index}
+                    className="shadow-lg hover:shadow-xl transition-shadow opacity-0 animate-slide-up"
+                    style={{ animationDelay: `${0.3 + (index + 1) * 0.15}s` }}
                   >
-                    <Link href={item.link}>
-                      Read More <ArrowRight className="ml-2 h-4 w-4" />
-                    </Link>
-                  </Button>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-          <div className="text-center mt-12">
-            <Button
-              asChild
-              size="lg"
-              variant="outline"
-              className="border-primary text-primary hover:bg-primary/10"
-            >
-              <Link href="/news-archive">
-                All News & Events <Newspaper className="ml-2 h-5 w-5" />
-              </Link>
-            </Button>
-          </div>
+                    <CardHeader>
+                      <CardTitle className="font-headline text-xl text-primary group-hover:text-accent transition-colors">
+                        {item.title}
+                      </CardTitle>
+                      <p className="text-sm text-muted-foreground font-body">
+                        {item.date}
+                      </p>
+                    </CardHeader>
+                    <CardContent>
+                      <Button
+                        asChild
+                        variant="link"
+                        className="p-0 text-accent hover:text-primary"
+                      >
+                        <Link href={item.link}>
+                          Read More <ArrowRight className="ml-2 h-4 w-4" />
+                        </Link>
+                      </Button>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+              <div className="text-center mt-12">
+                <Button
+                  asChild
+                  size="lg"
+                  variant="outline"
+                  className="border-primary text-primary hover:bg-primary/10"
+                >
+                  <Link href="/news-archive">
+                    All News & Events <Newspaper className="ml-2 h-5 w-5" />
+                  </Link>
+                </Button>
+              </div>
+            </>
+          ) : (
+            <div className="text-center py-12">
+              <Newspaper className="h-16 w-16 text-muted-foreground mx-auto mb-4" />
+              <p className="text-muted-foreground text-lg">
+                No news updates yet. Stay tuned for exciting announcements!
+              </p>
+            </div>
+          )}
         </div>
       </Section>
       {/* Get Involved Section */}

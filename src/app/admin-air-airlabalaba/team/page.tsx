@@ -76,8 +76,8 @@ export default function AdminTeamPage() {
     try {
       const response = await fetch(`/api/admin/team?category=${selectedCategory}`);
       if (response.ok) {
-        const data = await response.json();
-        setTeamMembers(data);
+        const result = await response.json();
+        setTeamMembers(result.data || []);
       } else {
         toast({
           title: "Error",

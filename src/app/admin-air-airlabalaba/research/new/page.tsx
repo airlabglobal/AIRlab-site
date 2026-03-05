@@ -18,6 +18,7 @@ interface NewResearchPaper {
   fileUrl: string;
   imageUrl: string;
   description: string;
+  abstract: string;
 }
 
 export default function NewResearchPage() {
@@ -31,6 +32,7 @@ export default function NewResearchPage() {
     fileUrl: '',
     imageUrl: '',
     description: '',
+    abstract: '',
   });
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -145,6 +147,20 @@ export default function NewResearchPage() {
                   onChange={(e) => setPaper({...paper, description: e.target.value})}
                   className="col-span-3"
                   placeholder="Brief description of the research paper..."
+                />
+              </div>
+              
+              <div className="grid grid-cols-4 items-center gap-4">
+                <Label htmlFor="abstract" className="text-right">
+                  Abstract
+                </Label>
+                <Textarea
+                  id="abstract"
+                  value={paper.abstract}
+                  onChange={(e) => setPaper({...paper, abstract: e.target.value})}
+                  className="col-span-3"
+                  rows={6}
+                  placeholder="Full abstract of the research paper (optional)..."
                 />
               </div>
               

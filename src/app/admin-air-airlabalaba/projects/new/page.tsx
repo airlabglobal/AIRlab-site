@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useToast } from '@/hooks/use-toast';
 import { BackButton } from '@/components/ui/back-button';
 import { Bot, Plus } from 'lucide-react';
@@ -14,11 +15,13 @@ import { Bot, Plus } from 'lucide-react';
 interface NewProject {
   title: string;
   description: string;
+  abstract: string;
   imageUrl: string;
   imageHint: string;
   tags: string[];
   status: string;
   link: string;
+  paperUrl: string;
 }
 
 export default function NewProjectPage() {
@@ -28,11 +31,13 @@ export default function NewProjectPage() {
   const [project, setProject] = useState<NewProject>({
     title: '',
     description: '',
+    abstract: '',
     imageUrl: '',
     imageHint: '',
     tags: [],
     status: 'Ongoing',
     link: '',
+    paperUrl: '',
   });
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -55,11 +60,13 @@ export default function NewProjectPage() {
         });
         router.push('/admin-air-airlabalaba/projects');
       } else {
+        const errorData = await response.json();
         toast({
           title: "Error",
-          description: "Failed to add project",
+          description: errorData.error || "Failed to add project",
           variant: "destructive",
         });
+        console.error('Validation errors:', errorData.details);
       }
     } catch (error) {
       toast({
@@ -122,17 +129,36 @@ export default function NewProjectPage() {
               </div>
               
               <div className="grid grid-cols-4 items-center gap-4">
+                <Label htmlFor="abstract" className="text-right">
+                  Abstract
+                </Label>
+                <Textarea
+                  id="abstract"
+                  value={project.abstract}
+                  onChange={(e) => setProject({...project, abstract: e.target.value})}
+                  className="col-span-3"
+                  rows={6}
+                  placeholder="Detailed abstract or summary of the project (optional)..."
+                />
+              </div>
+              
+              <div className="grid grid-cols-4 items-center gap-4">
                 <Label htmlFor="status" className="text-right">
                   Status *
                 </Label>
-                <Input
-                  id="status"
-                  value={project.status}
-                  onChange={(e) => setProject({...project, status: e.target.value})}
-                  className="col-span-3"
-                  placeholder="e.g., Ongoing, Completed, Planning"
-                  required
-                />
+                <Select 
+                  value={project.status} 
+                  onValueChange={(value) => setProject({...project, status: value})}
+                >
+                  <SelectTrigger className="col-span-3">
+                    <SelectValue placeholder="Select status" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="Ongoing">Ongoing</SelectItem>
+                    <SelectItem value="Completed">Completed</SelectItem>
+                    <SelectItem value="Research Phase">Research Phase</SelectItem>
+                  </SelectContent>
+                </Select>
               </div>
               
               <div className="grid grid-cols-4 items-center gap-4">
@@ -184,6 +210,19 @@ export default function NewProjectPage() {
                   onChange={(e) => setProject({...project, link: e.target.value})}
                   className="col-span-3"
                   placeholder="https://github.com/project-repo or project page URL"
+                />
+              </div>
+              
+              <div className="grid grid-cols-4 items-center gap-4">
+                <Label htmlFor="paperUrl" className="text-right">
+                  Paper URL
+                </Label>
+                <Input
+                  id="paperUrl"
+                  value={project.paperUrl}
+                  onChange={(e) => setProject({...project, paperUrl: e.target.value})}
+                  className="col-span-3"
+                  placeholder="https://example.com/research-paper.pdf (optional)"
                 />
               </div>
             </div>

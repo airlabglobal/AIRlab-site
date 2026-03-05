@@ -7,38 +7,9 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
-import Image from 'next/image';
 import { MapPin, Phone, Mail, Send } from 'lucide-react';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import * as z from 'zod';
-import { useToast } from '@/hooks/use-toast';
-
-const contactFormSchema = z.object({
-  name: z.string().min(2, "Name must be at least 2 characters."),
-  email: z.string().email("Invalid email address."),
-  subject: z.string().min(5, "Subject must be at least 5 characters."),
-  message: z.string().min(10, "Message must be at least 10 characters."),
-});
-
-type ContactFormValues = z.infer<typeof contactFormSchema>;
 
 export default function ContactPage() {
-  const { toast } = useToast();
-  const { register, handleSubmit, formState: { errors }, reset } = useForm<ContactFormValues>({
-    resolver: zodResolver(contactFormSchema),
-  });
-
-  const onSubmit = (data: ContactFormValues) => {
-    // Placeholder for form submission logic
-    console.log(data);
-    toast({
-      title: "Message Sent!",
-      description: "Thank you for reaching out. We'll get back to you soon.",
-    });
-    reset();
-  };
-
   return (
     <PageWrapper>
       <Section title="Get In Touch" subtitle="Contact AIRLAB">

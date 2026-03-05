@@ -1,47 +1,14 @@
 [
   {
-    "id": "2",
-    "title": "Robotic Assistant for Elderly Care moree",
-    "description": "Developing a companion robot to assist elderly individuals with daily tasks, medication reminders, and provide social interaction to combat loneliness.",
-    "imageUrl": "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=600&h=400&fit=crop",
-    "imageHint": "care robot",
+    "title": "TEST",
+    "description": "TESTING, tester .test ting testor",
+    "imageUrl": "https://content.instructables.com/F2Y/1XFY/LPFHR0LI/F2Y1XFYLPFHR0LI.jpg",
+    "imageHint": "TEST",
     "tags": [
-      "Robotics",
-      "Healthcare",
-      "HCI",
-      "AI"
+      "TEST"
     ],
     "status": "Completed",
-    "link": "/projects/elderly-care-robot"
-  },
-  {
-    "id": "3",
-    "title": "Precision Agriculture Drone",
-    "description": "Utilizing AI-equipped drones for crop monitoring, pest detection, and optimized resource allocation to improve agricultural yields across Nigeria.",
-    "imageUrl": "https://images.unsplash.com/photo-1473968512647-3e447244af8f?w=600&h=400&fit=crop",
-    "imageHint": "agriculture drone",
-    "tags": [
-      "AI",
-      "Robotics",
-      "Agriculture",
-      "Computer Vision"
-    ],
-    "status": "Ongoing",
-    "link": "/projects/agri-drone"
-  },
-  {
-    "id": "4",
-    "title": "Natural Language Interface for Databases",
-    "description": "Creating a system that allows users to query complex databases using natural language commands in multiple Nigerian languages.",
-    "imageUrl": "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=600&h=400&fit=crop",
-    "imageHint": "database interface",
-    "tags": [
-      "NLP",
-      "AI",
-      "Databases",
-      "HCI"
-    ],
-    "status": "Research Phase",
-    "link": "/projects/nlp-database"
+    "link": "Airol.unilag.edu.ng",
+    "id": "1"
   }
 ]
