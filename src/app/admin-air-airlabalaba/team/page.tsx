@@ -250,23 +250,25 @@ export default function AdminTeamPage() {
                     <TableCell className="font-medium">{member.name}</TableCell>
                     <TableCell>{member.role}</TableCell>
                     <TableCell>{member.email}</TableCell>
-                    <TableCell className="text-right space-x-2">
-                      <Button 
-                        variant="ghost" 
-                        size="icon" 
-                        aria-label="Edit Member"
-                        onClick={() => handleEdit(member)}
-                      >
-                        <Edit className="h-4 w-4 text-blue-500" />
-                      </Button>
-                      <Button 
-                        variant="ghost" 
-                        size="icon" 
-                        aria-label="Delete Member"
-                        onClick={() => handleDelete(member.id)}
-                      >
-                        <Trash2 className="h-4 w-4 text-destructive" />
-                      </Button>
+                    <TableCell className="text-right">
+                      <div className="flex justify-end gap-2">
+                        <Button 
+                          variant="outline" 
+                          size="sm"
+                          onClick={() => handleEdit(member)}
+                        >
+                          <Edit className="h-4 w-4 mr-1" />
+                          Edit
+                        </Button>
+                        <Button 
+                          variant="destructive" 
+                          size="sm"
+                          onClick={() => handleDelete(member.id)}
+                        >
+                          <Trash2 className="h-4 w-4 mr-1" />
+                          Delete
+                        </Button>
+                      </div>
                     </TableCell>
                   </TableRow>
                 )))}

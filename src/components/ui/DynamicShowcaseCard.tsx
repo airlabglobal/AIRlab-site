@@ -63,11 +63,23 @@ export default function DynamicShowcaseCard({
         )}
       </CardContent>
       <CardFooter className="p-6 pt-0">
-        <Button asChild variant="link" className="p-0 text-accent hover:text-primary group-hover:translate-x-1 transition-transform">
-          <Link href={linkUrl}>
-            Learn More <ArrowRight className="ml-2 h-4 w-4" />
-          </Link>
-        </Button>
+        {linkUrl && linkUrl !== '#' ? (
+          <Button asChild variant="link" className="p-0 text-accent hover:text-primary group-hover:translate-x-1 transition-transform">
+            <Link 
+              href={linkUrl.startsWith('http') ? linkUrl : `https://${linkUrl}`} 
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Learn More <ArrowRight className="ml-2 h-4 w-4" />
+            </Link>
+          </Button>
+        ) : (
+          <Button asChild variant="link" className="p-0 text-accent hover:text-primary group-hover:translate-x-1 transition-transform">
+            <Link href="/projects">
+              View All Projects <ArrowRight className="ml-2 h-4 w-4" />
+            </Link>
+          </Button>
+        )}
       </CardFooter>
     </Card>
   );

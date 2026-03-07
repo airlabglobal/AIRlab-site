@@ -113,14 +113,22 @@ export default function ProjectsPage() {
                       <div className="flex gap-4 pt-4">
                         {project.link && (
                           <Button asChild variant="default">
-                            <Link href={project.link} target="_blank" rel="noopener noreferrer">
+                            <Link 
+                              href={project.link.startsWith('http') ? project.link : `https://${project.link}`} 
+                              target="_blank" 
+                              rel="noopener noreferrer"
+                            >
                               View Project <ExternalLink className="ml-2 h-4 w-4" />
                             </Link>
                           </Button>
                         )}
                         {project.paperUrl && (
                           <Button asChild variant="outline">
-                            <Link href={project.paperUrl} target="_blank" rel="noopener noreferrer">
+                            <Link 
+                              href={project.paperUrl.startsWith('http') ? project.paperUrl : `https://${project.paperUrl}`} 
+                              target="_blank" 
+                              rel="noopener noreferrer"
+                            >
                               <FileText className="mr-2 h-4 w-4" />
                               Read Paper
                             </Link>

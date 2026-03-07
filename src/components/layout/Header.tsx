@@ -16,6 +16,7 @@ const navItems = [
   { href: '/research', label: 'Research' },
   { href: '/projects', label: 'Projects' },
   { href: '/team', label: 'Team' },
+  { href: '/news', label: 'News' },
   { href: '/contact', label: 'Contact' },
   { href: '/admin', label: 'Admin' },
 ];

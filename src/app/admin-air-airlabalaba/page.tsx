@@ -98,11 +98,15 @@ export default function AdminDashboardPage() {
                 {loading ? (
                   <Skeleton className="h-10 w-16" />
                 ) : (
-                  <div className="text-3xl font-bold font-headline">{stat.value}</div>
+                  <>
+                    <div className="text-3xl font-bold font-headline mb-2">{stat.value}</div>
+                    <Button asChild variant="link" className="p-0 h-auto text-primary hover:text-primary/80">
+                      <Link href={stat.link}>
+                        View all →
+                      </Link>
+                    </Button>
+                  </>
                 )}
-                <Link href={stat.link} className="text-xs text-muted-foreground hover:text-primary transition-colors">
-                  View all
-                </Link>
               </CardContent>
             </Card>
           ))}

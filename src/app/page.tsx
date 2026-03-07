@@ -188,7 +188,7 @@ export default function Home() {
                     title={item.title}
                     description={item.description}
                     imageUrl={item.imageUrl}
-                    linkUrl={item.link}
+                    linkUrl={item.link || '#'}
                     tags={item.tags}
                     imageHint={item.imageHint}
                     priority={index === 0}
@@ -270,7 +270,7 @@ export default function Home() {
                   variant="outline"
                   className="border-primary text-primary hover:bg-primary/10"
                 >
-                  <Link href="/news-archive">
+                  <Link href="/news">
                     All News & Events <Newspaper className="ml-2 h-5 w-5" />
                   </Link>
                 </Button>
