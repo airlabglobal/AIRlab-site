@@ -5,10 +5,11 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { Newspaper, ArrowRight, Calendar, ExternalLink } from 'lucide-react';
+import type { NewsItem } from '@/types';
 import newsData from '@/data/news.json';
 
 export default function NewsPage() {
-  const newsItems = newsData;
+  const newsItems = newsData as NewsItem[];
   const hasNews = newsItems.length > 0;
 
   return (

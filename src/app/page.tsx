@@ -20,13 +20,16 @@ import {
   ArrowRight,
 } from "lucide-react";
 import Image from "next/image";
+import type { Project, NewsItem } from "@/types";
 import projectsData from "@/data/projects.json";
 import newsItems from "@/data/news.json";
 
 export default function Home() {
-  const showcaseItems = projectsData.slice(0, 3);
-  const hasProjects = projectsData.length > 0;
-  const hasNews = newsItems.length > 0;
+  const projects = projectsData as Project[];
+  const news = newsItems as NewsItem[];
+  const showcaseItems = projects.slice(0, 3);
+  const hasProjects = projects.length > 0;
+  const hasNews = news.length > 0;
 
   return (
     <PageWrapper className="!px-0 !py-0">
@@ -193,7 +196,6 @@ export default function Home() {
                     imageHint={item.imageHint}
                     priority={index === 0}
                     className="motion-safe:animate-slide-up motion-reduce:animate-none"
-                    style={{ animationDelay: `${index * 0.1}s` }}
                   />
                 ))}
               </div>
@@ -235,7 +237,7 @@ export default function Home() {
           {hasNews ? (
             <>
               <div className="grid md:grid-cols-3 gap-8">
-                {newsItems.map((item, index) => (
+                {news.map((item, index) => (
                   <Card
                     key={index}
                     className="shadow-lg hover:shadow-xl transition-shadow opacity-0 animate-slide-up"

@@ -32,11 +32,14 @@ interface TeamMember {
   id: string;
   name: string;
   role: string;
-  email: string;
   imageUrl: string;
   bio?: string;
-  linkedin?: string;
-  twitter?: string;
+  social?: {
+    linkedin?: string;
+    twitter?: string;
+    github?: string;
+    email?: string;
+  };
 }
 
 function TeamTableSkeleton() {
@@ -85,7 +88,7 @@ export default function AdminTeamPage() {
           variant: "destructive",
         });
       }
-    } catch (error) {
+    } catch {
       toast({
         title: "Error",
         description: "Failed to fetch team members",
@@ -128,7 +131,7 @@ export default function AdminTeamPage() {
           variant: "destructive",
         });
       }
-    } catch (error) {
+    } catch {
       toast({
         title: "Error",
         description: "Failed to update team member",
@@ -158,7 +161,7 @@ export default function AdminTeamPage() {
           variant: "destructive",
         });
       }
-    } catch (error) {
+    } catch {
       toast({
         title: "Error",
         description: "Failed to delete team member",
@@ -170,7 +173,7 @@ export default function AdminTeamPage() {
   const filteredMembers = teamMembers.filter(member =>
     member.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
     member.role.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    member.email.toLowerCase().includes(searchTerm.toLowerCase())
+    (member.social?.email || '').toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   return (
@@ -249,7 +252,7 @@ export default function AdminTeamPage() {
                     </TableCell>
                     <TableCell className="font-medium">{member.name}</TableCell>
                     <TableCell>{member.role}</TableCell>
-                    <TableCell>{member.email}</TableCell>
+                    <TableCell>{member.social?.email || '-'}</TableCell>
                     <TableCell className="text-right">
                       <div className="flex justify-end gap-2">
                         <Button 
@@ -311,18 +314,6 @@ export default function AdminTeamPage() {
                 />
               </div>
               <div className="grid grid-cols-4 items-center gap-4">
-                <Label htmlFor="email" className="text-right">
-                  Email
-                </Label>
-                <Input
-                  id="email"
-                  type="email"
-                  value={editingMember.email}
-                  onChange={(e) => setEditingMember({...editingMember, email: e.target.value})}
-                  className="col-span-3"
-                />
-              </div>
-              <div className="grid grid-cols-4 items-center gap-4">
                 <Label htmlFor="imageUrl" className="text-right">
                   Image URL
                 </Label>
@@ -342,6 +333,30 @@ export default function AdminTeamPage() {
                   value={editingMember.bio || ''}
                   onChange={(e) => setEditingMember({...editingMember, bio: e.target.value})}
                   className="col-span-3"
+                />
+              </div>
+              <div className="grid grid-cols-4 items-center gap-4">
+                <Label htmlFor="email" className="text-right">
+                  Email
+                </Label>
+                <Input
+                  id="email"
+                  type="email"
+                  value={editingMember.social?.email || ''}
+                  onChange={(e) => setEditingMember({...editingMember, social: {...editingMember.social, email: e.target.value}})}
+                  className="col-span-3"
+                />
+              </div>
+              <div className="grid grid-cols-4 items-center gap-4">
+                <Label htmlFor="linkedin" className="text-right">
+                  LinkedIn
+                </Label>
+                <Input
+                  id="linkedin"
+                  value={editingMember.social?.linkedin || ''}
+                  onChange={(e) => setEditingMember({...editingMember, social: {...editingMember.social, linkedin: e.target.value}})}
+                  className="col-span-3"
+                  placeholder="https://linkedin.com/in/..."
                 />
               </div>
             </div>

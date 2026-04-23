@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import Image from 'next/image';
 import Link from 'next/link';
 import { FileText, ExternalLink, ArrowRight } from 'lucide-react';
+import type { ResearchPaper } from '@/types';
 import researchData from '@/data/research.json';
 import {
   Dialog,
@@ -18,9 +19,9 @@ import {
 import { useState } from 'react';
 
 export default function ResearchPage() {
-  const researchPapers = researchData;
+  const researchPapers = researchData as ResearchPaper[];
   const hasResearch = researchPapers.length > 0;
-  const [selectedPaper, setSelectedPaper] = useState<any>(null);
+  const [selectedPaper, setSelectedPaper] = useState<ResearchPaper | null>(null);
 
   return (
     <PageWrapper>

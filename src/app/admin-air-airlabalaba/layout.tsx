@@ -8,6 +8,7 @@ import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Lock, LogOut } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
+import { safeFetch } from '@/lib/fetch-utils';
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -24,11 +25,10 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
   const checkAuth = async () => {
     try {
-      const response = await fetch('/api/auth/verify');
-      const data = await response.json();
+      const data = await safeFetch('/api/auth/verify');
       setIsAuthenticated(data.authenticated);
     } catch (error) {
-      console.error('Auth check failed:', error);
+      console.error('Auth verification failed:', error);
       setIsAuthenticated(false);
     } finally {
       setIsLoading(false);
@@ -41,15 +41,13 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     setIsSubmitting(true);
     
     try {
-      const response = await fetch('/api/auth/login', {
+      const data = await safeFetch('/api/auth/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({ password }),
       });
-
-      const data = await response.json();
 
       if (data.success) {
         setIsAuthenticated(true);

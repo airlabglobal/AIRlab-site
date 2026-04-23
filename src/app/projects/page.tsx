@@ -7,6 +7,7 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { ArrowRight, Layers, FileText, ExternalLink } from 'lucide-react';
+import type { Project } from '@/types';
 import projectsData from '@/data/projects.json';
 import {
   Dialog,
@@ -19,9 +20,9 @@ import {
 import { useState } from 'react';
 
 export default function ProjectsPage() {
-  const projects = projectsData;
+  const projects = projectsData as Project[];
   const hasProjects = projects.length > 0;
-  const [selectedProject, setSelectedProject] = useState<any>(null);
+  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
 
   return (
     <PageWrapper>

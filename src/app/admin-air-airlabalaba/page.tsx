@@ -3,15 +3,17 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
-import { Bot, FileText, Users, Newspaper, PlusCircle, BarChart3 } from 'lucide-react';
+import { Bot, FileText, Users, Newspaper, PlusCircle, BarChart3, Clock } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { Skeleton } from '@/components/ui/skeleton';
+import { safeFetch } from '@/lib/fetch-utils';
 
 interface Stats {
   projects: number;
   research: number;
   team: number;
   news: number;
+  history: number;
 }
 
 export default function AdminDashboardPage() {
@@ -20,6 +22,7 @@ export default function AdminDashboardPage() {
     research: 0,
     team: 0,
     news: 0,
+    history: 0,
   });
   const [loading, setLoading] = useState(true);
 
@@ -29,18 +32,12 @@ export default function AdminDashboardPage() {
 
   const fetchStats = async () => {
     try {
-      const [projectsRes, researchRes, teamRes, newsRes] = await Promise.all([
-        fetch('/api/admin/projects'),
-        fetch('/api/admin/research'),
-        fetch('/api/admin/team?category=all'),
-        fetch('/api/admin/news'),
-      ]);
-
-      const [projectsData, researchData, teamData, newsData] = await Promise.all([
-        projectsRes.json(),
-        researchRes.json(),
-        teamRes.json(),
-        newsRes.json(),
+      const [projectsData, researchData, teamData, newsData, historyData] = await Promise.all([
+        safeFetch('/api/admin/projects'),
+        safeFetch('/api/admin/research'),
+        safeFetch('/api/admin/team?category=all'),
+        safeFetch('/api/admin/news'),
+        safeFetch('/api/admin/history'),
       ]);
 
       // Calculate team count from all categories
@@ -61,6 +58,7 @@ export default function AdminDashboardPage() {
         research: researchData.data?.length || 0,
         team: teamCount,
         news: newsData.data?.length || 0,
+        history: historyData.data?.length || 0,
       });
     } catch (error) {
       console.error('Failed to fetch stats:', error);
@@ -74,6 +72,7 @@ export default function AdminDashboardPage() {
     { title: "Research Papers", value: stats.research, icon: FileText, color: "text-accent", link: "/admin-air-airlabalaba/research" },
     { title: "Team Members", value: stats.team, icon: Users, color: "text-green-500", link: "/admin-air-airlabalaba/team" },
     { title: "News & Events", value: stats.news, icon: Newspaper, color: "text-orange-500", link: "/admin-air-airlabalaba/news" },
+    { title: "History Items", value: stats.history, icon: Clock, color: "text-purple-500", link: "/admin-air-airlabalaba/history" },
   ];
 
   const quickActions = [
@@ -81,13 +80,14 @@ export default function AdminDashboardPage() {
     { label: "Upload Research Paper", icon: PlusCircle, link: "/admin-air-airlabalaba/research/new" },
     { label: "Add Team Member", icon: PlusCircle, link: "/admin-air-airlabalaba/team/new" },
     { label: "Create News/Event", icon: PlusCircle, link: "/admin-air-airlabalaba/news/new" },
+    { label: "Add History Item", icon: PlusCircle, link: "/admin-air-airlabalaba/history/new" },
   ];
 
   return (
     <div className="space-y-8">
       <section>
         <h2 className="font-headline text-3xl font-semibold mb-6">Overview</h2>
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-5">
           {summaryStats.map((stat) => (
             <Card key={stat.title} className="shadow-lg hover:shadow-xl transition-shadow">
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
@@ -115,7 +115,7 @@ export default function AdminDashboardPage() {
 
       <section>
         <h2 className="font-headline text-3xl font-semibold mb-6">Quick Actions</h2>
-        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-5">
           {quickActions.map((action) => (
             <Button key={action.label} asChild variant="outline" size="lg" className="justify-start text-left h-auto py-4 shadow hover:shadow-md transition-shadow">
               <Link href={action.link}>
@@ -156,6 +156,10 @@ export default function AdminDashboardPage() {
                 <span className="text-sm font-body">News & Events</span>
                 <span className="text-2xl font-bold font-headline text-orange-500">{stats.news}</span>
               </div>
+              <div className="flex items-center justify-between">
+                <span className="text-sm font-body">History Items</span>
+                <span className="text-2xl font-bold font-headline text-purple-500">{stats.history}</span>
+              </div>
             </div>
           </CardContent>
         </Card>
@@ -169,7 +173,7 @@ export default function AdminDashboardPage() {
             <div className="space-y-3">
               <div className="p-3 bg-muted rounded-md">
                 <p className="text-sm font-body font-semibold mb-1">Add Content</p>
-                <p className="text-xs text-muted-foreground">Use the quick actions above to add projects, research, team members, and news.</p>
+                <p className="text-xs text-muted-foreground">Use the quick actions above to add projects, research, team members, news, and history items.</p>
               </div>
               <div className="p-3 bg-muted rounded-md">
                 <p className="text-sm font-body font-semibold mb-1">Edit Content</p>

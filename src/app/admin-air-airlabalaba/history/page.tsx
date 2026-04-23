@@ -3,10 +3,9 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
-import { PlusCircle, Edit, Trash2, Search, Bot } from 'lucide-react';
+import { PlusCircle, Edit, Trash2, Search, Clock, ExternalLink } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { Badge } from '@/components/ui/badge';
 import { useState, useEffect } from 'react';
 import { useToast } from '@/hooks/use-toast';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -21,29 +20,23 @@ import {
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 
-interface Project {
-  id: string;
-  title: string;
+interface HistoryItem {
+  id?: string;
+  year: string;
+  event: string;
   description: string;
-  imageUrl: string;
-  imageHint?: string;
-  tags: string[];
-  status: string;
-  link: string;
+  image?: string;
+  link?: string;
 }
 
-function ProjectTableSkeleton() {
+function HistoryTableSkeleton() {
   return (
     <div className="space-y-4">
       {Array.from({ length: 5 }).map((_, i) => (
         <div key={i} className="flex items-center space-x-4 p-4">
-          <Skeleton className="h-4 w-12" />
+          <Skeleton className="h-4 w-16" />
           <Skeleton className="h-4 w-48" />
-          <Skeleton className="h-6 w-20" />
-          <div className="flex space-x-1">
-            <Skeleton className="h-5 w-16" />
-            <Skeleton className="h-5 w-16" />
-          </div>
+          <Skeleton className="h-4 w-96" />
           <div className="flex space-x-2 ml-auto">
             <Skeleton className="h-8 w-8" />
             <Skeleton className="h-8 w-8" />
@@ -54,35 +47,36 @@ function ProjectTableSkeleton() {
   );
 }
 
-export default function AdminProjectsPage() {
-  const [projects, setProjects] = useState<Project[]>([]);
+export default function AdminHistoryPage() {
+  const [historyItems, setHistoryItems] = useState<HistoryItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
-  const [editingProject, setEditingProject] = useState<Project | null>(null);
+  const [editingItem, setEditingItem] = useState<HistoryItem | null>(null);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const { toast } = useToast();
 
   useEffect(() => {
-    fetchProjects();
+    fetchHistoryItems();
   }, []);
 
-  const fetchProjects = async () => {
+  const fetchHistoryItems = async () => {
+    setLoading(true);
     try {
-      const response = await fetch('/api/admin/projects');
+      const response = await fetch('/api/admin/history');
       if (response.ok) {
         const result = await response.json();
-        setProjects(result.data || []);
+        setHistoryItems(result.data || []);
       } else {
         toast({
           title: "Error",
-          description: "Failed to fetch projects",
+          description: "Failed to fetch history items",
           variant: "destructive",
         });
       }
     } catch {
       toast({
         title: "Error",
-        description: "Failed to fetch projects",
+        description: "Failed to fetch history items",
         variant: "destructive",
       });
     } finally {
@@ -90,80 +84,81 @@ export default function AdminProjectsPage() {
     }
   };
 
-  const handleEdit = (project: Project) => {
-    setEditingProject(project);
+  const handleEdit = (item: HistoryItem) => {
+    setEditingItem(item);
     setIsDialogOpen(true);
   };
 
   const handleSave = async () => {
-    if (!editingProject) return;
+    if (!editingItem) return;
 
     try {
-      const response = await fetch('/api/admin/projects', {
+      const response = await fetch('/api/admin/history', {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(editingProject),
+        body: JSON.stringify(editingItem),
       });
 
       if (response.ok) {
-        await fetchProjects();
+        await fetchHistoryItems();
         setIsDialogOpen(false);
-        setEditingProject(null);
+        setEditingItem(null);
         toast({
           title: "Success",
-          description: "Project updated successfully",
+          description: "History item updated successfully",
         });
       } else {
         toast({
           title: "Error",
-          description: "Failed to update project",
+          description: "Failed to update history item",
           variant: "destructive",
         });
       }
     } catch {
       toast({
         title: "Error",
-        description: "Failed to update project",
+        description: "Failed to update history item",
         variant: "destructive",
       });
     }
   };
 
   const handleDelete = async (id: string) => {
-    if (!confirm('Are you sure you want to delete this project?')) return;
+    if (!confirm('Are you sure you want to delete this history item?')) return;
 
     try {
-      const response = await fetch(`/api/admin/projects?id=${id}`, {
+      const response = await fetch(`/api/admin/history?id=${id}`, {
         method: 'DELETE',
       });
 
       if (response.ok) {
-        await fetchProjects();
+        await fetchHistoryItems();
         toast({
           title: "Success",
-          description: "Project deleted successfully",
+          description: "History item deleted successfully",
         });
       } else {
         toast({
           title: "Error",
-          description: "Failed to delete project",
+          description: "Failed to delete history item",
           variant: "destructive",
         });
       }
     } catch {
       toast({
         title: "Error",
-        description: "Failed to delete project",
+        description: "Failed to delete history item",
         variant: "destructive",
       });
     }
   };
 
-  const filteredProjects = projects.filter(project =>
-    project.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    project.description.toLowerCase().includes(searchTerm.toLowerCase())
+  const filteredItems = historyItems.filter(item =>
+    item.event.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    item.year.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    item.description.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   return (
@@ -172,27 +167,27 @@ export default function AdminProjectsPage() {
         <div className="flex items-center gap-4">
           <div>
             <h2 className="font-headline text-3xl font-semibold flex items-center">
-              <Bot className="mr-3 h-8 w-8 text-primary" /> Manage Projects
+              <Clock className="mr-3 h-8 w-8 text-primary" /> Manage History
             </h2>
-            <p className="text-muted-foreground font-body">Add, edit, or remove lab projects.</p>
+            <p className="text-muted-foreground font-body">Add, edit, or remove AIRLAB history items.</p>
           </div>
         </div>
         <Button asChild className="bg-primary hover:bg-primary/90 text-primary-foreground">
-          <Link href="/admin-air-airlabalaba/projects/new">
-            <PlusCircle className="mr-2 h-5 w-5" /> Add New Project
+          <Link href="/admin-air-airlabalaba/history/new">
+            <PlusCircle className="mr-2 h-5 w-5" /> Add History Item
           </Link>
         </Button>
       </div>
 
       <Card className="shadow-lg">
         <CardHeader>
-          <CardTitle className="font-headline">Project List</CardTitle>
+          <CardTitle className="font-headline">History Items</CardTitle>
           <CardDescription className="font-body">
-            A list of all projects currently in the system.
-            <div className="mt-4 flex items-center gap-2">
+            All AIRLAB history milestones and events.
+            <div className="mt-4 flex items-center gap-4">
               <Search className="h-5 w-5 text-muted-foreground" />
               <Input 
-                placeholder="Search projects..." 
+                placeholder="Search history..." 
                 className="max-w-sm"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
@@ -202,56 +197,54 @@ export default function AdminProjectsPage() {
         </CardHeader>
         <CardContent>
           {loading ? (
-            <ProjectTableSkeleton />
+            <HistoryTableSkeleton />
           ) : (
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead>ID</TableHead>
-                  <TableHead>Title</TableHead>
-                  <TableHead>Status</TableHead>
-                  <TableHead>Tags</TableHead>
+                  <TableHead>Year</TableHead>
+                  <TableHead>Event</TableHead>
+                  <TableHead>Description</TableHead>
+                  <TableHead>Link</TableHead>
                   <TableHead className="text-right">Actions</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {filteredProjects.length === 0 ? (
+                {filteredItems.length === 0 ? (
                   <TableRow>
                     <TableCell colSpan={5} className="text-center text-muted-foreground py-8">
-                      {searchTerm ? 'No projects found matching your search.' : 'No projects available.'}
+                      {searchTerm ? 'No history items found matching your search.' : 'No history items available.'}
                     </TableCell>
                   </TableRow>
                 ) : (
-                  filteredProjects.map((project) => (
-                  <TableRow key={project.id}>
-                    <TableCell className="font-medium">{project.id}</TableCell>
-                    <TableCell>{project.title}</TableCell>
-                    <TableCell>
-                      <Badge variant={project.status === 'Completed' ? 'default' : 'secondary'}
-                             className={project.status === 'Completed' ? 'bg-green-600 text-white' : 'bg-yellow-500 text-black'}>
-                        {project.status}
-                      </Badge>
+                  filteredItems.map((item) => (
+                  <TableRow key={item.id || `${item.year}-${item.event}`}>
+                    <TableCell className="font-medium">{item.year}</TableCell>
+                    <TableCell className="font-medium">{item.event}</TableCell>
+                    <TableCell className="max-w-md">
+                      <p className="truncate">{item.description}</p>
                     </TableCell>
                     <TableCell>
-                      <div className="flex flex-wrap gap-1">
-                        {project.tags?.slice(0, 2).map((tag, index) => (
-                          <Badge key={index} variant="outline" className="text-xs">
-                            {tag}
-                          </Badge>
-                        ))}
-                        {project.tags?.length > 2 && (
-                          <Badge variant="outline" className="text-xs">
-                            +{project.tags.length - 2}
-                          </Badge>
-                        )}
-                      </div>
+                      {item.link ? (
+                        <a 
+                          href={item.link} 
+                          target="_blank" 
+                          rel="noopener noreferrer"
+                          className="text-primary hover:underline flex items-center gap-1"
+                        >
+                          <ExternalLink className="h-3 w-3" />
+                          Link
+                        </a>
+                      ) : (
+                        <span className="text-muted-foreground">No link</span>
+                      )}
                     </TableCell>
                     <TableCell className="text-right">
                       <div className="flex justify-end gap-2">
                         <Button 
                           variant="outline" 
                           size="sm"
-                          onClick={() => handleEdit(project)}
+                          onClick={() => handleEdit(item)}
                         >
                           <Edit className="h-4 w-4 mr-1" />
                           Edit
@@ -259,7 +252,7 @@ export default function AdminProjectsPage() {
                         <Button 
                           variant="destructive" 
                           size="sm"
-                          onClick={() => handleDelete(project.id)}
+                          onClick={() => handleDelete(item.id || `${item.year}-${item.event}`)}
                         >
                           <Trash2 className="h-4 w-4 mr-1" />
                           Delete
@@ -277,21 +270,32 @@ export default function AdminProjectsPage() {
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
         <DialogContent className="max-w-2xl">
           <DialogHeader>
-            <DialogTitle>Edit Project</DialogTitle>
+            <DialogTitle>Edit History Item</DialogTitle>
             <DialogDescription>
-              Make changes to the project details below.
+              Make changes to the history item details below.
             </DialogDescription>
           </DialogHeader>
-          {editingProject && (
+          {editingItem && (
             <div className="grid gap-4 py-4">
               <div className="grid grid-cols-4 items-center gap-4">
-                <Label htmlFor="title" className="text-right">
-                  Title
+                <Label htmlFor="year" className="text-right">
+                  Year
                 </Label>
                 <Input
-                  id="title"
-                  value={editingProject.title}
-                  onChange={(e) => setEditingProject({...editingProject, title: e.target.value})}
+                  id="year"
+                  value={editingItem.year}
+                  onChange={(e) => setEditingItem({...editingItem, year: e.target.value})}
+                  className="col-span-3"
+                />
+              </div>
+              <div className="grid grid-cols-4 items-center gap-4">
+                <Label htmlFor="event" className="text-right">
+                  Event
+                </Label>
+                <Input
+                  id="event"
+                  value={editingItem.event}
+                  onChange={(e) => setEditingItem({...editingItem, event: e.target.value})}
                   className="col-span-3"
                 />
               </div>
@@ -301,43 +305,22 @@ export default function AdminProjectsPage() {
                 </Label>
                 <Textarea
                   id="description"
-                  value={editingProject.description}
-                  onChange={(e) => setEditingProject({...editingProject, description: e.target.value})}
+                  value={editingItem.description}
+                  onChange={(e) => setEditingItem({...editingItem, description: e.target.value})}
                   className="col-span-3"
+                  rows={4}
                 />
               </div>
               <div className="grid grid-cols-4 items-center gap-4">
-                <Label htmlFor="imageUrl" className="text-right">
-                  Image URL
+                <Label htmlFor="link" className="text-right">
+                  Link
                 </Label>
                 <Input
-                  id="imageUrl"
-                  value={editingProject.imageUrl}
-                  onChange={(e) => setEditingProject({...editingProject, imageUrl: e.target.value})}
+                  id="link"
+                  value={editingItem.link || ''}
+                  onChange={(e) => setEditingItem({...editingItem, link: e.target.value})}
                   className="col-span-3"
-                />
-              </div>
-              <div className="grid grid-cols-4 items-center gap-4">
-                <Label htmlFor="status" className="text-right">
-                  Status
-                </Label>
-                <Input
-                  id="status"
-                  value={editingProject.status}
-                  onChange={(e) => setEditingProject({...editingProject, status: e.target.value})}
-                  className="col-span-3"
-                />
-              </div>
-              <div className="grid grid-cols-4 items-center gap-4">
-                <Label htmlFor="tags" className="text-right">
-                  Tags
-                </Label>
-                <Input
-                  id="tags"
-                  value={editingProject.tags?.join(', ') || ''}
-                  onChange={(e) => setEditingProject({...editingProject, tags: e.target.value.split(', ').filter(tag => tag.trim())})}
-                  className="col-span-3"
-                  placeholder="Separate tags with commas"
+                  placeholder="https://example.com"
                 />
               </div>
             </div>

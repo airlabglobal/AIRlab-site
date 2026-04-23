@@ -23,6 +23,7 @@ interface NewNewsItem {
   content: string;
   type: 'News' | 'Event';
   date: string;
+  link: string;
   imageUrl: string;
   author: string;
 }
@@ -36,6 +37,7 @@ export default function NewNewsPage() {
     content: '',
     type: 'News',
     date: new Date().toISOString().split('T')[0],
+    link: '',
     imageUrl: '',
     author: '',
   });
@@ -66,7 +68,7 @@ export default function NewNewsPage() {
           variant: "destructive",
         });
       }
-    } catch (error) {
+    } catch {
       toast({
         title: "Error",
         description: "Failed to create news item",
@@ -159,6 +161,19 @@ export default function NewNewsPage() {
                 />
               </div>
               
+              <div className="grid grid-cols-4 items-center gap-4">
+                <Label htmlFor="link" className="text-right">
+                  Link URL
+                </Label>
+                <Input
+                  id="link"
+                  value={newsItem.link}
+                  onChange={(e) => setNewsItem({...newsItem, link: e.target.value})}
+                  className="col-span-3"
+                  placeholder="https://example.com/article (optional)"
+                />
+              </div>
+
               <div className="grid grid-cols-4 items-center gap-4">
                 <Label htmlFor="author" className="text-right">
                   Author

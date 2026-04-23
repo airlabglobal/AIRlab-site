@@ -69,7 +69,7 @@ export default function NewTeamMemberPage() {
           variant: "destructive",
         });
       }
-    } catch (error) {
+    } catch {
       toast({
         title: "Error",
         description: "Failed to add team member",

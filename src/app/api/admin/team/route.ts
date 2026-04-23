@@ -70,12 +70,12 @@ export async function POST(request: NextRequest) {
     
     if (!validationResult.success) {
       return NextResponse.json(
-        { success: false, error: 'Validation failed', details: validationResult.error.errors },
+        { success: false, error: 'Validation failed', details: validationResult.error.issues },
         { status: 400 }
       );
     }
 
-    const newMember = validationResult.data;
+    const newMember = validationResult.data as TeamMember;
     const filePath = teamFiles[category as keyof typeof teamFiles];
     const data = fs.readFileSync(filePath, 'utf8');
     const team: TeamMember[] = JSON.parse(data);
@@ -120,12 +120,12 @@ export async function PUT(request: NextRequest) {
     
     if (!validationResult.success) {
       return NextResponse.json(
-        { success: false, error: 'Validation failed', details: validationResult.error.errors },
+        { success: false, error: 'Validation failed', details: validationResult.error.issues },
         { status: 400 }
       );
     }
 
-    const updatedMember = validationResult.data;
+    const updatedMember = validationResult.data as TeamMember;
     const filePath = teamFiles[category as keyof typeof teamFiles];
     const data = fs.readFileSync(filePath, 'utf8');
     const team: TeamMember[] = JSON.parse(data);

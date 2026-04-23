@@ -1,11 +1,18 @@
 import { SignJWT, jwtVerify } from 'jose';
 import { cookies } from 'next/headers';
 
+const jwtSecret = process.env.JWT_SECRET;
+if (!jwtSecret && process.env.NODE_ENV === 'production') {
+  throw new Error('JWT_SECRET environment variable is required in production');
+}
 const JWT_SECRET = new TextEncoder().encode(
-  process.env.JWT_SECRET || 'fallback_secret_key_change_in_production'
+  jwtSecret || 'dev_only_jwt_secret_key_not_for_production'
 );
 
-const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'AIRLAB_2025';
+const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD;
+if (!ADMIN_PASSWORD && process.env.NODE_ENV === 'production') {
+  throw new Error('ADMIN_PASSWORD environment variable is required in production');
+}
 
 export async function createToken(payload: { authenticated: boolean }) {
   return await new SignJWT(payload)
@@ -19,12 +26,13 @@ export async function verifyToken(token: string) {
   try {
     const { payload } = await jwtVerify(token, JWT_SECRET);
     return payload;
-  } catch (error) {
+  } catch {
     return null;
   }
 }
 
 export function verifyPassword(password: string): boolean {
+  if (!ADMIN_PASSWORD) return false;
   return password === ADMIN_PASSWORD;
 }
 

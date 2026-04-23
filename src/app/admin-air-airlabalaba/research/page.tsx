@@ -74,7 +74,7 @@ export default function AdminResearchPage() {
           variant: "destructive",
         });
       }
-    } catch (error) {
+    } catch {
       toast({
         title: "Error",
         description: "Failed to fetch research papers",
@@ -117,7 +117,7 @@ export default function AdminResearchPage() {
           variant: "destructive",
         });
       }
-    } catch (error) {
+    } catch {
       toast({
         title: "Error",
         description: "Failed to update research paper",
@@ -147,7 +147,7 @@ export default function AdminResearchPage() {
           variant: "destructive",
         });
       }
-    } catch (error) {
+    } catch {
       toast({
         title: "Error",
         description: "Failed to delete research paper",
