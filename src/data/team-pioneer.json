@@ -1,6 +1,28 @@
 [
   {
     "id": "1",
+    "name": "Ogban Asuquo Ugot",
+    "role": "Senior Software Engineer",
+    "imageUrl": "https://i.postimg.cc/D4zgmPB7/ugot.jpg",
+    "imageHint": "male student",
+    "bio": "",
+    "social": {
+      "linkedin": "https://www.linkedin.com/in/ogban-asuquo-ugot"
+    }
+  },
+  {
+    "id": "4",
+    "name": "Stacey Onuora",
+    "role": "Software Engineer",
+    "imageUrl": "https://i.postimg.cc/CnKNdsm0/chiamaka.jpg",
+    "imageHint": "female student",
+    "bio": "",
+    "social": {
+      "linkedin": "https://www.linkedin.com/in/stacey-onuora"
+    }
+  },
+  {
+    "id": "1",
     "name": "Mrs Omokhaba Blessing Yama",
     "role": "Phd Candidate & Lab Manager",
     "imageUrl": "https://i.postimg.cc/hjJzg64b/mrs-blessing.jpg",
@@ -32,17 +54,7 @@
       "linkedin": "http://www.linkedin.com/in/osinuga-oluwabukunmi"
     }
   },
-  {
-    "id": "4",
-    "name": "Stacey Onuora",
-    "role": "Software Engineer",
-    "imageUrl": "https://i.postimg.cc/CnKNdsm0/chiamaka.jpg",
-    "imageHint": "female student",
-    "bio": "",
-    "social": {
-      "linkedin": "https://www.linkedin.com/in/stacey-onuora"
-    }
-  },
+  
   {
     "id": "5",
     "name": "Chibuzor Nwalor",
@@ -118,17 +130,6 @@
     "bio": "",
     "social": {
       "linkedin": "https://www.linkedin.com/in/ekayode"
-    }
-  },
-  {
-    "id": "12",
-    "name": "Ogban Asuquo Ugot",
-    "role": "Senior Software Engineer",
-    "imageUrl": "https://i.postimg.cc/D4zgmPB7/ugot.jpg",
-    "imageHint": "male student",
-    "bio": "",
-    "social": {
-      "linkedin": "https://www.linkedin.com/in/ogban-asuquo-ugot"
     }
   }
 ]

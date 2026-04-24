@@ -23,17 +23,6 @@
   },
   {
     "id": "3",
-    "name": "Dr. Mary Akinyemi",
-    "role": "Member",
-    "imageUrl": "https://i.postimg.cc/m1W9W2Mc/akinyemi.jpg",
-    "imageHint": "female researcher",
-    "bio": "",
-    "social": {
-      "linkedin": "https://www.linkedin.com/in/mary-akinyemi-58a61611"
-    }
-  },
-  {
-    "id": "4",
     "name": "Dr. Olasupo Ajayi",
     "role": "Member",
     "imageUrl": "https://i.postimg.cc/BPfFfQDx/ajayi.jpg",
@@ -44,7 +33,7 @@
     }
   },
   {
-    "id": "5",
+    "id": "4",
     "name": "Prof. Adebisi Abayomi",
     "role": "Member",
     "imageUrl": "https://i.postimg.cc/7JrzrY77/adebisi.jpg",
@@ -52,6 +41,17 @@
     "bio": "",
     "social": {
       "linkedin": "https://www.linkedin.com/in/adebisi-sunday-abayomi-98419361/?originalSubdomain=ng"
+    }
+  },
+  {
+    "id": "5",
+    "name": "Dr. Mary Akinyemi",
+    "role": "Member",
+    "imageUrl": "https://i.postimg.cc/m1W9W2Mc/akinyemi.jpg",
+    "imageHint": "female researcher",
+    "bio": "",
+    "social": {
+      "linkedin": "https://www.linkedin.com/in/mary-akinyemi-58a61611"
     }
   },
   {
