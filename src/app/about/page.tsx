@@ -1,6 +1,6 @@
 import PageWrapper from "@/components/layout/PageWrapper";
 import Section from "@/components/ui/Section";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card } from "@/components/ui/card";
 import Image from "next/image";
 import {
   Users,

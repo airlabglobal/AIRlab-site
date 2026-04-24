@@ -16,8 +16,12 @@ export interface Project {
 export interface NewsItem {
   id: string;
   title: string;
+  content?: string;
+  type?: 'News' | 'Event';
   date: string;
   link: string;
+  imageUrl?: string;
+  author?: string;
 }
 
 // Research Types
@@ -50,6 +54,7 @@ export interface TeamMember {
 
 // History Types
 export interface HistoryItem {
+  id?: string;
   year: string;
   event: string;
   description: string;

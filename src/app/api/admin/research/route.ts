@@ -36,12 +36,12 @@ export async function POST(request: NextRequest) {
     
     if (!validationResult.success) {
       return NextResponse.json(
-        { success: false, error: 'Validation failed', details: validationResult.error.errors },
+        { success: false, error: 'Validation failed', details: validationResult.error.issues },
         { status: 400 }
       );
     }
 
-    const newPaper = validationResult.data;
+    const newPaper = validationResult.data as ResearchPaper;
     const data = fs.readFileSync(researchPath, 'utf8');
     const research: ResearchPaper[] = JSON.parse(data);
     
@@ -76,12 +76,12 @@ export async function PUT(request: NextRequest) {
     
     if (!validationResult.success) {
       return NextResponse.json(
-        { success: false, error: 'Validation failed', details: validationResult.error.errors },
+        { success: false, error: 'Validation failed', details: validationResult.error.issues },
         { status: 400 }
       );
     }
 
-    const updatedPaper = validationResult.data;
+    const updatedPaper = validationResult.data as ResearchPaper;
     const data = fs.readFileSync(researchPath, 'utf8');
     const research: ResearchPaper[] = JSON.parse(data);
     

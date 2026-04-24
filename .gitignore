@@ -43,7 +43,13 @@ next-env.d.ts
 firebase-debug.log
 firestore-debug.log
 
-#environment variables
+# environment variables
 .env.local
 .env
+.env.development
+
+# IDE / tools
+.kiro/
+.claude/
+
 /src/generated/prisma

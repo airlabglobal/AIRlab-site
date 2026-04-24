@@ -61,7 +61,7 @@ export default function NewResearchPage() {
           variant: "destructive",
         });
       }
-    } catch (error) {
+    } catch {
       toast({
         title: "Error",
         description: "Failed to add research paper",
@@ -128,8 +128,11 @@ export default function NewResearchPage() {
                 <Input
                   id="year"
                   type="number"
-                  value={paper.year}
-                  onChange={(e) => setPaper({...paper, year: parseInt(e.target.value)})}
+                  value={paper.year.toString()}
+                  onChange={(e) => {
+                    const value = e.target.value;
+                    setPaper({...paper, year: value === '' ? new Date().getFullYear() : parseInt(value) || new Date().getFullYear()});
+                  }}
                   className="col-span-3"
                   min="1900"
                   max={new Date().getFullYear() + 5}

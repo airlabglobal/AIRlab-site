@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from 'react';
 import PageWrapper from '@/components/layout/PageWrapper';
 import Section from '@/components/ui/Section';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -8,8 +9,57 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { MapPin, Phone, Mail, Send } from 'lucide-react';
+import { useToast } from '@/hooks/use-toast';
 
 export default function ContactPage() {
+  const [loading, setLoading] = useState(false);
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    subject: '',
+    message: ''
+  });
+  const { toast } = useToast();
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+
+    try {
+      // Create a form data object for FormSubmit
+      const form = new FormData();
+      form.append('name', formData.name);
+      form.append('email', formData.email);
+      form.append('subject', formData.subject);
+      form.append('message', formData.message);
+      form.append('_captcha', 'false');
+
+      const contactEmail = process.env.NEXT_PUBLIC_CONTACT_EMAIL || 'airol@unilag.edu.ng';
+      const response = await fetch(`https://formsubmit.co/${contactEmail}`, {
+        method: 'POST',
+        body: form
+      });
+
+      if (response.ok) {
+        toast({
+          title: "Message Sent!",
+          description: "Thank you for contacting us. We'll get back to you soon.",
+        });
+        setFormData({ name: '', email: '', subject: '', message: '' });
+      } else {
+        throw new Error('Failed to send message');
+      }
+    } catch {
+      toast({
+        title: "Error",
+        description: "Failed to send message. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <PageWrapper>
       <Section title="Get In Touch" subtitle="Contact AIRLAB">
@@ -73,35 +123,71 @@ export default function ContactPage() {
                 <CardTitle className="font-headline text-2xl text-center md:text-left">Send Us a Message</CardTitle>
               </CardHeader>
               <CardContent className="p-0">
-                <form
-                  action="https://formsubmit.co/Lawalgiyath200716@gmail.com"
-                  method="POST"
-                  className="space-y-6"
-                >
-                  <input type="hidden" name="_captcha" value="false" />
-                  
+                <form onSubmit={handleSubmit} className="space-y-6">
                   <div>
                     <Label htmlFor="name" className="font-headline">Full Name</Label>
-                    <Input id="name" name="name" placeholder="John Doe" className="mt-1" required />
+                    <Input 
+                      id="name" 
+                      value={formData.name}
+                      onChange={(e) => setFormData({...formData, name: e.target.value})}
+                      placeholder="John Doe" 
+                      className="mt-1" 
+                      required 
+                    />
                   </div>
 
                   <div>
                     <Label htmlFor="email" className="font-headline">Email Address</Label>
-                    <Input id="email" name="email" type="email" placeholder="you@example.com" className="mt-1" required />
+                    <Input 
+                      id="email" 
+                      type="email" 
+                      value={formData.email}
+                      onChange={(e) => setFormData({...formData, email: e.target.value})}
+                      placeholder="you@example.com" 
+                      className="mt-1" 
+                      required 
+                    />
                   </div>
 
                   <div>
                     <Label htmlFor="subject" className="font-headline">Subject</Label>
-                    <Input id="subject" name="subject" placeholder="Inquiry about research collaboration" className="mt-1" required />
+                    <Input 
+                      id="subject" 
+                      value={formData.subject}
+                      onChange={(e) => setFormData({...formData, subject: e.target.value})}
+                      placeholder="Inquiry about research collaboration" 
+                      className="mt-1" 
+                      required 
+                    />
                   </div>
 
                   <div>
                     <Label htmlFor="message" className="font-headline">Message</Label>
-                    <Textarea id="message" name="message" rows={5} placeholder="Your message here..." className="mt-1" required />
+                    <Textarea 
+                      id="message" 
+                      rows={5} 
+                      value={formData.message}
+                      onChange={(e) => setFormData({...formData, message: e.target.value})}
+                      placeholder="Your message here..." 
+                      className="mt-1" 
+                      required 
+                    />
                   </div>
 
-                  <Button type="submit" className="w-full bg-accent hover:bg-accent/90 text-accent-foreground">
-                    <Send className="mr-2 h-4 w-4" /> Send Message
+                  <Button 
+                    type="submit" 
+                    disabled={loading}
+                    className="w-full bg-accent hover:bg-accent/90 text-accent-foreground"
+                  >
+                    {loading ? (
+                      <>
+                        <Send className="mr-2 h-4 w-4 animate-spin" /> Sending...
+                      </>
+                    ) : (
+                      <>
+                        <Send className="mr-2 h-4 w-4" /> Send Message
+                      </>
+                    )}
                   </Button>
                 </form>
 

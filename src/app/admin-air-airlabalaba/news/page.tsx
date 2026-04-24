@@ -31,9 +31,10 @@ import {
 interface NewsItem {
   id: string;
   title: string;
-  content: string;
-  type: 'News' | 'Event';
+  content?: string;
+  type?: 'News' | 'Event';
   date: string;
+  link: string;
   imageUrl?: string;
   author?: string;
 }
@@ -82,7 +83,7 @@ export default function AdminNewsPage() {
           variant: "destructive",
         });
       }
-    } catch (error) {
+    } catch {
       toast({
         title: "Error",
         description: "Failed to fetch news items",
@@ -125,7 +126,7 @@ export default function AdminNewsPage() {
           variant: "destructive",
         });
       }
-    } catch (error) {
+    } catch {
       toast({
         title: "Error",
         description: "Failed to update news item",
@@ -155,7 +156,7 @@ export default function AdminNewsPage() {
           variant: "destructive",
         });
       }
-    } catch (error) {
+    } catch {
       toast({
         title: "Error",
         description: "Failed to delete news item",
@@ -166,7 +167,7 @@ export default function AdminNewsPage() {
 
   const filteredItems = newsItems.filter(item =>
     item.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    item.content.toLowerCase().includes(searchTerm.toLowerCase())
+    (item.content || '').toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   return (
@@ -232,7 +233,7 @@ export default function AdminNewsPage() {
                     <TableCell>
                       <Badge variant={item.type === 'Event' ? 'secondary' : 'outline'}
                              className={item.type === 'Event' ? 'bg-purple-500 text-white' : 'border-blue-500 text-blue-500'}>
-                        {item.type}
+                        {item.type || 'News'}
                       </Badge>
                     </TableCell>
                     <TableCell>{new Date(item.date).toLocaleDateString()}</TableCell>
@@ -291,9 +292,21 @@ export default function AdminNewsPage() {
                 </Label>
                 <Textarea
                   id="content"
-                  value={editingItem.content}
+                  value={editingItem.content || ''}
                   onChange={(e) => setEditingItem({...editingItem, content: e.target.value})}
                   className="col-span-3"
+                />
+              </div>
+              <div className="grid grid-cols-4 items-center gap-4">
+                <Label htmlFor="link" className="text-right">
+                  Link URL
+                </Label>
+                <Input
+                  id="link"
+                  value={editingItem.link || ''}
+                  onChange={(e) => setEditingItem({...editingItem, link: e.target.value})}
+                  className="col-span-3"
+                  placeholder="https://example.com/article"
                 />
               </div>
               <div className="grid grid-cols-4 items-center gap-4">

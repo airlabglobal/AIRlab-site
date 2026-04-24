@@ -36,12 +36,12 @@ export async function POST(request: NextRequest) {
     
     if (!validationResult.success) {
       return NextResponse.json(
-        { success: false, error: 'Validation failed', details: validationResult.error.errors },
+        { success: false, error: 'Validation failed', details: validationResult.error.issues },
         { status: 400 }
       );
     }
 
-    const newProject = validationResult.data;
+    const newProject = validationResult.data as Project;
     const data = fs.readFileSync(projectsPath, 'utf8');
     const projects: Project[] = JSON.parse(data);
     
@@ -76,12 +76,12 @@ export async function PUT(request: NextRequest) {
     
     if (!validationResult.success) {
       return NextResponse.json(
-        { success: false, error: 'Validation failed', details: validationResult.error.errors },
+        { success: false, error: 'Validation failed', details: validationResult.error.issues },
         { status: 400 }
       );
     }
 
-    const updatedProject = validationResult.data;
+    const updatedProject = validationResult.data as Project;
     const data = fs.readFileSync(projectsPath, 'utf8');
     const projects: Project[] = JSON.parse(data);
     

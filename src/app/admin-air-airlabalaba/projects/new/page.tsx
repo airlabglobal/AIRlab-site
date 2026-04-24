@@ -68,7 +68,7 @@ export default function NewProjectPage() {
         });
         console.error('Validation errors:', errorData.details);
       }
-    } catch (error) {
+    } catch {
       toast({
         title: "Error",
         description: "Failed to add project",
