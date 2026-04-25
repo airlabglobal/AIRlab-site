@@ -11,96 +11,51 @@
     }
   },
   {
-    "id": "4",
+    "id": "2",
     "name": "Stacey Onuora",
     "role": "Software Engineer",
     "imageUrl": "https://i.postimg.cc/CnKNdsm0/chiamaka.jpg",
     "imageHint": "female student",
     "bio": "",
     "social": {
-      "linkedin": "https://www.linkedin.com/in/stacey-onuora"
+      "linkedin": "https://www.linkedin.com/in/stacey-onuora-a81b29168/"
     }
   },
   {
-    "id": "1",
-    "name": "Mrs Omokhaba Blessing Yama",
-    "role": "Phd Candidate & Lab Manager",
-    "imageUrl": "https://i.postimg.cc/hjJzg64b/mrs-blessing.jpg",
-    "imageHint": "female researcher",
+    "id": "3",
+    "name": "Tobi Ekayode",
+    "role": "Software Engineer",
+    "imageUrl": "https://i.postimg.cc/5Qt3jSnd/tobi.jpg",
+    "imageHint": "male student",
     "bio": "",
     "social": {
-      "linkedin": "https://www.linkedin.com/in/omokhoba-blessing-yama/"
+      "linkedin": "https://www.linkedin.com/in/ekayode"
     }
   },
   {
-    "id": "2",
+    "id": "4",
     "name": "Ajose Aishat",
     "role": "Software Engineer",
     "imageUrl": "https://i.postimg.cc/SYKrjfDh/aishat.jpg",
     "imageHint": "female engineer",
     "bio": "",
     "social": {
-      "linkedin": "https://www.linkedin.com/in/ajose-aishat"
+      "linkedin": "https://www.linkedin.com/in/aishat-ajose/"
     }
   },
-  {
-    "id": "3",
-    "name": "Bukunmi Osinuga",
-    "role": "Software Engineer",
-    "imageUrl": "https://i.postimg.cc/Fdpp9BgQ/bukunmi.jpg",
-    "imageHint": "female engineer",
-    "bio": "",
-    "social": {
-      "linkedin": "http://www.linkedin.com/in/osinuga-oluwabukunmi"
-    }
-  },
-  
   {
     "id": "5",
-    "name": "Chibuzor Nwalor",
-    "role": "Software Engineer Consultant",
-    "imageUrl": "https://i.postimg.cc/JHhqt5K2/chibuzor.jpg",
-    "imageHint": "male consultant",
-    "bio": "",
-    "social": {
-      "linkedin": "https://www.linkedin.com/in/chibuzor-nwalor-8383668b/"
-    }
-  },
-  {
-    "id": "6",
-    "name": "Chieto Chiedu",
-    "role": "Software Engineer",
-    "imageUrl": "https://i.postimg.cc/3411KcCT/chiedu.jpg",
-    "imageHint": "female student",
-    "bio": "",
-    "social": {
-      "linkedin": "https://www.linkedin.com/in/chieto-chiedu"
-    }
-  },
-  {
-    "id": "7",
     "name": "Ehiorobo Evans",
     "role": "Senior Software Engineer",
     "imageUrl": "https://i.postimg.cc/Wq4ntwXP/evans.jpg",
     "imageHint": "male student",
     "bio": "",
     "social": {
-      "linkedin": "https://www.linkedin.com/in/evans-ehiorobo"
+      "linkedin": "https://www.linkedin.com/in/evans-ehiorobo-1081677a/"
     }
   },
   {
-    "id": "8",
-    "name": "Joel Adebayo",
-    "role": "Robotics and STEM Coach",
-    "imageUrl": "https://i.postimg.cc/VrggYV93/joel.jpg",
-    "imageHint": "male student",
-    "bio": "",
-    "social": {
-      "linkedin": "https://www.linkedin.com/in/jayteeadebayo"
-    }
-  },
-  {
-    "id": "9",
+    "id": "6",
     "name": "Joyce Adelusi",
     "role": "Senior Software Engineer",
     "imageUrl": "https://i.postimg.cc/phCC26YM/joyce.jpg",
@@ -111,7 +66,29 @@
     }
   },
   {
-    "id": "10",
+    "id": "7",
+    "name": "Chibuzor Nwalor",
+    "role": "Software Engineer Consultant",
+    "imageUrl": "https://i.postimg.cc/JHhqt5K2/chibuzor.jpg",
+    "imageHint": "male consultant",
+    "bio": "",
+    "social": {
+      "linkedin": "https://www.linkedin.com/in/chibuzor-nwalor-8383668b/"
+    }
+  },
+  {
+    "id": "8",
+    "name": "Chieto Chiedu",
+    "role": "Software Engineer",
+    "imageUrl": "https://i.postimg.cc/3411KcCT/chiedu.jpg",
+    "imageHint": "female student",
+    "bio": "",
+    "social": {
+      "linkedin": "https://www.linkedin.com/in/chieto-chiedu"
+    }
+  },
+  {
+    "id": "9",
     "name": "Nwachukwu Ugo",
     "role": "AI Engineer",
     "imageUrl": "https://i.postimg.cc/YLS3jz8J/nwachukwu.jpg",
@@ -122,14 +99,36 @@
     }
   },
   {
-    "id": "11",
-    "name": "Tobi Ekayode",
+    "id": "10",
+    "name": "Bukunmi Osinuga",
     "role": "Software Engineer",
-    "imageUrl": "https://i.postimg.cc/5Qt3jSnd/tobi.jpg",
+    "imageUrl": "https://i.postimg.cc/Fdpp9BgQ/bukunmi.jpg",
+    "imageHint": "female engineer",
+    "bio": "",
+    "social": {
+      "linkedin": "https://www.linkedin.com/in/osinuga-bukunmi/"
+    }
+  },
+  {
+    "id": "11",
+    "name": "Joel Adebayo",
+    "role": "Robotics and STEM Coach",
+    "imageUrl": "https://i.postimg.cc/VrggYV93/joel.jpg",
     "imageHint": "male student",
     "bio": "",
     "social": {
-      "linkedin": "https://www.linkedin.com/in/ekayode"
+      "linkedin": "https://www.linkedin.com/in/joeltooni/"
+    }
+  },
+  {
+    "id": "12",
+    "name": "Omokohba Blessing",
+    "role": "Phd Candidate & Lab Manager",
+    "imageUrl": "https://i.postimg.cc/hjJzg64b/mrs-blessing.jpg",
+    "imageHint": "female researcher",
+    "bio": "",
+    "social": {
+      "linkedin": "https://www.linkedin.com/in/omokhoba-blessing-yama-806724244/"
     }
   }
 ]
