@@ -14,6 +14,7 @@ const teamFiles = {
 
 export async function GET(request: NextRequest) {
   try {
+    // Public endpoint - no auth required for reading team data
     const { searchParams } = new URL(request.url);
     const category = searchParams.get('category') || 'all';
 
