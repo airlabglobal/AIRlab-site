@@ -49,8 +49,8 @@ You must have the following installed on your system:
 ### 1\. Clone the repository
 
 ```bash
-git clone https://github.com/your-username/AIRLAB-unilag-website.git
-cd AIRLAB-unilag-website
+git clone https://github.com/airlabglobal/AIRlab-site.git
+cd AIRlab-site
 ```
 
 ### 2\. Install dependencies
@@ -70,10 +70,6 @@ npm run dev
 The website will now be running locally. Open your browser and navigate to:
 
 **http://localhost:9002** (or the port specified in your terminal)
-
-## 🔐 Admin Access
-
-The admin panel is password-protected. Access it at `/admin` with the password: **AIRLAB_2025**
 
 -----
 
@@ -103,39 +99,10 @@ npm run typecheck    # Check TypeScript
 npm run lint         # Run linter
 ```
 
-### Comprehensive Testing
-See detailed testing documentation:
-- `QUICK_TEST_GUIDE.md` - 5-minute quick start
-- `TESTING_CHECKLIST.md` - Complete manual testing guide
-- `TEST_RESULTS.md` - Current test status
-- `SECURITY_RECOMMENDATIONS.md` - Security improvements
-
 ### Run Tests
 ```bash
 npm test             # Run automated tests (after setup)
 ```
-
-## 🔒 Security
-
-The admin panel is password-protected. Default password: **AIRLAB_2025**
-
-⚠️ **Important:** Before deploying to production, review `SECURITY_RECOMMENDATIONS.md` for critical security improvements including:
-- Server-side API authentication
-- Input validation
-- Rate limiting
-- File operation locking
-
-## 📝 Recent Fixes
-
-- ✅ Removed missing framer-motion dependency
-- ✅ Fixed broken social media links
-- ✅ Added admin authentication
-- ✅ Standardized data ID generation
-- ✅ Cleaned up redundant code
-- ✅ Fixed animation issues
-
-See `ISSUES_FOUND.md` for complete list of fixes and remaining issues.
-
 ---
 
 Made with ❤️ by the AIRLAB Team
