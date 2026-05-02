@@ -60,7 +60,7 @@ export async function removeAuthCookie() {
 export async function isAuthenticated(): Promise<boolean> {
   const token = await getAuthCookie();
   if (!token) return false;
-  
+
   const payload = await verifyToken(token);
   return payload?.authenticated === true;
 }
