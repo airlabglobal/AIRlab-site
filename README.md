@@ -1,20 +1,20 @@
-# 🌐 AIRLAB UNILAG Website
+# AIRLAB UNILAG Website
 
 A modern, responsive website built for **AIRLAB** (Artificial Intelligence & Robotics Laboratory) at the **University of Lagos (UNILAG)**. This project serves as the primary online platform for showcasing our research focus, lab members, projects, and recent publications.
 
-## 📖 Overview
+## Overview
 
 This repository contains the full source code for the official AIRLAB UNILAG website. Built with **Next.js**, it features a sleek, mobile-first frontend and a robust **serverless backend** architecture powered by Next.js API routes and MongoDB.
 
-## ⚡ Features
+## Features
 
   * **Responsive Design:** Optimized for seamless viewing on desktop, tablet, and mobile devices.
   * **Serverless Architecture:** Utilizes Next.js API routes for scalable, serverless backend operations.
-  * **Admin Dashboard:** Secure authentication system using JWTs and bcrypt for managing lab content dynamically.
+  * **Admin Dashboard:** Secure authentication system using JWTs for managing lab content dynamically.
   * **Database Integration:** MongoDB integration for persistent, dynamic storage of projects, news, and team data.
   * **Clean Structure:** Uses modern Next.js conventions (`app/` directory) for intuitive routing and co-located logic.
 
-## 💻 Tech Stack
+## Tech Stack
 
 * **Framework:** [Next.js](https://nextjs.org/) (App Router, API Routes)
 * **Language:** [TypeScript](https://www.typescriptlang.org/)
@@ -40,7 +40,7 @@ package.json      # Dependencies and scripts
 next.config.ts    # Next.js specific configuration
 ```
 
-## 🚀 Getting Started
+## Getting Started
 
 Follow these steps to clone the repository and run the website locally for development.
 
@@ -85,7 +85,7 @@ The website will now be running locally. Open your browser and navigate to **htt
 
 ---
 
-## 🧪 Testing
+## Testing
 
 The project includes an integration and API testing suite located in the `__tests__` directory to verify the backend serverless routes and administrative workflows.
 
