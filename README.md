@@ -1,38 +1,43 @@
-
-
 # 🌐 AIRLAB UNILAG Website
 
 A modern, responsive website built for **AIRLAB** (Artificial Intelligence & Robotics Laboratory) at the **University of Lagos (UNILAG)**. This project serves as the primary online platform for showcasing our research focus, lab members, projects, and recent publications.
 
 ## 📖 Overview
 
-This repository contains the full source code for the official AIRLAB UNILAG website. Built with **Next.js** and focused on a sleek, mobile-first design, the website is engineered for speed and maintainability.
-
-The structure is currently set up as a **pure frontend application**, ready for static deployment or integration with a dedicated backend service (if needed later for dynamic content).
+This repository contains the full source code for the official AIRLAB UNILAG website. Built with **Next.js**, it features a sleek, mobile-first frontend and a robust **serverless backend** architecture powered by Next.js API routes and MongoDB.
 
 ## ⚡ Features
 
   * **Responsive Design:** Optimized for seamless viewing on desktop, tablet, and mobile devices.
-  * **Modular Frontend:** Built using React components (in the `components/` directory) for maximum reusability and maintainability.
+  * **Serverless Architecture:** Utilizes Next.js API routes for scalable, serverless backend operations.
+  * **Admin Dashboard:** Secure authentication system using JWTs and bcrypt for managing lab content dynamically.
+  * **Database Integration:** MongoDB integration for persistent, dynamic storage of projects, news, and team data.
   * **Clean Structure:** Uses modern Next.js conventions (`app/` directory) for intuitive routing and co-located logic.
-  * **Code Quality:** Custom React hooks (`hooks/`) and utility functions (`lib/`) ensure clean, efficient client-side logic.
-  * **Easy Deployment:** Configured for rapid deployment to hosting platforms like Vercel, Netlify, or Firebase Hosting.
 
-## 🛠 Project Structure (Frontend Focus)
+## 💻 Tech Stack
 
-The project follows a standard Next.js (App Router) structure. Note that all backend-specific files (e.g., `middleware.ts`, `prisma`, `api` routes) have been removed to keep this codebase strictly frontend.
+* **Framework:** [Next.js](https://nextjs.org/) (App Router, API Routes)
+* **Language:** [TypeScript](https://www.typescriptlang.org/)
+* **Styling:** [Tailwind CSS](https://tailwindcss.com/) & [shadcn/ui](https://ui.shadcn.com/)
+* **Database:** [MongoDB](https://www.mongodb.com/)
+* **Authentication:** JWT
+* **Testing:** [Jest](https://jestjs.io/) & React Testing Library
+
+## 🛠 Project Structure
+
+The project follows a standard Next.js (App Router) full-stack structure:
 
 ```
 src/
-├── app/          # Core Next.js routing (pages, layouts, etc.)
+├── app/          # Core Next.js routing, pages, layouts, and API routes
 ├── components/   # Reusable React components (UI building blocks)
-├── hooks/        # Custom React hooks for client-side state/logic
-├── lib/          # Frontend utility functions (e.g., data formatting)
+├── lib/          # Utility functions (e.g., db connections, auth helpers)
+├── middleware.ts # Edge middleware for route protection
 └── ...
+__tests__/        # API and Integration tests
 public/           # Static assets (images, logos, favicons)
 package.json      # Dependencies and scripts
 next.config.ts    # Next.js specific configuration
-tailwind.config.ts # Styling configuration
 ```
 
 ## 🚀 Getting Started
@@ -43,98 +48,69 @@ Follow these steps to clone the repository and run the website locally for devel
 
 You must have the following installed on your system:
 
-  * **Node.js** (LTS version recommended)
-  * **npm** or **Yarn** (npm is used in the examples below)
+  * **Node.js** (v18+ recommended)
+  * **npm** or **Yarn**
+  * **MongoDB** (Local instance or MongoDB Atlas cluster)
 
-### 1\. Clone the repository
+### 1. Clone the repository
 
 ```bash
-git clone https://github.com/your-username/AIRLAB-unilag-website.git
-cd AIRLAB-unilag-website
+git clone https://github.com/airlabglobal/AIRlab-site.git
+cd AIRlab-site
 ```
 
-### 2\. Install dependencies
+### 2. Install dependencies
 
 ```bash
 npm install
-# OR yarn install
 ```
 
-### 3\. Run the development server
+### 3. Environment Setup
+
+Copy the example environment file and configure your database and authentication secrets:
+
+```bash
+cp .env.example .env.local
+```
+
+Make sure to fill in your `MONGODB_URI`, `JWT_SECRET`, and `ADMIN_PASSWORD` in the `.env.local` file.
+
+### 4. Run the development server
 
 ```bash
 npm run dev
-# OR yarn dev
 ```
 
-The website will now be running locally. Open your browser and navigate to:
+The website will now be running locally. Open your browser and navigate to **http://localhost:9002** (or the port specified in your terminal).
 
-**http://localhost:9002** (or the port specified in your terminal)
-
-## 🔐 Admin Access
-
-The admin panel is password-protected. Access it at `/admin` with the password: **AIRLAB_2025**
-
------
-
-### 📦 Deployment
-
-This project is a static-friendly Next.js application, making deployment straightforward:
-
-  * **Vercel / Netlify:** Simply connect the repository. The hosting service will automatically detect the Next.js framework and build the site.
-  * **Static Hosting:** Run `npm run build` and export the output if needed for custom static hosting.
-
-## 📊 Data Management
-
-All content (projects, team members, research papers) is managed through JSON files in the `src/data/` directory:
-- `projects.json` - Project listings
-- `team-*.json` - Team member profiles
-- `research.json` - Research publications
-- `news.json` - News and events
-
-To update content, simply edit these JSON files and the changes will be reflected across the site.
+---
 
 ## 🧪 Testing
 
-### Quick Test
+The project includes an integration and API testing suite located in the `__tests__` directory to verify the backend serverless routes and administrative workflows.
+
+### Running the Tests
+
+Because the tests are integration tests that perform real HTTP requests against the API, **your development server must be running** before you execute them.
+
+1. Start your development server in one terminal:
+   ```bash
+   npm run dev
+   ```
+
+2. Open a new terminal and run the test suite, specifying the base URL (if your server is running on a port other than 3000):
+   ```bash
+   TEST_BASE_URL=http://localhost:9002 npm test
+   ```
+
+*Note: If your local development server is running on the default port `3000`, you can simply run `npm test`.*
+
+### Additional Checks
 ```bash
 npm run build        # Test production build
 npm run typecheck    # Check TypeScript
 npm run lint         # Run linter
 ```
-
-### Comprehensive Testing
-See detailed testing documentation:
-- `QUICK_TEST_GUIDE.md` - 5-minute quick start
-- `TESTING_CHECKLIST.md` - Complete manual testing guide
-- `TEST_RESULTS.md` - Current test status
-- `SECURITY_RECOMMENDATIONS.md` - Security improvements
-
-### Run Tests
-```bash
-npm test             # Run automated tests (after setup)
-```
-
-## 🔒 Security
-
-The admin panel is password-protected. Default password: **AIRLAB_2025**
-
-⚠️ **Important:** Before deploying to production, review `SECURITY_RECOMMENDATIONS.md` for critical security improvements including:
-- Server-side API authentication
-- Input validation
-- Rate limiting
-- File operation locking
-
-## 📝 Recent Fixes
-
-- ✅ Removed missing framer-motion dependency
-- ✅ Fixed broken social media links
-- ✅ Added admin authentication
-- ✅ Standardized data ID generation
-- ✅ Cleaned up redundant code
-- ✅ Fixed animation issues
-
-See `ISSUES_FOUND.md` for complete list of fixes and remaining issues.
 
 ---
 

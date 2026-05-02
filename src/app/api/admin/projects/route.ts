@@ -2,20 +2,20 @@ import { NextRequest, NextResponse } from 'next/server';
 import { isAuthenticated } from '@/lib/auth';
 import { projectSchema } from '@/lib/validations';
 import { Project } from '@/types';
-import fs from 'fs';
-import path from 'path';
-
-const projectsPath = path.join(process.cwd(), 'src/data/projects.json');
+import clientPromise from '@/lib/mongodb';
 
 export async function GET() {
   try {
-    const data = fs.readFileSync(projectsPath, 'utf8');
-    const projects = JSON.parse(data);
+    const client = await clientPromise;
+    const db = client.db();
+
+    const projects = await db.collection('projects').find({}, { projection: { _id: 0 } }).toArray();
+
     return NextResponse.json({ success: true, data: projects });
   } catch (error) {
     console.error('Failed to read projects:', error);
     return NextResponse.json(
-      { success: false, error: 'Failed to read projects' },
+      { success: false, error: 'Failed to fetch projects database' },
       { status: 500 }
     );
   }
@@ -33,7 +33,7 @@ export async function POST(request: NextRequest) {
 
     const body = await request.json();
     const validationResult = projectSchema.safeParse(body);
-    
+
     if (!validationResult.success) {
       return NextResponse.json(
         { success: false, error: 'Validation failed', details: validationResult.error.issues },
@@ -42,20 +42,20 @@ export async function POST(request: NextRequest) {
     }
 
     const newProject = validationResult.data as Project;
-    const data = fs.readFileSync(projectsPath, 'utf8');
-    const projects: Project[] = JSON.parse(data);
-    
-    const maxId = Math.max(...projects.map((p) => parseInt(p.id) || 0), 0);
-    newProject.id = (maxId + 1).toString();
-    
-    projects.push(newProject);
-    fs.writeFileSync(projectsPath, JSON.stringify(projects, null, 2));
-    
+    const client = await clientPromise;
+    const db = client.db();
+
+    newProject.id = Date.now().toString(); // Consistent simple ID generation
+
+    // insertOne mutates the object by adding _id, so we spread and omit the _id from the response
+    const projectToInsert = { ...newProject };
+    await db.collection('projects').insertOne(projectToInsert);
+
     return NextResponse.json({ success: true, data: newProject }, { status: 201 });
   } catch (error) {
     console.error('Failed to create project:', error);
     return NextResponse.json(
-      { success: false, error: 'Failed to create project' },
+      { success: false, error: 'Failed to create project in database' },
       { status: 500 }
     );
   }
@@ -73,7 +73,7 @@ export async function PUT(request: NextRequest) {
 
     const body = await request.json();
     const validationResult = projectSchema.safeParse(body);
-    
+
     if (!validationResult.success) {
       return NextResponse.json(
         { success: false, error: 'Validation failed', details: validationResult.error.issues },
@@ -82,25 +82,26 @@ export async function PUT(request: NextRequest) {
     }
 
     const updatedProject = validationResult.data as Project;
-    const data = fs.readFileSync(projectsPath, 'utf8');
-    const projects: Project[] = JSON.parse(data);
-    
-    const index = projects.findIndex((p) => p.id === updatedProject.id);
-    if (index === -1) {
+    const client = await clientPromise;
+    const db = client.db();
+
+    const result = await db.collection('projects').updateOne(
+      { id: updatedProject.id },
+      { $set: updatedProject }
+    );
+
+    if (result.matchedCount === 0) {
       return NextResponse.json(
         { success: false, error: 'Project not found' },
         { status: 404 }
       );
     }
-    
-    projects[index] = updatedProject;
-    fs.writeFileSync(projectsPath, JSON.stringify(projects, null, 2));
-    
+
     return NextResponse.json({ success: true, data: updatedProject });
   } catch (error) {
     console.error('Failed to update project:', error);
     return NextResponse.json(
-      { success: false, error: 'Failed to update project' },
+      { success: false, error: 'Failed to update project in database' },
       { status: 500 }
     );
   }
@@ -118,33 +119,31 @@ export async function DELETE(request: NextRequest) {
 
     const { searchParams } = new URL(request.url);
     const id = searchParams.get('id');
-    
+
     if (!id) {
       return NextResponse.json(
         { success: false, error: 'Project ID required' },
         { status: 400 }
       );
     }
-    
-    const data = fs.readFileSync(projectsPath, 'utf8');
-    const projects: Project[] = JSON.parse(data);
-    
-    const filteredProjects = projects.filter((p) => p.id !== id);
-    
-    if (filteredProjects.length === projects.length) {
+
+    const client = await clientPromise;
+    const db = client.db();
+
+    const result = await db.collection('projects').deleteOne({ id });
+
+    if (result.deletedCount === 0) {
       return NextResponse.json(
         { success: false, error: 'Project not found' },
         { status: 404 }
       );
     }
-    
-    fs.writeFileSync(projectsPath, JSON.stringify(filteredProjects, null, 2));
-    
-    return NextResponse.json({ success: true, message: 'Project deleted successfully' });
+
+    return NextResponse.json({ success: true, message: 'Project deleted successfully from database' });
   } catch (error) {
     console.error('Failed to delete project:', error);
     return NextResponse.json(
-      { success: false, error: 'Failed to delete project' },
+      { success: false, error: 'Failed to delete project from database' },
       { status: 500 }
     );
   }

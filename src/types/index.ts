@@ -46,9 +46,6 @@ export interface TeamMember {
   bio: string;
   social: {
     linkedin?: string;
-    twitter?: string;
-    github?: string;
-    email?: string;
   };
 }
 

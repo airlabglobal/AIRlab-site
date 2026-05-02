@@ -21,12 +21,11 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 import type { Project, NewsItem } from "@/types";
-import projectsData from "@/data/projects.json";
-import newsItems from "@/data/news.json";
+import { getProjects, getNews } from "@/lib/data-fetchers";
 
-export default function Home() {
-  const projects = projectsData as Project[];
-  const news = newsItems as NewsItem[];
+export default async function Home() {
+  const projects = await getProjects();
+  const news = await getNews();
   const showcaseItems = projects.slice(0, 3);
   const hasProjects = projects.length > 0;
   const hasNews = news.length > 0;

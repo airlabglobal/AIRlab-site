@@ -1,4 +1,3 @@
-'use client';
 import PageWrapper from '@/components/layout/PageWrapper';
 import Section from '@/components/ui/Section';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -6,17 +5,17 @@ import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { Newspaper, ArrowRight, Calendar, ExternalLink } from 'lucide-react';
 import type { NewsItem } from '@/types';
-import newsData from '@/data/news.json';
+import { getNews } from '@/lib/data-fetchers';
 
-export default function NewsPage() {
-  const newsItems = newsData as NewsItem[];
+export default async function NewsPage() {
+  const newsItems = await getNews();
   const hasNews = newsItems.length > 0;
 
   return (
     <PageWrapper>
       <Section title="News & Events" subtitle="Stay Updated with AIRLAB">
         <p className="font-body text-lg text-center text-foreground/80 max-w-3xl mx-auto mb-12">
-          Keep up with the latest news, events, achievements, and announcements from AIRLAB. 
+          Keep up with the latest news, events, achievements, and announcements from AIRLAB.
           Discover our recent breakthroughs, collaborations, and community engagements.
         </p>
         {hasNews ? (

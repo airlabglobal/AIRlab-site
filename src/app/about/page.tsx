@@ -11,7 +11,7 @@ import {
   Lightbulb,
 } from "lucide-react";
 import React from "react";
-import historyData from "@/data/history.json";
+import { getHistory } from "@/lib/data-fetchers";
 
 interface HistoryItem {
   year: string;
@@ -21,7 +21,8 @@ interface HistoryItem {
   link?: string;
 }
 
-export default function AboutPage() {
+export default async function AboutPage() {
+  const historyData = await getHistory();
   return (
     <PageWrapper>
       <Section

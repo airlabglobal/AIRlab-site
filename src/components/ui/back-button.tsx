@@ -11,7 +11,7 @@ interface BackButtonProps {
   children?: React.ReactNode;
 }
 
-export function BackButton({ fallbackUrl = '/admin-air-airlabalaba', className, children }: BackButtonProps) {
+export function BackButton({ fallbackUrl = '/admin', className, children }: BackButtonProps) {
   const router = useRouter();
 
   const handleBack = () => {
