@@ -158,6 +158,98 @@ describe('Admin API Routes', () => {
     });
   });
 
+  describe('Research API', () => {
+    it('should fetch all research papers', async () => {
+      const response = await authFetch('/api/admin/research');
+      expect(response.status).toBe(200);
+      const resData = await response.json();
+      expect(Array.isArray(resData.data)).toBe(true);
+    });
+
+    it('should create a new research paper', async () => {
+      const newResearch = {
+        title: 'Test Research Paper',
+        authors: 'Test Author',
+        description: 'This is a test description for the paper.',
+        year: 2026,
+        fileUrl: 'https://example.com/paper.pdf'
+      };
+
+      const response = await authFetch('/api/admin/research', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(newResearch)
+      });
+
+      expect(response.status).toBe(201);
+      const resData = await response.json();
+      expect(resData.data._id).toBeDefined();
+
+      await authFetch(`/api/admin/research?id=${resData.data._id}`, { method: 'DELETE' });
+    });
+  });
+
+  describe('Team API', () => {
+    it('should fetch all team members', async () => {
+      const response = await authFetch('/api/admin/team');
+      expect(response.status).toBe(200);
+      const resData = await response.json();
+      expect(resData.data).toBeDefined();
+    });
+
+    it('should create a new team member', async () => {
+      const newMember = {
+        name: 'Test Member',
+        role: 'Researcher',
+        imageUrl: 'https://example.com/images/test.jpg',
+        bio: 'Test bio',
+        category: 'leading',
+        social: { linkedin: '', twitter: '', github: '', email: '' }
+      };
+
+      const response = await authFetch('/api/admin/team', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(newMember)
+      });
+
+      expect(response.status).toBe(201);
+      const resData = await response.json();
+      expect(resData.data.id).toBeDefined();
+
+      await authFetch(`/api/admin/team?id=${resData.data.id}`, { method: 'DELETE' });
+    });
+  });
+
+  describe('History API', () => {
+    it('should fetch all history items', async () => {
+      const response = await authFetch('/api/admin/history');
+      expect(response.status).toBe(200);
+      const resData = await response.json();
+      expect(Array.isArray(resData.data)).toBe(true);
+    });
+
+    it('should create a new history item', async () => {
+      const newHistory = {
+        year: '2026',
+        event: 'Test History',
+        description: 'Test description'
+      };
+
+      const response = await authFetch('/api/admin/history', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(newHistory)
+      });
+
+      expect(response.status).toBe(201);
+      const resData = await response.json();
+      expect(resData.data.id).toBeDefined();
+
+      await authFetch(`/api/admin/history?id=${resData.data.id}`, { method: 'DELETE' });
+    });
+  });
+
   describe('Security Tests', () => {
     it('should validate input data', async () => {
       const maliciousData = {

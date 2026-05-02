@@ -4,6 +4,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { PlusCircle, Edit, Trash2, Search, Users } from 'lucide-react';
+import { BackButton } from '@/components/ui/back-button';
 import { Input } from '@/components/ui/input';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -125,16 +126,18 @@ export default function AdminTeamPage() {
           description: "Team member updated successfully",
         });
       } else {
+        const errorData = await response.json();
+        const errorMessage = errorData.details?.[0]?.message || errorData.error || "Failed to update team member";
         toast({
-          title: "Error",
-          description: "Failed to update team member",
+          title: "Validation Error",
+          description: errorMessage,
           variant: "destructive",
         });
       }
-    } catch {
+    } catch (err: any) {
       toast({
         title: "Error",
-        description: "Failed to update team member",
+        description: err.message || "An unexpected error occurred",
         variant: "destructive",
       });
     }
@@ -180,6 +183,7 @@ export default function AdminTeamPage() {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-4">
+          <BackButton fallbackUrl="/admin" />
           <div>
             <h2 className="font-headline text-3xl font-semibold flex items-center">
               <Users className="mr-3 h-8 w-8 text-primary" /> Manage Team Members
@@ -201,8 +205,8 @@ export default function AdminTeamPage() {
             All team members in the system.
             <div className="mt-4 flex items-center gap-4">
               <Search className="h-5 w-5 text-muted-foreground" />
-              <Input 
-                placeholder="Search members..." 
+              <Input
+                placeholder="Search members..."
                 className="max-w-sm"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
@@ -243,38 +247,38 @@ export default function AdminTeamPage() {
                   </TableRow>
                 ) : (
                   filteredMembers.map((member) => (
-                  <TableRow key={member.id}>
-                    <TableCell>
-                      <Avatar>
-                        <AvatarImage src={member.imageUrl} alt={member.name} />
-                        <AvatarFallback>{member.name.substring(0,2).toUpperCase()}</AvatarFallback>
-                      </Avatar>
-                    </TableCell>
-                    <TableCell className="font-medium">{member.name}</TableCell>
-                    <TableCell>{member.role}</TableCell>
-                    <TableCell>{member.social?.email || '-'}</TableCell>
-                    <TableCell className="text-right">
-                      <div className="flex justify-end gap-2">
-                        <Button 
-                          variant="outline" 
-                          size="sm"
-                          onClick={() => handleEdit(member)}
-                        >
-                          <Edit className="h-4 w-4 mr-1" />
-                          Edit
-                        </Button>
-                        <Button 
-                          variant="destructive" 
-                          size="sm"
-                          onClick={() => handleDelete(member.id)}
-                        >
-                          <Trash2 className="h-4 w-4 mr-1" />
-                          Delete
-                        </Button>
-                      </div>
-                    </TableCell>
-                  </TableRow>
-                )))}
+                    <TableRow key={member.id}>
+                      <TableCell>
+                        <Avatar>
+                          <AvatarImage src={member.imageUrl} alt={member.name} />
+                          <AvatarFallback>{member.name.substring(0, 2).toUpperCase()}</AvatarFallback>
+                        </Avatar>
+                      </TableCell>
+                      <TableCell className="font-medium">{member.name}</TableCell>
+                      <TableCell>{member.role}</TableCell>
+                      <TableCell>{member.social?.email || '-'}</TableCell>
+                      <TableCell className="text-right">
+                        <div className="flex justify-end gap-2">
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            onClick={() => handleEdit(member)}
+                          >
+                            <Edit className="h-4 w-4 mr-1" />
+                            Edit
+                          </Button>
+                          <Button
+                            variant="destructive"
+                            size="sm"
+                            onClick={() => handleDelete(member.id)}
+                          >
+                            <Trash2 className="h-4 w-4 mr-1" />
+                            Delete
+                          </Button>
+                        </div>
+                      </TableCell>
+                    </TableRow>
+                  )))}
               </TableBody>
             </Table>
           )}
@@ -298,7 +302,7 @@ export default function AdminTeamPage() {
                 <Input
                   id="name"
                   value={editingMember.name}
-                  onChange={(e) => setEditingMember({...editingMember, name: e.target.value})}
+                  onChange={(e) => setEditingMember({ ...editingMember, name: e.target.value })}
                   className="col-span-3"
                 />
               </div>
@@ -309,19 +313,20 @@ export default function AdminTeamPage() {
                 <Input
                   id="role"
                   value={editingMember.role}
-                  onChange={(e) => setEditingMember({...editingMember, role: e.target.value})}
+                  onChange={(e) => setEditingMember({ ...editingMember, role: e.target.value })}
                   className="col-span-3"
                 />
               </div>
               <div className="grid grid-cols-4 items-center gap-4">
                 <Label htmlFor="imageUrl" className="text-right">
-                  Image URL
+                  Image URL *
                 </Label>
                 <Input
                   id="imageUrl"
                   value={editingMember.imageUrl}
-                  onChange={(e) => setEditingMember({...editingMember, imageUrl: e.target.value})}
+                  onChange={(e) => setEditingMember({ ...editingMember, imageUrl: e.target.value })}
                   className="col-span-3"
+                  required
                 />
               </div>
               <div className="grid grid-cols-4 items-center gap-4">
@@ -331,7 +336,7 @@ export default function AdminTeamPage() {
                 <Textarea
                   id="bio"
                   value={editingMember.bio || ''}
-                  onChange={(e) => setEditingMember({...editingMember, bio: e.target.value})}
+                  onChange={(e) => setEditingMember({ ...editingMember, bio: e.target.value })}
                   className="col-span-3"
                 />
               </div>
@@ -343,20 +348,21 @@ export default function AdminTeamPage() {
                   id="email"
                   type="email"
                   value={editingMember.social?.email || ''}
-                  onChange={(e) => setEditingMember({...editingMember, social: {...editingMember.social, email: e.target.value}})}
+                  onChange={(e) => setEditingMember({ ...editingMember, social: { ...editingMember.social, email: e.target.value } })}
                   className="col-span-3"
                 />
               </div>
               <div className="grid grid-cols-4 items-center gap-4">
                 <Label htmlFor="linkedin" className="text-right">
-                  LinkedIn
+                  LinkedIn *
                 </Label>
                 <Input
                   id="linkedin"
                   value={editingMember.social?.linkedin || ''}
-                  onChange={(e) => setEditingMember({...editingMember, social: {...editingMember.social, linkedin: e.target.value}})}
+                  onChange={(e) => setEditingMember({ ...editingMember, social: { ...editingMember.social, linkedin: e.target.value } })}
                   className="col-span-3"
                   placeholder="https://linkedin.com/in/..."
+                  required
                 />
               </div>
             </div>

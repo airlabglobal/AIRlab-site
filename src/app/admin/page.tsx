@@ -47,9 +47,9 @@ export default function AdminDashboardPage() {
           teamCount = teamData.data.length;
         } else {
           // If it's an object with categories
-          teamCount = (teamData.data.leading?.length || 0) + 
-                     (teamData.data.pioneer?.length || 0) + 
-                     (teamData.data.volunteers?.length || 0);
+          teamCount = (teamData.data.leading?.length || 0) +
+            (teamData.data.pioneer?.length || 0) +
+            (teamData.data.volunteers?.length || 0);
         }
       }
 
@@ -181,7 +181,7 @@ export default function AdminDashboardPage() {
               </div>
               <div className="p-3 bg-muted rounded-md">
                 <p className="text-sm font-body font-semibold mb-1">Live Updates</p>
-                <p className="text-xs text-muted-foreground">All changes are immediately visible on your public website.</p>
+                <p className="text-xs text-muted-foreground">All changes are immediately visible on the website.</p>
               </div>
             </div>
           </CardContent>

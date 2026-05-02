@@ -1,6 +1,13 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, FileText, ExternalLink } from 'lucide-react';
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@/components/ui/dialog';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -15,6 +22,9 @@ interface DynamicShowcaseCardProps {
   imageHint?: string;
   className?: string;
   priority?: boolean;
+  status?: string;
+  abstract?: string;
+  paperUrl?: string;
 }
 
 export default function DynamicShowcaseCard({
@@ -26,6 +36,9 @@ export default function DynamicShowcaseCard({
   imageHint,
   className,
   priority = false,
+  status,
+  abstract,
+  paperUrl,
 }: DynamicShowcaseCardProps) {
   return (
     <Card className={cn(
@@ -63,23 +76,84 @@ export default function DynamicShowcaseCard({
         )}
       </CardContent>
       <CardFooter className="p-6 pt-0">
-        {linkUrl && linkUrl !== '#' ? (
-          <Button asChild variant="link" className="p-0 text-accent hover:text-primary group-hover:translate-x-1 transition-transform">
-            <Link 
-              href={linkUrl.startsWith('http') ? linkUrl : `https://${linkUrl}`} 
-              target="_blank"
-              rel="noopener noreferrer"
-            >
+        <Dialog>
+          <DialogTrigger asChild>
+            <Button variant="link" className="p-0 text-accent hover:text-primary group-hover:translate-x-1 transition-transform">
               Learn More <ArrowRight className="ml-2 h-4 w-4" />
-            </Link>
-          </Button>
-        ) : (
-          <Button asChild variant="link" className="p-0 text-accent hover:text-primary group-hover:translate-x-1 transition-transform">
-            <Link href="/projects">
-              View All Projects <ArrowRight className="ml-2 h-4 w-4" />
-            </Link>
-          </Button>
-        )}
+            </Button>
+          </DialogTrigger>
+          <DialogContent className="max-w-3xl max-h-[80vh] overflow-y-auto">
+            <DialogHeader>
+              <DialogTitle className="text-2xl font-headline">{title}</DialogTitle>
+              {status && (
+                <div className="flex items-center gap-2">
+                  <Badge variant={status === "Completed" ? "default" : "secondary"} className={status === "Completed" ? "bg-primary text-primary-foreground" : "bg-accent text-accent-foreground"}>
+                    {status}
+                  </Badge>
+                </div>
+              )}
+            </DialogHeader>
+            <div className="space-y-6">
+              <div className="relative aspect-video rounded-lg overflow-hidden">
+                <Image
+                  src={imageUrl}
+                  alt={title}
+                  fill
+                  className="object-cover"
+                />
+              </div>
+
+              <div>
+                <h3 className="text-lg font-semibold mb-2">Description</h3>
+                <p className="text-foreground/80">{description}</p>
+              </div>
+
+              {abstract && (
+                <div>
+                  <h3 className="text-lg font-semibold mb-2">Abstract</h3>
+                  <p className="text-foreground/80 whitespace-pre-line">{abstract}</p>
+                </div>
+              )}
+
+              {tags && tags.length > 0 && (
+                <div>
+                  <h3 className="text-lg font-semibold mb-2">Tags</h3>
+                  <div className="flex flex-wrap gap-2">
+                    {tags.map(tag => (
+                      <Badge key={tag} variant="outline">{tag}</Badge>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              <div className="flex gap-4 pt-4">
+                {linkUrl && linkUrl !== '#' && (
+                  <Button asChild variant="default">
+                    <Link
+                      href={linkUrl.startsWith('http') ? linkUrl : `https://${linkUrl}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      View Project <ExternalLink className="ml-2 h-4 w-4" />
+                    </Link>
+                  </Button>
+                )}
+                {paperUrl && (
+                  <Button asChild variant="outline">
+                    <Link
+                      href={paperUrl.startsWith('http') ? paperUrl : `https://${paperUrl}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <FileText className="mr-2 h-4 w-4" />
+                      Read Paper
+                    </Link>
+                  </Button>
+                )}
+              </div>
+            </div>
+          </DialogContent>
+        </Dialog>
       </CardFooter>
     </Card>
   );

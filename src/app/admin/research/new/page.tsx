@@ -75,7 +75,7 @@ export default function NewResearchPage() {
   return (
     <div className="space-y-6">
       <div className="flex items-center gap-4">
-        <BackButton fallbackUrl="/admin/research" />
+        <BackButton fallbackUrl="/admin" />
         <div>
           <h2 className="font-headline text-3xl font-semibold flex items-center">
             <FileText className="mr-3 h-8 w-8 text-primary" /> Add New Research Paper
