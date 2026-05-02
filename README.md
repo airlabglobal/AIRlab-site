@@ -10,8 +10,10 @@ This repository contains the full source code for the official AIRLAB UNILAG web
 
   * **Responsive Design:** Optimized for seamless viewing on desktop, tablet, and mobile devices.
   * **Serverless Architecture:** Utilizes Next.js API routes for scalable, serverless backend operations.
-  * **Admin Dashboard:** Secure authentication system using JWTs for managing lab content dynamically.
-  * **Database Integration:** MongoDB integration for persistent, dynamic storage of projects, news, and team data.
+  * **Admin Dashboard:** Secure authentication system using JWTs and Bcrypt hashing for managing lab content dynamically.
+  * **Database Integration:** MongoDB integration for persistent storage with custom manual reordering capabilities for timelines.
+  * **Interactive UI:** Features rich, dynamic modals for project viewing and automated image fallbacks.
+  * **Contact Form:** Integrated with FormSubmit AJAX for seamless, direct-from-page messaging.
   * **Clean Structure:** Uses modern Next.js conventions (`app/` directory) for intuitive routing and co-located logic.
 
 ## Tech Stack
@@ -20,10 +22,10 @@ This repository contains the full source code for the official AIRLAB UNILAG web
 * **Language:** [TypeScript](https://www.typescriptlang.org/)
 * **Styling:** [Tailwind CSS](https://tailwindcss.com/) & [shadcn/ui](https://ui.shadcn.com/)
 * **Database:** [MongoDB](https://www.mongodb.com/)
-* **Authentication:** JWT
+* **Authentication:** JWT & Bcrypt
 * **Testing:** [Jest](https://jestjs.io/) & React Testing Library
 
-## 🛠 Project Structure
+## Project Structure
 
 The project follows a standard Next.js (App Router) full-stack structure:
 
