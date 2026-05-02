@@ -11,16 +11,14 @@ import {
 import Image from "next/image";
 import { Briefcase } from "lucide-react";
 import Link from "next/link";
-import leadingTeamData from "@/data/team-leading.json";
-import pioneerVolunteersData from "@/data/team-pioneer.json";
-import volunteersData from "@/data/team-volunteers.json";
+import { getTeamByCategory } from "@/lib/data-fetchers";
 import { FaLinkedin } from "react-icons/fa6";
 
-export default function TeamPage() {
-  const leadingTeam = leadingTeamData;
-  const pioneerVolunteers = pioneerVolunteersData;
-  const volunteers = volunteersData;
-  
+export default async function TeamPage() {
+  const leadingTeam = await getTeamByCategory('leading');
+  const pioneerVolunteers = await getTeamByCategory('pioneer');
+  const volunteers = await getTeamByCategory('volunteers');
+
   const renderMemberCard = (member: any) => (
     <Card
       key={member.id}
@@ -62,7 +60,7 @@ export default function TeamPage() {
       </CardFooter>
     </Card>
   );
-  
+
   return (
     <PageWrapper>
       <Section title="Our Team" subtitle="Meet the Minds Behind AIRLAB">
