@@ -3,7 +3,8 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
-import { PlusCircle, Edit, Trash2, Search, Clock, ExternalLink } from 'lucide-react';
+import { PlusCircle, Edit, Trash2, Search, Clock, ExternalLink, ArrowUp, ArrowDown, Save } from 'lucide-react';
+import { BackButton } from '@/components/ui/back-button';
 import { Input } from '@/components/ui/input';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { useState, useEffect } from 'react';
@@ -27,6 +28,7 @@ interface HistoryItem {
   description: string;
   image?: string;
   link?: string;
+  order?: number;
 }
 
 function HistoryTableSkeleton() {
@@ -53,6 +55,8 @@ export default function AdminHistoryPage() {
   const [searchTerm, setSearchTerm] = useState('');
   const [editingItem, setEditingItem] = useState<HistoryItem | null>(null);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [hasReordered, setHasReordered] = useState(false);
+  const [isSavingOrder, setIsSavingOrder] = useState(false);
   const { toast } = useToast();
 
   useEffect(() => {
@@ -160,11 +164,82 @@ export default function AdminHistoryPage() {
     item.year.toLowerCase().includes(searchTerm.toLowerCase()) ||
     item.description.toLowerCase().includes(searchTerm.toLowerCase())
   );
+  
+  const canReorder = searchTerm === '';
+
+  const moveUp = (index: number) => {
+    if (index === 0 || !canReorder) return;
+    const current = historyItems[index];
+    const prev = historyItems[index - 1];
+    
+    // Only allow swapping within the same year
+    if (current.year !== prev.year) return;
+    
+    const newItems = [...historyItems];
+    [newItems[index - 1], newItems[index]] = [newItems[index], newItems[index - 1]];
+    
+    // Update their order values based on their new visual position within their year group
+    const yearItems = newItems.filter(i => i.year === current.year);
+    yearItems.forEach((item, idx) => {
+      item.order = idx;
+    });
+    
+    setHistoryItems(newItems);
+    setHasReordered(true);
+  };
+
+  const moveDown = (index: number) => {
+    if (index === historyItems.length - 1 || !canReorder) return;
+    const current = historyItems[index];
+    const next = historyItems[index + 1];
+    
+    if (current.year !== next.year) return;
+    
+    const newItems = [...historyItems];
+    [newItems[index + 1], newItems[index]] = [newItems[index], newItems[index + 1]];
+    
+    const yearItems = newItems.filter(i => i.year === current.year);
+    yearItems.forEach((item, idx) => {
+      item.order = idx;
+    });
+    
+    setHistoryItems(newItems);
+    setHasReordered(true);
+  };
+
+  const handleSaveOrder = async () => {
+    setIsSavingOrder(true);
+    try {
+      const updates = historyItems.map((item, index) => ({
+        id: item.id || `${item.year}-${item.event}`,
+        order: item.order !== undefined ? item.order : index
+      }));
+      
+      const response = await fetch('/api/admin/history/reorder', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ updates })
+      });
+      
+      if (response.ok) {
+        setHasReordered(false);
+        toast({ title: "Success", description: "Order saved successfully" });
+        await fetchHistoryItems();
+      } else {
+        toast({ title: "Error", description: "Failed to save order", variant: "destructive" });
+      }
+    } catch {
+      toast({ title: "Error", description: "Failed to save order", variant: "destructive" });
+    } finally {
+      setIsSavingOrder(false);
+    }
+  };
 
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-4">
+          <BackButton fallbackUrl="/admin" />
           <div>
             <h2 className="font-headline text-3xl font-semibold flex items-center">
               <Clock className="mr-3 h-8 w-8 text-primary" /> Manage History
@@ -172,11 +247,23 @@ export default function AdminHistoryPage() {
             <p className="text-muted-foreground font-body">Add, edit, or remove AIRLAB history items.</p>
           </div>
         </div>
-        <Button asChild className="bg-primary hover:bg-primary/90 text-primary-foreground">
-          <Link href="/admin/history/new">
-            <PlusCircle className="mr-2 h-5 w-5" /> Add History Item
-          </Link>
-        </Button>
+        <div className="flex items-center gap-3">
+          {hasReordered && (
+            <Button 
+              onClick={handleSaveOrder} 
+              disabled={isSavingOrder}
+              className="bg-accent hover:bg-accent/90 text-accent-foreground animate-pulse"
+            >
+              <Save className="mr-2 h-5 w-5" /> 
+              {isSavingOrder ? 'Saving...' : 'Save Order'}
+            </Button>
+          )}
+          <Button asChild className="bg-primary hover:bg-primary/90 text-primary-foreground">
+            <Link href="/admin/history/new">
+              <PlusCircle className="mr-2 h-5 w-5" /> Add History Item
+            </Link>
+          </Button>
+        </div>
       </div>
 
       <Card className="shadow-lg">
@@ -202,6 +289,7 @@ export default function AdminHistoryPage() {
             <Table>
               <TableHeader>
                 <TableRow>
+                  <TableHead className="w-[100px]">Order</TableHead>
                   <TableHead>Year</TableHead>
                   <TableHead>Event</TableHead>
                   <TableHead>Description</TableHead>
@@ -217,8 +305,36 @@ export default function AdminHistoryPage() {
                     </TableCell>
                   </TableRow>
                 ) : (
-                  filteredItems.map((item) => (
+                  filteredItems.map((item, index) => {
+                    const isFirstInYear = index === 0 || filteredItems[index - 1].year !== item.year;
+                    const isLastInYear = index === filteredItems.length - 1 || filteredItems[index + 1].year !== item.year;
+                    
+                    return (
                   <TableRow key={item.id || `${item.year}-${item.event}`}>
+                    <TableCell>
+                      {canReorder ? (
+                        <div className="flex flex-col items-center justify-center gap-1 opacity-70">
+                          <button 
+                            onClick={() => moveUp(index)}
+                            disabled={isFirstInYear}
+                            className={`p-1 rounded hover:bg-accent hover:text-accent-foreground transition-colors ${isFirstInYear ? 'opacity-30 cursor-not-allowed' : 'cursor-pointer'}`}
+                            title="Move Up (Within Same Year)"
+                          >
+                            <ArrowUp className="h-4 w-4" />
+                          </button>
+                          <button 
+                            onClick={() => moveDown(index)}
+                            disabled={isLastInYear}
+                            className={`p-1 rounded hover:bg-accent hover:text-accent-foreground transition-colors ${isLastInYear ? 'opacity-30 cursor-not-allowed' : 'cursor-pointer'}`}
+                            title="Move Down (Within Same Year)"
+                          >
+                            <ArrowDown className="h-4 w-4" />
+                          </button>
+                        </div>
+                      ) : (
+                        <span className="text-xs text-muted-foreground">-</span>
+                      )}
+                    </TableCell>
                     <TableCell className="font-medium">{item.year}</TableCell>
                     <TableCell className="font-medium">{item.event}</TableCell>
                     <TableCell className="max-w-md">
@@ -260,7 +376,7 @@ export default function AdminHistoryPage() {
                       </div>
                     </TableCell>
                   </TableRow>
-                )))}
+                )}))}
               </TableBody>
             </Table>
           )}

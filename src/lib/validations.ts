@@ -43,11 +43,11 @@ export const teamMemberSchema = z.object({
   id: z.string().optional(),
   name: z.string().min(2, 'Name must be at least 2 characters'),
   role: z.string().min(2, 'Role is required'),
-  imageUrl: z.string().url('Must be a valid URL').or(z.literal('')),
+  imageUrl: z.string().url('Must be a valid URL'),
   imageHint: z.string().optional(),
   bio: z.string(),
   social: z.object({
-    linkedin: z.string().url().optional().or(z.literal('')),
+    linkedin: z.string().url('Must be a valid LinkedIn URL'),
     twitter: z.string().url().optional().or(z.literal('')),
     github: z.string().url().optional().or(z.literal('')),
     email: z.string().email().optional().or(z.literal('')),
@@ -70,4 +70,5 @@ export const historySchema = z.object({
   description: z.string().min(1, 'Description is required'),
   image: z.string().optional(),
   link: z.string().url().optional().or(z.literal('')),
+  order: z.number().optional()
 });

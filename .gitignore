@@ -48,6 +48,10 @@ firestore-debug.log
 .env.local
 .env
 .env.development
+.env.production
+
+# compiler caches
+.swc/
 
 # IDE / tools
 .kiro/

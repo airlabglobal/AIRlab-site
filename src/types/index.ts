@@ -51,12 +51,13 @@ export interface TeamMember {
 
 // History Types
 export interface HistoryItem {
-  id?: string;
+  id: string;
   year: string;
   event: string;
   description: string;
-  image?: string;
   link?: string;
+  imageUrl?: string;
+  order?: number;
 }
 
 // Contact Form Types

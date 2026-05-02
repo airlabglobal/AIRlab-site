@@ -3,7 +3,9 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
-import { PlusCircle, Edit, Trash2, Search, Bot } from 'lucide-react';
+import { PlusCircle, Edit, Trash2, Search, Bot, X } from 'lucide-react';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { BackButton } from '@/components/ui/back-button';
 import { Input } from '@/components/ui/input';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Badge } from '@/components/ui/badge';
@@ -60,6 +62,7 @@ export default function AdminProjectsPage() {
   const [searchTerm, setSearchTerm] = useState('');
   const [editingProject, setEditingProject] = useState<Project | null>(null);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [tagInput, setTagInput] = useState('');
   const { toast } = useToast();
 
   useEffect(() => {
@@ -170,6 +173,7 @@ export default function AdminProjectsPage() {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-4">
+          <BackButton fallbackUrl="/admin" />
           <div>
             <h2 className="font-headline text-3xl font-semibold flex items-center">
               <Bot className="mr-3 h-8 w-8 text-primary" /> Manage Projects
@@ -321,24 +325,91 @@ export default function AdminProjectsPage() {
                 <Label htmlFor="status" className="text-right">
                   Status
                 </Label>
-                <Input
-                  id="status"
-                  value={editingProject.status}
-                  onChange={(e) => setEditingProject({...editingProject, status: e.target.value})}
-                  className="col-span-3"
-                />
+                <Select 
+                  value={editingProject.status} 
+                  onValueChange={(value) => setEditingProject({...editingProject, status: value})}
+                >
+                  <SelectTrigger className="col-span-3">
+                    <SelectValue placeholder="Select status" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="Ongoing">Ongoing</SelectItem>
+                    <SelectItem value="Completed">Completed</SelectItem>
+                    <SelectItem value="Research Phase">Research Phase</SelectItem>
+                  </SelectContent>
+                </Select>
               </div>
-              <div className="grid grid-cols-4 items-center gap-4">
-                <Label htmlFor="tags" className="text-right">
+              <div className="grid grid-cols-4 items-start gap-4">
+                <Label htmlFor="tags" className="text-right pt-3">
                   Tags
                 </Label>
-                <Input
-                  id="tags"
-                  value={editingProject.tags?.join(', ') || ''}
-                  onChange={(e) => setEditingProject({...editingProject, tags: e.target.value.split(', ').filter(tag => tag.trim())})}
-                  className="col-span-3"
-                  placeholder="Separate tags with commas"
-                />
+                <div className="col-span-3 space-y-3">
+                  <div className="flex flex-wrap gap-2">
+                    {(editingProject.tags || []).map((tag, index) => (
+                      <Badge key={index} variant="secondary" className="flex items-center gap-1 text-sm py-1 px-3 bg-accent/10 text-accent hover:bg-accent/20">
+                        {tag}
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setEditingProject({
+                              ...editingProject,
+                              tags: (editingProject.tags || []).filter((_, i) => i !== index)
+                            });
+                          }}
+                          className="text-accent/70 hover:text-accent rounded-full p-0.5 transition-colors focus:outline-none focus:ring-2 focus:ring-accent"
+                        >
+                          <X className="h-3 w-3" />
+                          <span className="sr-only">Remove {tag} tag</span>
+                        </button>
+                      </Badge>
+                    ))}
+                  </div>
+                  <Input
+                    id="tags"
+                    value={tagInput}
+                    disabled={(editingProject.tags || []).length >= 5}
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      if (value.includes(',')) {
+                        const currentTags = editingProject.tags || [];
+                        const newTags = value.split(',')
+                          .map(t => t.trim())
+                          .filter(t => t !== '' && !currentTags.includes(t));
+                        if (newTags.length > 0) {
+                          const availableSlots = 5 - currentTags.length;
+                          const tagsToAdd = newTags.slice(0, availableSlots);
+                          setEditingProject({
+                            ...editingProject,
+                            tags: [...currentTags, ...tagsToAdd]
+                          });
+                        }
+                        setTagInput('');
+                      } else {
+                        setTagInput(value);
+                      }
+                    }}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter') {
+                        e.preventDefault();
+                        const trimmed = tagInput.trim();
+                        const currentTags = editingProject.tags || [];
+                        if (trimmed && !currentTags.includes(trimmed) && currentTags.length < 5) {
+                          setEditingProject({
+                            ...editingProject,
+                            tags: [...currentTags, trimmed]
+                          });
+                        }
+                        setTagInput('');
+                      } else if (e.key === 'Backspace' && tagInput === '' && (editingProject.tags || []).length > 0) {
+                        setEditingProject({
+                          ...editingProject,
+                          tags: (editingProject.tags || []).slice(0, -1)
+                        });
+                      }
+                    }}
+                    placeholder={(editingProject.tags || []).length >= 5 ? "Maximum 5 tags reached" : "Type a tag and press comma or enter..."}
+                  />
+                </div>
               </div>
             </div>
           )}

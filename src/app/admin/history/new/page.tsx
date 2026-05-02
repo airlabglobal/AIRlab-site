@@ -71,7 +71,7 @@ export default function NewHistoryPage() {
   return (
     <div className="space-y-6">
       <div className="flex items-center gap-4">
-        <BackButton fallbackUrl="/admin/history" />
+        <BackButton fallbackUrl="/admin" />
         <div>
           <h2 className="font-headline text-3xl font-semibold flex items-center">
             <Clock className="mr-3 h-8 w-8 text-primary" /> Add New History Item
@@ -97,7 +97,7 @@ export default function NewHistoryPage() {
                 <Input
                   id="year"
                   value={historyItem.year}
-                  onChange={(e) => setHistoryItem({...historyItem, year: e.target.value})}
+                  onChange={(e) => setHistoryItem({ ...historyItem, year: e.target.value })}
                   className="col-span-3"
                   placeholder="2024 or Present"
                   required
@@ -111,7 +111,7 @@ export default function NewHistoryPage() {
                 <Input
                   id="event"
                   value={historyItem.event}
-                  onChange={(e) => setHistoryItem({...historyItem, event: e.target.value})}
+                  onChange={(e) => setHistoryItem({ ...historyItem, event: e.target.value })}
                   className="col-span-3"
                   placeholder="e.g., Foundation of AIRLAB"
                   required
@@ -125,24 +125,11 @@ export default function NewHistoryPage() {
                 <Textarea
                   id="description"
                   value={historyItem.description}
-                  onChange={(e) => setHistoryItem({...historyItem, description: e.target.value})}
+                  onChange={(e) => setHistoryItem({ ...historyItem, description: e.target.value })}
                   className="col-span-3"
                   rows={4}
                   placeholder="Detailed description of the event..."
                   required
-                />
-              </div>
-
-              <div className="grid grid-cols-4 items-center gap-4">
-                <Label htmlFor="image" className="text-right">
-                  Image URL
-                </Label>
-                <Input
-                  id="image"
-                  value={historyItem.image || ''}
-                  onChange={(e) => setHistoryItem({...historyItem, image: e.target.value})}
-                  className="col-span-3"
-                  placeholder="https://example.com/image.jpg (optional)"
                 />
               </div>
 
@@ -153,7 +140,7 @@ export default function NewHistoryPage() {
                 <Input
                   id="link"
                   value={historyItem.link || ''}
-                  onChange={(e) => setHistoryItem({...historyItem, link: e.target.value})}
+                  onChange={(e) => setHistoryItem({ ...historyItem, link: e.target.value })}
                   className="col-span-3"
                   placeholder="https://example.com/more-info (optional)"
                 />

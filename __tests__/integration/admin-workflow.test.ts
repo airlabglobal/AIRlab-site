@@ -143,6 +143,104 @@ describe('Admin Workflow Integration', () => {
     });
   });
 
+  describe('Research Management Workflow', () => {
+    it('should handle research CRUD operations', async () => {
+      const newResearch = {
+        title: 'Workflow Research',
+        authors: 'Workflow Author',
+        description: 'This is a test description for the workflow paper.',
+        year: 2026,
+        fileUrl: 'https://example.com/paper.pdf'
+      };
+
+      const createResponse = await authFetch('/api/admin/research', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(newResearch)
+      });
+      expect(createResponse.status).toBe(201);
+      const created = (await createResponse.json()).data;
+
+      const updated = { ...created, title: 'Updated Research' };
+      const updateResponse = await authFetch('/api/admin/research', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(updated)
+      });
+      expect(updateResponse.status).toBe(200);
+
+      const deleteResponse = await authFetch(`/api/admin/research?id=${created._id}`, {
+        method: 'DELETE'
+      });
+      expect(deleteResponse.status).toBe(200);
+    });
+  });
+
+  describe('Team Management Workflow', () => {
+    it('should handle team CRUD operations', async () => {
+      const newMember = {
+        name: 'Workflow Member',
+        role: 'Developer',
+        imageUrl: 'https://example.com/images/wf.jpg',
+        bio: 'Workflow bio',
+        category: 'pioneer',
+        social: { linkedin: '', twitter: '', github: '', email: '' }
+      };
+
+      const createResponse = await authFetch('/api/admin/team', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(newMember)
+      });
+      expect(createResponse.status).toBe(201);
+      const created = (await createResponse.json()).data;
+
+      const updated = { ...created, role: 'Senior Developer' };
+      const updateResponse = await authFetch('/api/admin/team', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(updated)
+      });
+      expect(updateResponse.status).toBe(200);
+
+      const deleteResponse = await authFetch(`/api/admin/team?id=${created.id}`, {
+        method: 'DELETE'
+      });
+      expect(deleteResponse.status).toBe(200);
+    });
+  });
+
+  describe('History Management Workflow', () => {
+    it('should handle history CRUD operations', async () => {
+      const newHistory = {
+        year: '2026',
+        event: 'Workflow History',
+        description: 'Workflow description'
+      };
+
+      const createResponse = await authFetch('/api/admin/history', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(newHistory)
+      });
+      expect(createResponse.status).toBe(201);
+      const created = (await createResponse.json()).data;
+
+      const updated = { ...created, event: 'Updated History' };
+      const updateResponse = await authFetch('/api/admin/history', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(updated)
+      });
+      expect(updateResponse.status).toBe(200);
+
+      const deleteResponse = await authFetch(`/api/admin/history?id=${created.id}`, {
+        method: 'DELETE'
+      });
+      expect(deleteResponse.status).toBe(200);
+    });
+  });
+
   describe('Error Handling', () => {
     it('should handle malformed JSON', async () => {
       const response = await authFetch('/api/admin/projects', {

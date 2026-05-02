@@ -35,8 +35,11 @@ export default function ContactPage() {
       form.append('_captcha', 'false');
 
       const contactEmail = process.env.NEXT_PUBLIC_CONTACT_EMAIL || 'airol@unilag.edu.ng';
-      const response = await fetch(`https://formsubmit.co/${contactEmail}`, {
+      const response = await fetch(`https://formsubmit.co/ajax/${contactEmail}`, {
         method: 'POST',
+        headers: {
+          'Accept': 'application/json'
+        },
         body: form
       });
 

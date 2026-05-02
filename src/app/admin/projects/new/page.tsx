@@ -10,7 +10,8 @@ import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useToast } from '@/hooks/use-toast';
 import { BackButton } from '@/components/ui/back-button';
-import { Bot, Plus } from 'lucide-react';
+import { Badge } from '@/components/ui/badge';
+import { Bot, Plus, X } from 'lucide-react';
 
 interface NewProject {
   title: string;
@@ -28,6 +29,7 @@ export default function NewProjectPage() {
   const router = useRouter();
   const { toast } = useToast();
   const [loading, setLoading] = useState(false);
+  const [tagInput, setTagInput] = useState('');
   const [project, setProject] = useState<NewProject>({
     title: '',
     description: '',
@@ -82,7 +84,7 @@ export default function NewProjectPage() {
   return (
     <div className="space-y-6">
       <div className="flex items-center gap-4">
-        <BackButton fallbackUrl="/admin/projects" />
+        <BackButton fallbackUrl="/admin" />
         <div>
           <h2 className="font-headline text-3xl font-semibold flex items-center">
             <Bot className="mr-3 h-8 w-8 text-primary" /> Add New Project
@@ -161,17 +163,75 @@ export default function NewProjectPage() {
                 </Select>
               </div>
               
-              <div className="grid grid-cols-4 items-center gap-4">
-                <Label htmlFor="tags" className="text-right">
+              <div className="grid grid-cols-4 items-start gap-4">
+                <Label htmlFor="tags" className="text-right pt-3">
                   Tags
                 </Label>
-                <Input
-                  id="tags"
-                  value={project.tags.join(', ')}
-                  onChange={(e) => setProject({...project, tags: e.target.value.split(', ').filter(tag => tag.trim())})}
-                  className="col-span-3"
-                  placeholder="AI, Machine Learning, Research (separate with commas)"
-                />
+                <div className="col-span-3 space-y-3">
+                  <div className="flex flex-wrap gap-2">
+                    {project.tags.map((tag, index) => (
+                      <Badge key={index} variant="secondary" className="flex items-center gap-1 text-sm py-1 px-3 bg-accent/10 text-accent hover:bg-accent/20">
+                        {tag}
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setProject({
+                              ...project,
+                              tags: project.tags.filter((_, i) => i !== index)
+                            });
+                          }}
+                          className="text-accent/70 hover:text-accent rounded-full p-0.5 transition-colors focus:outline-none focus:ring-2 focus:ring-accent"
+                        >
+                          <X className="h-3 w-3" />
+                          <span className="sr-only">Remove {tag} tag</span>
+                        </button>
+                      </Badge>
+                    ))}
+                  </div>
+                  <Input
+                    id="tags"
+                    value={tagInput}
+                    disabled={project.tags.length >= 5}
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      if (value.includes(',')) {
+                        const newTags = value.split(',')
+                          .map(t => t.trim())
+                          .filter(t => t !== '' && !project.tags.includes(t));
+                        if (newTags.length > 0) {
+                          const availableSlots = 5 - project.tags.length;
+                          const tagsToAdd = newTags.slice(0, availableSlots);
+                          setProject({
+                            ...project,
+                            tags: [...project.tags, ...tagsToAdd]
+                          });
+                        }
+                        setTagInput('');
+                      } else {
+                        setTagInput(value);
+                      }
+                    }}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter') {
+                        e.preventDefault();
+                        const trimmed = tagInput.trim();
+                        if (trimmed && !project.tags.includes(trimmed) && project.tags.length < 5) {
+                          setProject({
+                            ...project,
+                            tags: [...project.tags, trimmed]
+                          });
+                        }
+                        setTagInput('');
+                      } else if (e.key === 'Backspace' && tagInput === '' && project.tags.length > 0) {
+                        setProject({
+                          ...project,
+                          tags: project.tags.slice(0, -1)
+                        });
+                      }
+                    }}
+                    placeholder={project.tags.length >= 5 ? "Maximum 5 tags reached" : "Type a tag and press comma or enter..."}
+                  />
+                </div>
               </div>
               
               <div className="grid grid-cols-4 items-center gap-4">

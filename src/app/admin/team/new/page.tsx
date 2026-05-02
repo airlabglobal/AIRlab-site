@@ -48,12 +48,26 @@ export default function NewTeamMemberPage() {
     setLoading(true);
 
     try {
+      const payload = {
+        name: member.name,
+        role: member.role,
+        imageUrl: member.imageUrl,
+        bio: member.bio,
+        category,
+        social: {
+          email: member.email,
+          linkedin: member.linkedin,
+          twitter: member.twitter,
+          github: '',
+        }
+      };
+
       const response = await fetch('/api/admin/team', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ ...member, category }),
+        body: JSON.stringify(payload),
       });
 
       if (response.ok) {
@@ -63,16 +77,18 @@ export default function NewTeamMemberPage() {
         });
         router.push('/admin/team');
       } else {
+        const errorData = await response.json();
+        const errorMessage = errorData.details?.[0]?.message || errorData.error || "Failed to add team member";
         toast({
-          title: "Error",
-          description: "Failed to add team member",
+          title: "Validation Error",
+          description: errorMessage,
           variant: "destructive",
         });
       }
-    } catch {
+    } catch (err: any) {
       toast({
         title: "Error",
-        description: "Failed to add team member",
+        description: err.message || "An unexpected error occurred",
         variant: "destructive",
       });
     } finally {
@@ -83,7 +99,7 @@ export default function NewTeamMemberPage() {
   return (
     <div className="space-y-6">
       <div className="flex items-center gap-4">
-        <BackButton fallbackUrl="/admin/team" />
+        <BackButton fallbackUrl="/admin" />
         <div>
           <h2 className="font-headline text-3xl font-semibold flex items-center">
             <Users className="mr-3 h-8 w-8 text-primary" /> Add New Team Member
@@ -174,7 +190,7 @@ export default function NewTeamMemberPage() {
               
               <div className="grid grid-cols-4 items-center gap-4">
                 <Label htmlFor="imageUrl" className="text-right">
-                  Image URL
+                  Image URL *
                 </Label>
                 <Input
                   id="imageUrl"
@@ -182,12 +198,13 @@ export default function NewTeamMemberPage() {
                   onChange={(e) => setMember({...member, imageUrl: e.target.value})}
                   className="col-span-3"
                   placeholder="https://example.com/profile-photo.jpg"
+                  required
                 />
               </div>
               
               <div className="grid grid-cols-4 items-center gap-4">
                 <Label htmlFor="linkedin" className="text-right">
-                  LinkedIn
+                  LinkedIn *
                 </Label>
                 <Input
                   id="linkedin"
@@ -195,6 +212,7 @@ export default function NewTeamMemberPage() {
                   onChange={(e) => setMember({...member, linkedin: e.target.value})}
                   className="col-span-3"
                   placeholder="https://linkedin.com/in/username"
+                  required
                 />
               </div>
               

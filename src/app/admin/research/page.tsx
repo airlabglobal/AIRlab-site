@@ -5,6 +5,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { PlusCircle, Edit, Trash2, Search, FileText } from 'lucide-react';
+import { BackButton } from '@/components/ui/back-button';
 import { Input } from '@/components/ui/input';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { useToast } from '@/hooks/use-toast';
@@ -165,6 +166,7 @@ export default function AdminResearchPage() {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-4">
+          <BackButton fallbackUrl="/admin" />
           <div>
             <h2 className="font-headline text-3xl font-semibold flex items-center">
               <FileText className="mr-3 h-8 w-8 text-primary" /> Manage Research Papers

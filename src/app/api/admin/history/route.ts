@@ -12,9 +12,17 @@ export async function GET() {
     const history = await db.collection('history').find({}, { projection: { _id: 0 } }).toArray();
 
     history.sort((a, b) => {
-      if (a.year === 'Present') return -1;
-      if (b.year === 'Present') return 1;
-      return parseInt(b.year) - parseInt(a.year);
+      if (a.year === 'Present' && b.year !== 'Present') return -1;
+      if (b.year === 'Present' && a.year !== 'Present') return 1;
+      
+      const yearA = a.year === 'Present' ? new Date().getFullYear() : parseInt(a.year);
+      const yearB = b.year === 'Present' ? new Date().getFullYear() : parseInt(b.year);
+      
+      const yearDiff = yearB - yearA;
+      if (yearDiff !== 0) return yearDiff;
+      
+      // If years are the same, sort by explicit order
+      return (a.order || 0) - (b.order || 0);
     });
 
     return NextResponse.json({ success: true, data: history });
