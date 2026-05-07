@@ -29,8 +29,9 @@ export default async function Home() {
   const projects = await getProjects();
   const news = await getNews();
   const showcaseItems = projects.slice(0, 3);
+  const latestNews = news.slice(0, 3);
   const hasProjects = projects.length > 0;
-  const hasNews = news.length > 0;
+  const hasNews = latestNews.length > 0;
 
   return (
     <PageWrapper className="!px-0 !py-0">
@@ -241,7 +242,7 @@ export default async function Home() {
           {hasNews ? (
             <>
               <div className="grid md:grid-cols-3 gap-8">
-                {news.map((item, index) => (
+                {latestNews.map((item, index) => (
                   <Card
                     key={index}
                     className="shadow-lg hover:shadow-xl transition-all opacity-0 animate-slide-up overflow-hidden flex flex-col group relative"

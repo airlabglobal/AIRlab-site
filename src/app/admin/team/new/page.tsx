@@ -75,7 +75,7 @@ export default function NewTeamMemberPage() {
           title: "Success",
           description: "Team member added successfully",
         });
-        router.push('/admin/team');
+        router.replace('/admin');
       } else {
         const errorData = await response.json();
         const errorMessage = errorData.details?.[0]?.message || errorData.error || "Failed to add team member";
@@ -99,7 +99,7 @@ export default function NewTeamMemberPage() {
   return (
     <div className="space-y-6">
       <div className="flex items-center gap-4">
-        <BackButton fallbackUrl="/admin" />
+        <BackButton fallbackUrl="/admin/team" />
         <div>
           <h2 className="font-headline text-3xl font-semibold flex items-center">
             <Users className="mr-3 h-8 w-8 text-primary" /> Add New Team Member

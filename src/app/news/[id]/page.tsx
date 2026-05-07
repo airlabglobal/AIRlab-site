@@ -1,6 +1,6 @@
-import { notFound } from 'next/navigation';
 import PageWrapper from '@/components/layout/PageWrapper';
 import Section from '@/components/ui/Section';
+import { NotFound } from '@/components/NotFound';
 import { getNewsById } from '@/lib/data-fetchers';
 import { formatDate } from '@/lib/utils';
 import { Badge } from '@/components/ui/badge';
@@ -19,7 +19,16 @@ export default async function NewsDetailPage({ params }: PageProps) {
   const newsItem = await getNewsById(resolvedParams.id);
 
   if (!newsItem) {
-    notFound();
+    return (
+      <PageWrapper>
+        <NotFound
+          title="News article not found"
+          message="The news article or event you are looking for does not exist, may have been deleted, or the link is incorrect."
+          actionLabel="Browse all news"
+          actionHref="/news"
+        />
+      </PageWrapper>
+    );
   }
 
   return (

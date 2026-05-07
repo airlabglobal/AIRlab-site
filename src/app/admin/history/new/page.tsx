@@ -49,7 +49,7 @@ export default function NewHistoryPage() {
           title: "Success",
           description: "History item added successfully",
         });
-        router.push('/admin/history');
+        router.replace('/admin');
       } else {
         toast({
           title: "Error",
@@ -71,7 +71,7 @@ export default function NewHistoryPage() {
   return (
     <div className="space-y-6">
       <div className="flex items-center gap-4">
-        <BackButton fallbackUrl="/admin" />
+        <BackButton fallbackUrl="/admin/history" />
         <div>
           <h2 className="font-headline text-3xl font-semibold flex items-center">
             <Clock className="mr-3 h-8 w-8 text-primary" /> Add New History Item

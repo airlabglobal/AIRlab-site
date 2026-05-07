@@ -15,11 +15,7 @@ export function BackButton({ fallbackUrl = '/admin', className, children }: Back
   const router = useRouter();
 
   const handleBack = () => {
-    if (window.history.length > 1) {
-      router.back();
-    } else {
-      router.push(fallbackUrl);
-    }
+    router.push(fallbackUrl);
   };
 
   return (

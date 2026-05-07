@@ -60,7 +60,7 @@ export default function NewProjectPage() {
           title: "Success",
           description: "Project added successfully",
         });
-        router.push('/admin/projects');
+        router.replace('/admin');
       } else {
         const errorData = await response.json();
         toast({
@@ -84,7 +84,7 @@ export default function NewProjectPage() {
   return (
     <div className="space-y-6">
       <div className="flex items-center gap-4">
-        <BackButton fallbackUrl="/admin" />
+        <BackButton fallbackUrl="/admin/projects" />
         <div>
           <h2 className="font-headline text-3xl font-semibold flex items-center">
             <Bot className="mr-3 h-8 w-8 text-primary" /> Add New Project

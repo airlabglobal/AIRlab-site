@@ -5,7 +5,7 @@ import { Project, NewsItem, ResearchPaper, HistoryItem, TeamMember } from '@/typ
 export async function getProjects(): Promise<Project[]> {
     noStore();
     const client = await clientPromise;
-    const data = await client.db().collection('projects').find({}, { projection: { _id: 0 } }).toArray();
+    const data = await client.db().collection('projects').find({}, { projection: { _id: 0 } }).sort({ id: -1 }).toArray();
     return JSON.parse(JSON.stringify(data));
 }
 

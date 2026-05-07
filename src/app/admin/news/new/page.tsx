@@ -60,7 +60,7 @@ export default function NewNewsPage() {
           title: "Success",
           description: "News item created successfully",
         });
-        router.push('/admin/news');
+        router.replace('/admin');
       } else {
         toast({
           title: "Error",
@@ -82,7 +82,7 @@ export default function NewNewsPage() {
   return (
     <div className="space-y-6">
       <div className="flex items-center gap-4">
-        <BackButton fallbackUrl="/admin" />
+        <BackButton fallbackUrl="/admin/news" />
         <div>
           <h2 className="font-headline text-3xl font-semibold flex items-center">
             <Newspaper className="mr-3 h-8 w-8 text-primary" /> Create News Item
