@@ -1,19 +1,23 @@
+import { unstable_noStore as noStore } from 'next/cache';
 import clientPromise from './mongodb';
 import { Project, NewsItem, ResearchPaper, HistoryItem, TeamMember } from '@/types';
 
 export async function getProjects(): Promise<Project[]> {
+    noStore();
     const client = await clientPromise;
     const data = await client.db().collection('projects').find({}, { projection: { _id: 0 } }).toArray();
     return JSON.parse(JSON.stringify(data));
 }
 
 export async function getNews(): Promise<NewsItem[]> {
+    noStore();
     const client = await clientPromise;
     const data = await client.db().collection('news').find({}, { projection: { _id: 0 } }).sort({ date: -1 }).toArray();
     return JSON.parse(JSON.stringify(data));
 }
 
 export async function getNewsById(id: string): Promise<NewsItem | null> {
+    noStore();
     const client = await clientPromise;
     const data = await client.db().collection('news').findOne({ id }, { projection: { _id: 0 } });
     if (!data) return null;
@@ -21,12 +25,14 @@ export async function getNewsById(id: string): Promise<NewsItem | null> {
 }
 
 export async function getResearch(): Promise<ResearchPaper[]> {
+    noStore();
     const client = await clientPromise;
     const data = await client.db().collection('research').find({}).toArray();
     return JSON.parse(JSON.stringify(data));
 }
 
 export async function getHistory(): Promise<HistoryItem[]> {
+    noStore();
     const client = await clientPromise;
     const data = await client.db().collection('history').find({}, { projection: { _id: 0 } }).toArray();
     data.sort((a, b) => {
@@ -46,6 +52,7 @@ export async function getHistory(): Promise<HistoryItem[]> {
 }
 
 export async function getTeamByCategory(category: string): Promise<TeamMember[]> {
+    noStore();
     const client = await clientPromise;
     const data = await client.db().collection('team').find({ category }, { projection: { _id: 0, category: 0 } }).toArray();
     return JSON.parse(JSON.stringify(data));
