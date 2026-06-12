@@ -36,13 +36,13 @@ export async function getHistory(): Promise<HistoryItem[]> {
     const client = await clientPromise;
     const data = await client.db().collection('history').find({}, { projection: { _id: 0 } }).toArray();
     data.sort((a, b) => {
-        if (a.year === 'Present' && b.year !== 'Present') return -1;
-        if (b.year === 'Present' && a.year !== 'Present') return 1;
+        if (a.year === 'Present' && b.year !== 'Present') return 1;
+        if (b.year === 'Present' && a.year !== 'Present') return -1;
         
         const yearA = a.year === 'Present' ? new Date().getFullYear() : parseInt(a.year);
         const yearB = b.year === 'Present' ? new Date().getFullYear() : parseInt(b.year);
         
-        const yearDiff = yearB - yearA;
+        const yearDiff = yearA - yearB;
         if (yearDiff !== 0) return yearDiff;
         
         // If years are the same, sort by explicit order
