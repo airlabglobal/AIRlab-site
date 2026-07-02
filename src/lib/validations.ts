@@ -54,6 +54,16 @@ export const teamMemberSchema = z.object({
   }),
 });
 
+// Director validation schema
+export const directorSchema = z.object({
+  name: z.string().min(2, 'Name must be at least 2 characters'),
+  subtitle: z.string().min(2, 'Subtitle is required'),
+  affiliation: z.string().min(2, 'Affiliation is required'),
+  imageUrl: z.string().min(1, 'Image URL is required'),
+  bio: z.string().min(10, 'Bio must be at least 10 characters'),
+  about: z.string().min(10, 'About must be at least 10 characters'),
+});
+
 // Contact form validation schema
 export const contactSchema = z.object({
   name: z.string().min(2, 'Name must be at least 2 characters'),

@@ -1,6 +1,6 @@
 import { unstable_noStore as noStore } from 'next/cache';
 import clientPromise from './mongodb';
-import { Project, NewsItem, ResearchPaper, HistoryItem, TeamMember } from '@/types';
+import { Project, NewsItem, ResearchPaper, HistoryItem, TeamMember, Director } from '@/types';
 
 export async function getProjects(): Promise<Project[]> {
     noStore();
@@ -55,5 +55,13 @@ export async function getTeamByCategory(category: string): Promise<TeamMember[]>
     noStore();
     const client = await clientPromise;
     const data = await client.db().collection('team').find({ category }, { projection: { _id: 0, category: 0 } }).toArray();
+    return JSON.parse(JSON.stringify(data));
+}
+
+export async function getDirector(): Promise<Director | null> {
+    noStore();
+    const client = await clientPromise;
+    const data = await client.db().collection('director').findOne({}, { projection: { _id: 0 } });
+    if (!data) return null;
     return JSON.parse(JSON.stringify(data));
 }
