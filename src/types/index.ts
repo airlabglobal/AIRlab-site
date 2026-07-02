@@ -60,6 +60,16 @@ export interface HistoryItem {
   order?: number;
 }
 
+// Director Types
+export interface Director {
+  name: string;
+  subtitle: string;
+  affiliation: string;
+  imageUrl: string;
+  bio: string;
+  about: string;
+}
+
 // Contact Form Types
 export interface ContactFormData {
   name: string;

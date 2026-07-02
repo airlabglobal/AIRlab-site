@@ -3,7 +3,7 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
-import { Bot, FileText, Users, Newspaper, PlusCircle, BarChart3, Clock } from 'lucide-react';
+import { Bot, FileText, Users, Newspaper, PlusCircle, BarChart3, Clock, UserCog } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { Skeleton } from '@/components/ui/skeleton';
 import { safeFetch } from '@/lib/fetch-utils';
@@ -76,6 +76,7 @@ export default function AdminDashboardPage() {
   ];
 
   const quickActions = [
+    { label: "Edit Director Profile", icon: UserCog, link: "/admin/director" },
     { label: "Add New Project", icon: PlusCircle, link: "/admin/projects/new" },
     { label: "Upload Research Paper", icon: PlusCircle, link: "/admin/research/new" },
     { label: "Add Team Member", icon: PlusCircle, link: "/admin/team/new" },

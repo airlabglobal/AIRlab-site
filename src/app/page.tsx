@@ -1,6 +1,7 @@
 import PageWrapper from "@/components/layout/PageWrapper";
 import Section from "@/components/ui/Section";
 import DynamicShowcaseCard from "@/components/ui/DynamicShowcaseCard";
+import DirectorSection from "@/components/DirectorSection";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -26,8 +27,10 @@ import { getProjects, getNews } from "@/lib/data-fetchers";
 import { formatDate } from "@/lib/utils";
 
 export default async function Home() {
-  const projects = await getProjects();
-  const news = await getNews();
+  const [projects, news] = await Promise.all([
+    getProjects(),
+    getNews(),
+  ]);
   const showcaseItems = projects.slice(0, 3);
   const latestNews = news.slice(0, 3);
   const hasProjects = projects.length > 0;
@@ -41,7 +44,7 @@ export default async function Home() {
       <Section className="bg-gradient-to-br from-background to-muted/30 !py-16 md:!py-24 lg:!py-32 relative overflow-hidden">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid md:grid-cols-2 gap-8 items-center">
-            <div className="text-center md:text-left">
+            <div className="text-center md:text-left opacity-0 animate-slide-in-from-left" style={{ animationFillMode: 'both' }}>
               <h1 className="font-headline text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-6">
                 <span className="block">Pioneering the Future</span>
                 <span className="block text-primary">
@@ -58,7 +61,7 @@ export default async function Home() {
                 <Button
                   asChild
                   size="lg"
-                  className="bg-primary hover:bg-primary/90 text-primary-foreground shadow-lg transform hover:scale-105 transition-transform"
+                  className="bg-primary hover:bg-primary/90 text-primary-foreground shadow-lg transform hover:scale-105 transition-transform duration-300"
                 >
                   <Link href="/projects">Explore Projects</Link>
                 </Button>
@@ -66,7 +69,7 @@ export default async function Home() {
                   asChild
                   size="lg"
                   variant="outline"
-                  className="border-accent text-accent hover:bg-accent/10 shadow-lg transform hover:scale-105 transition-transform"
+                  className="border-accent text-accent hover:bg-accent/10 shadow-lg transform hover:scale-105 transition-transform duration-300"
                 >
                   <Link href="/about">
                     Learn More <ChevronRight className="ml-2 h-5 w-5" />
@@ -74,7 +77,7 @@ export default async function Home() {
                 </Button>
               </div>
             </div>
-            <div className="relative h-64 md:h-auto md:aspect-square">
+            <div className="relative h-64 md:h-auto md:aspect-square opacity-0 animate-slide-in-from-right" style={{ animationDelay: '0.2s', animationFillMode: 'both' }}>
               <Image
                 src="/images/pexels-agk42-2599244.jpg"
                 alt="AI and Robotics research at AIRLAB"
@@ -87,12 +90,39 @@ export default async function Home() {
           </div>
         </div>
       </Section>
+      {/* Robot Video Showcase Section */}
+      <section className="w-full py-12 md:py-20 bg-gradient-to-b from-transparent via-muted/30 to-transparent relative overflow-hidden">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-10 opacity-0 animate-slide-up" style={{ animationDelay: '0.1s', animationFillMode: 'both' }}>
+            <Badge variant="outline" className="mb-3 px-3 py-1 border-primary/30 text-primary font-medium">
+              Robot Showcase
+            </Badge>
+            <h2 className="font-headline text-3xl sm:text-4xl lg:text-5xl font-bold text-foreground mb-4">
+              Robot Playing <span className="text-primary">Soccer</span>
+            </h2>
+            <p className="font-body text-lg text-muted-foreground max-w-xl mx-auto">
+              A quick showcase of our robot playing soccer.
+            </p>
+          </div>
+          <div className="max-w-[340px] sm:max-w-[360px] md:max-w-[380px] mx-auto rounded-2xl md:rounded-3xl overflow-hidden shadow-2xl border-4 border-primary/20 bg-black relative opacity-0 animate-slide-up hover:shadow-primary/20 hover:scale-[1.02] transition-all duration-500" style={{ animationDelay: '0.3s', animationFillMode: 'both' }}>
+            <video
+              src="/robot.mp4"
+              autoPlay
+              loop
+              muted
+              playsInline
+              controls
+              className="w-full h-auto max-h-[680px] object-contain mx-auto block"
+            />
+          </div>
+        </div>
+      </section>
       {/* Lab Highlights Section */}
       <Section title="Our Focus Areas" subtitle="Driving Innovation">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid md:grid-cols-3 gap-8 text-center">
-            <div className="p-6 bg-card rounded-lg shadow-lg hover:shadow-xl transition-shadow">
-              <Lightbulb className="h-12 w-12 text-primary mx-auto mb-4" />
+            <div className="p-6 bg-card rounded-lg shadow-lg hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 opacity-0 animate-slide-up" style={{ animationDelay: '0.1s', animationFillMode: 'both' }}>
+              <Lightbulb className="h-12 w-12 text-primary mx-auto mb-4 transform group-hover:scale-110 transition-transform duration-300" />
               <h3 className="font-headline text-2xl font-semibold mb-2">
                 Pioneering Research
               </h3>
@@ -101,8 +131,8 @@ export default async function Home() {
                 create innovative solutions for real-world challenges.
               </p>
             </div>
-            <div className="p-6 bg-card rounded-lg shadow-lg hover:shadow-xl transition-shadow">
-              <Zap className="h-12 w-12 text-primary mx-auto mb-4" />
+            <div className="p-6 bg-card rounded-lg shadow-lg hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 opacity-0 animate-slide-up" style={{ animationDelay: '0.2s', animationFillMode: 'both' }}>
+              <Zap className="h-12 w-12 text-primary mx-auto mb-4 transform group-hover:scale-110 transition-transform duration-300" />
               <h3 className="font-headline text-2xl font-semibold mb-2">
                 Impactful Projects
               </h3>
@@ -111,8 +141,8 @@ export default async function Home() {
                 agriculture, education, and urban development needs.
               </p>
             </div>
-            <div className="p-6 bg-card rounded-lg shadow-lg hover:shadow-xl transition-shadow">
-              <Users className="h-12 w-12 text-primary mx-auto mb-4" />
+            <div className="p-6 bg-card rounded-lg shadow-lg hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 opacity-0 animate-slide-up" style={{ animationDelay: '0.3s', animationFillMode: 'both' }}>
+              <Users className="h-12 w-12 text-primary mx-auto mb-4 transform group-hover:scale-110 transition-transform duration-300" />
               <h3 className="font-headline text-2xl font-semibold mb-2">
                 Collaborative Team
               </h3>
@@ -124,59 +154,7 @@ export default async function Home() {
           </div>
         </div>
       </Section>
-      {/* Meet the Lab Coordinator Section */}
-      <Section
-        title="Meet Our Lab Coordinator"
-        subtitle="Guiding Our Research Efforts"
-      >
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid md:grid-cols-5 gap-12 items-center bg-card p-8 rounded-xl shadow-xl overflow-hidden">
-            <div
-              className="md:col-span-2 opacity-0 animate-slide-in-from-left"
-              style={{ animationDelay: "0.2s" }}
-            >
-              <Image
-                src="/images/image12.jpg"
-                alt="Dr. Chika Yinka-Banjo"
-                width={400}
-                height={400}
-                className="rounded-full mx-auto md:mx-0 shadow-lg object-cover w-48 h-48 md:w-64 md:h-64 lg:w-80 lg:h-80"
-                data-ai-hint="female academic"
-              />
-            </div>
-            <div
-              className="md:col-span-3 opacity-0 animate-slide-in-from-right"
-              style={{ animationDelay: "0.5s" }}
-            >
-              <h3 className="font-headline text-3xl lg:text-4xl font-semibold text-primary mb-3">
-                Dr. Chika Yinka-Banjo
-              </h3>
-              <p className="font-body text-lg text-accent font-medium mb-4">
-                Lab Coordinator & Senior Lecturer
-              </p>
-              <p className="font-body text-foreground/80 mb-6 text-base lg:text-lg">
-                Dr. Chika Yinka-Banjo is a distinguished expert in Artificial
-                Intelligence and Human-Computer Interaction with over a decade
-                of research excellence. She leads AIRLAB's strategic vision,
-                mentors emerging researchers, and champions ethical AI
-                development. Her work focuses on creating intelligent systems
-                that are technologically advanced, socially beneficial, and
-                accessible to underserved communities across Africa.
-              </p>
-              <Button
-                asChild
-                variant="outline"
-                className="border-primary text-primary hover:bg-primary/10"
-              >
-                <Link href="/team/dr-chika-yinka-banjo">
-                  Learn More About Dr. Banjo{" "}
-                  <ArrowRight className="ml-2 h-4 w-4" />
-                </Link>
-              </Button>
-            </div>
-          </div>
-        </div>
-      </Section>
+      <DirectorSection />
       {/* Showcase Section */}
       <Section
         title="Featured Works"
@@ -250,8 +228,8 @@ export default async function Home() {
                   >
                     {item.type && (
                       <div className="absolute top-4 right-4 z-10">
-                        <Badge 
-                          variant={item.type === 'Event' ? 'secondary' : 'default'} 
+                        <Badge
+                          variant={item.type === 'Event' ? 'secondary' : 'default'}
                           className={`shadow-md ${item.type === 'Event' ? 'bg-purple-500 hover:bg-purple-600 text-white' : ''}`}
                         >
                           {item.type}
@@ -259,8 +237,8 @@ export default async function Home() {
                       </div>
                     )}
                     <div className="relative h-48 w-full overflow-hidden bg-muted">
-                      <img 
-                        src={item.imageUrl || '/images/news-placeholder.jpg'} 
+                      <img
+                        src={item.imageUrl || '/images/news-placeholder.jpg'}
                         alt={item.title}
                         className="object-cover w-full h-full group-hover:scale-110 transition-transform duration-700 ease-in-out"
                       />
@@ -282,7 +260,7 @@ export default async function Home() {
                       )}
                       <div className="mt-auto pt-4 flex items-center justify-between border-t border-border/50">
                         {item.author ? (
-                          <span 
+                          <span
                             className="text-xs text-muted-foreground font-medium italic truncate max-w-[60%] mr-2"
                             title={`By ${item.author}`}
                           >
