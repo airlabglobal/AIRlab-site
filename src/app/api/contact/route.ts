@@ -17,8 +17,11 @@ export async function POST(request: NextRequest) {
     const { name, email, subject, message } = validationResult.data;
 
     const apiKey = process.env.RESEND_API_KEY;
-    if (!apiKey) {
-      console.error('RESEND_API_KEY is not configured');
+    const contactEmail = process.env.NEXT_PUBLIC_CONTACT_EMAIL;
+    const fromEmail = process.env.RESEND_FROM_EMAIL;
+
+    if (!apiKey || !contactEmail || !fromEmail) {
+      console.error('Email service environment variables are not fully configured');
       return NextResponse.json(
         { success: false, error: 'Email service is not configured on the server.' },
         { status: 500 }
@@ -26,8 +29,6 @@ export async function POST(request: NextRequest) {
     }
 
     const resend = new Resend(apiKey);
-    const contactEmail = process.env.NEXT_PUBLIC_CONTACT_EMAIL || 'airol@unilag.edu.ng';
-    const fromEmail = process.env.RESEND_FROM_EMAIL || 'AIRLAB Contact <onboarding@resend.dev>';
 
     const { data, error } = await resend.emails.send({
       from: fromEmail,
