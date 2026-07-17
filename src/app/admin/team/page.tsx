@@ -326,6 +326,7 @@ export default function AdminTeamPage() {
                   value={editingMember.imageUrl}
                   onChange={(e) => setEditingMember({ ...editingMember, imageUrl: e.target.value })}
                   className="col-span-3"
+                  placeholder="upload image to i.postimg, get https://i.postimg.cc/xxxxxxxx/xxx.jpg"
                   required
                 />
               </div>

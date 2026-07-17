@@ -133,7 +133,7 @@ export default function NewTeamMemberPage() {
                   </SelectContent>
                 </Select>
               </div>
-              
+
               <div className="grid grid-cols-4 items-center gap-4">
                 <Label htmlFor="name" className="text-right">
                   Name *
@@ -141,12 +141,12 @@ export default function NewTeamMemberPage() {
                 <Input
                   id="name"
                   value={member.name}
-                  onChange={(e) => setMember({...member, name: e.target.value})}
+                  onChange={(e) => setMember({ ...member, name: e.target.value })}
                   className="col-span-3"
                   required
                 />
               </div>
-              
+
               <div className="grid grid-cols-4 items-center gap-4">
                 <Label htmlFor="role" className="text-right">
                   Role *
@@ -154,13 +154,13 @@ export default function NewTeamMemberPage() {
                 <Input
                   id="role"
                   value={member.role}
-                  onChange={(e) => setMember({...member, role: e.target.value})}
+                  onChange={(e) => setMember({ ...member, role: e.target.value })}
                   className="col-span-3"
                   placeholder="e.g., Research Director, PhD Student"
                   required
                 />
               </div>
-              
+
               <div className="grid grid-cols-4 items-center gap-4">
                 <Label htmlFor="email" className="text-right">
                   Email *
@@ -169,12 +169,12 @@ export default function NewTeamMemberPage() {
                   id="email"
                   type="email"
                   value={member.email}
-                  onChange={(e) => setMember({...member, email: e.target.value})}
+                  onChange={(e) => setMember({ ...member, email: e.target.value })}
                   className="col-span-3"
                   required
                 />
               </div>
-              
+
               <div className="grid grid-cols-4 items-center gap-4">
                 <Label htmlFor="bio" className="text-right">
                   Bio
@@ -182,12 +182,12 @@ export default function NewTeamMemberPage() {
                 <Textarea
                   id="bio"
                   value={member.bio}
-                  onChange={(e) => setMember({...member, bio: e.target.value})}
+                  onChange={(e) => setMember({ ...member, bio: e.target.value })}
                   className="col-span-3"
                   placeholder="Brief biography and research interests..."
                 />
               </div>
-              
+
               <div className="grid grid-cols-4 items-center gap-4">
                 <Label htmlFor="imageUrl" className="text-right">
                   Image URL *
@@ -195,13 +195,13 @@ export default function NewTeamMemberPage() {
                 <Input
                   id="imageUrl"
                   value={member.imageUrl}
-                  onChange={(e) => setMember({...member, imageUrl: e.target.value})}
+                  onChange={(e) => setMember({ ...member, imageUrl: e.target.value })}
                   className="col-span-3"
-                  placeholder="https://example.com/profile-photo.jpg"
+                  placeholder="upload image to i.postimg, get https://i.postimg.cc/xxxxxxxx/xxx.jpg"
                   required
                 />
               </div>
-              
+
               <div className="grid grid-cols-4 items-center gap-4">
                 <Label htmlFor="linkedin" className="text-right">
                   LinkedIn *
@@ -209,13 +209,13 @@ export default function NewTeamMemberPage() {
                 <Input
                   id="linkedin"
                   value={member.linkedin}
-                  onChange={(e) => setMember({...member, linkedin: e.target.value})}
+                  onChange={(e) => setMember({ ...member, linkedin: e.target.value })}
                   className="col-span-3"
                   placeholder="https://linkedin.com/in/username"
                   required
                 />
               </div>
-              
+
               <div className="grid grid-cols-4 items-center gap-4">
                 <Label htmlFor="twitter" className="text-right">
                   Twitter
@@ -223,23 +223,23 @@ export default function NewTeamMemberPage() {
                 <Input
                   id="twitter"
                   value={member.twitter}
-                  onChange={(e) => setMember({...member, twitter: e.target.value})}
+                  onChange={(e) => setMember({ ...member, twitter: e.target.value })}
                   className="col-span-3"
                   placeholder="https://twitter.com/username"
                 />
               </div>
             </div>
-            
+
             <div className="flex justify-end space-x-4">
-              <Button 
-                type="button" 
-                variant="outline" 
+              <Button
+                type="button"
+                variant="outline"
                 onClick={() => router.back()}
               >
                 Cancel
               </Button>
-              <Button 
-                type="submit" 
+              <Button
+                type="submit"
                 disabled={loading}
                 className="bg-primary hover:bg-primary/90"
               >
