@@ -55,7 +55,7 @@ export default async function AboutPage() {
           <div className="md:col-span-2">
             <Card className="overflow-hidden shadow-xl">
               <Image
-                src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=600&h=400&fit=crop"
+                src="/images/airlab1.jpg"
                 alt="AIRLAB Team working on robotics projects"
                 width={600}
                 height={400}
