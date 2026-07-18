@@ -1,8 +1,15 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { ObjectId } from 'mongodb';
 import { isAuthenticated } from '@/lib/auth';
 import { teamMemberSchema } from '@/lib/validations';
 import { TeamMember } from '@/types';
-import clientPromise from '@/lib/mongodb';
+import clientPromise, { mapDoc } from '@/lib/mongodb';
+
+const mapAndSortDocs = (docs: any[]) => {
+  return docs
+    .map(mapDoc)
+    .sort((a, b) => (a.order !== undefined && b.order !== undefined ? a.order - b.order : (a.order || 0) - (b.order || 0)));
+};
 
 export async function GET(request: NextRequest) {
   try {
@@ -14,16 +21,20 @@ export async function GET(request: NextRequest) {
     const collection = db.collection('team');
 
     if (category === 'all') {
-      const leading = await collection.find({ category: 'leading' }, { projection: { _id: 0, category: 0 } }).toArray();
-      const pioneer = await collection.find({ category: 'pioneer' }, { projection: { _id: 0, category: 0 } }).toArray();
-      const volunteers = await collection.find({ category: 'volunteers' }, { projection: { _id: 0, category: 0 } }).toArray();
+      const leadingRaw = await collection.find({ category: 'leading' }, { projection: { category: 0 } }).toArray();
+      const pioneerRaw = await collection.find({ category: 'pioneer' }, { projection: { category: 0 } }).toArray();
+      const volunteersRaw = await collection.find({ category: 'volunteers' }, { projection: { category: 0 } }).toArray();
 
-      const allTeam = { leading, pioneer, volunteers };
+      const allTeam = {
+        leading: mapAndSortDocs(leadingRaw),
+        pioneer: mapAndSortDocs(pioneerRaw),
+        volunteers: mapAndSortDocs(volunteersRaw),
+      };
       return NextResponse.json({ success: true, data: allTeam });
     }
 
-    const team = await collection.find({ category }, { projection: { _id: 0, category: 0 } }).toArray();
-    return NextResponse.json({ success: true, data: team });
+    const teamRaw = await collection.find({ category }, { projection: { category: 0 } }).toArray();
+    return NextResponse.json({ success: true, data: mapAndSortDocs(teamRaw) });
   } catch (error) {
     console.error('Failed to read team:', error);
     return NextResponse.json({ success: false, error: 'Failed to access database' }, { status: 500 });
@@ -58,13 +69,18 @@ export async function POST(request: NextRequest) {
     }
 
     const newMember = validationResult.data as TeamMember;
-    newMember.id = Date.now().toString();
-
     const client = await clientPromise;
     const db = client.db();
 
     const docToInsert = { ...newMember, category };
-    await db.collection('team').insertOne(docToInsert);
+    delete (docToInsert as any).id;
+    const insertResult = await db.collection('team').insertOne(docToInsert);
+
+    newMember.id = insertResult.insertedId.toString();
+    await db.collection('team').updateOne(
+      { _id: insertResult.insertedId },
+      { $set: { id: newMember.id } }
+    );
 
     return NextResponse.json({ success: true, data: newMember }, { status: 201 });
   } catch (error) {
@@ -101,8 +117,17 @@ export async function PUT(request: NextRequest) {
       updateObj.category = category;
     }
 
+    let query: any;
+    if (updatedMember.id && ObjectId.isValid(updatedMember.id)) {
+      query = { _id: new ObjectId(updatedMember.id) };
+    } else if (category && updatedMember.id) {
+      query = { id: updatedMember.id, category };
+    } else {
+      query = { id: updatedMember.id };
+    }
+
     const result = await db.collection('team').updateOne(
-      { id: updatedMember.id },
+      query,
       { $set: updateObj }
     );
 
@@ -126,6 +151,7 @@ export async function DELETE(request: NextRequest) {
 
     const { searchParams } = new URL(request.url);
     const id = searchParams.get('id');
+    const category = searchParams.get('category');
 
     if (!id) {
       return NextResponse.json({ success: false, error: 'Team member ID required' }, { status: 400 });
@@ -133,7 +159,17 @@ export async function DELETE(request: NextRequest) {
 
     const client = await clientPromise;
     const db = client.db();
-    const result = await db.collection('team').deleteOne({ id });
+
+    let query: any;
+    if (ObjectId.isValid(id)) {
+      query = { _id: new ObjectId(id) };
+    } else if (category && id) {
+      query = { id, category };
+    } else {
+      query = { id };
+    }
+
+    const result = await db.collection('team').deleteOne(query);
 
     if (result.deletedCount === 0) {
       return NextResponse.json({ success: false, error: 'Team member not found' }, { status: 404 });

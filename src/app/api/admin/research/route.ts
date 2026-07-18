@@ -1,16 +1,17 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { ObjectId } from 'mongodb';
 import { isAuthenticated } from '@/lib/auth';
 import { researchSchema } from '@/lib/validations';
 import { ResearchPaper } from '@/types';
-import clientPromise from '@/lib/mongodb';
+import clientPromise, { mapDoc } from '@/lib/mongodb';
 
 export async function GET() {
   try {
     const client = await clientPromise;
     const db = client.db();
 
-    // We do not project out _id because ResearchPaper uses _id
-    const research = await db.collection('research').find({}).toArray();
+    const rawResearch = await db.collection('research').find({}).toArray();
+    const research = rawResearch.map(mapDoc);
 
     return NextResponse.json({ success: true, data: research });
   } catch (error) {
@@ -37,15 +38,17 @@ export async function POST(request: NextRequest) {
     }
 
     const newPaper = validationResult.data as ResearchPaper;
-    newPaper._id = Date.now().toString(); // Store as string to match schema
-
     const client = await clientPromise;
     const db = client.db();
 
-    const docToInsert = { ...newPaper } as any;
-    await db.collection('research').insertOne(docToInsert);
+    const docToInsert = { ...newPaper };
+    delete (docToInsert as any)._id;
+    delete (docToInsert as any).id;
 
-    return NextResponse.json({ success: true, data: newPaper }, { status: 201 });
+    const result = await db.collection('research').insertOne(docToInsert as any);
+    const createdPaper = { ...newPaper, id: result.insertedId.toString() };
+
+    return NextResponse.json({ success: true, data: createdPaper }, { status: 201 });
   } catch (error) {
     console.error('Failed to create research:', error);
     return NextResponse.json({ success: false, error: 'Failed to create research in database' }, { status: 500 });
@@ -67,12 +70,23 @@ export async function PUT(request: NextRequest) {
     }
 
     const updatedPaper = validationResult.data as ResearchPaper;
+    const idToFind = updatedPaper.id;
+    if (!idToFind) {
+      return NextResponse.json({ success: false, error: 'Research ID required' }, { status: 400 });
+    }
+
     const client = await clientPromise;
     const db = client.db();
 
+    const filter = ObjectId.isValid(idToFind)
+      ? { $or: [{ _id: new ObjectId(idToFind) }, { id: idToFind }] }
+      : { id: idToFind };
+
+    const { _id, id: _, ...updateFields } = updatedPaper as any;
+
     const result = await db.collection('research').updateOne(
-      { _id: updatedPaper._id as any },
-      { $set: updatedPaper }
+      filter,
+      { $set: updateFields }
     );
 
     if (result.matchedCount === 0) {
@@ -103,7 +117,11 @@ export async function DELETE(request: NextRequest) {
     const client = await clientPromise;
     const db = client.db();
 
-    const result = await db.collection('research').deleteOne({ _id: id as any });
+    const filter = ObjectId.isValid(id)
+      ? { $or: [{ _id: new ObjectId(id) }, { id: id }] }
+      : { id: id };
+
+    const result = await db.collection('research').deleteOne(filter);
 
     if (result.deletedCount === 0) {
       return NextResponse.json({ success: false, error: 'Research paper not found' }, { status: 404 });

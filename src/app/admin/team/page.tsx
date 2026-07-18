@@ -3,7 +3,7 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
-import { PlusCircle, Edit, Trash2, Search, Users } from 'lucide-react';
+import { PlusCircle, Edit, Trash2, Search, Users, ArrowUp, ArrowDown, Save, User } from 'lucide-react';
 import { BackButton } from '@/components/ui/back-button';
 import { Input } from '@/components/ui/input';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
@@ -35,6 +35,7 @@ interface TeamMember {
   role: string;
   imageUrl: string;
   bio?: string;
+  order?: number;
   social?: {
     linkedin?: string;
     twitter?: string;
@@ -69,9 +70,12 @@ export default function AdminTeamPage() {
   const [selectedCategory, setSelectedCategory] = useState<string>('leading');
   const [editingMember, setEditingMember] = useState<TeamMember | null>(null);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [hasReordered, setHasReordered] = useState(false);
+  const [isSavingOrder, setIsSavingOrder] = useState(false);
   const { toast } = useToast();
 
   useEffect(() => {
+    setHasReordered(false);
     fetchTeamMembers();
   }, [selectedCategory]);
 
@@ -173,6 +177,62 @@ export default function AdminTeamPage() {
     }
   };
 
+  const canReorder = searchTerm === '';
+
+  const moveUp = (index: number) => {
+    if (index === 0 || !canReorder) return;
+    const newMembers = [...teamMembers];
+    [newMembers[index - 1], newMembers[index]] = [newMembers[index], newMembers[index - 1]];
+    
+    newMembers.forEach((item, idx) => {
+      item.order = idx;
+    });
+    
+    setTeamMembers(newMembers);
+    setHasReordered(true);
+  };
+
+  const moveDown = (index: number) => {
+    if (index === teamMembers.length - 1 || !canReorder) return;
+    const newMembers = [...teamMembers];
+    [newMembers[index + 1], newMembers[index]] = [newMembers[index], newMembers[index + 1]];
+    
+    newMembers.forEach((item, idx) => {
+      item.order = idx;
+    });
+    
+    setTeamMembers(newMembers);
+    setHasReordered(true);
+  };
+
+  const handleSaveOrder = async () => {
+    setIsSavingOrder(true);
+    try {
+      const updates = teamMembers.map((item, index) => ({
+        id: item.id,
+        order: item.order !== undefined ? item.order : index
+      }));
+      
+      const response = await fetch('/api/admin/team/reorder', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ updates })
+      });
+      
+      if (response.ok) {
+        setHasReordered(false);
+        toast({ title: "Success", description: "Order saved successfully" });
+        await fetchTeamMembers();
+      } else {
+        toast({ title: "Error", description: "Failed to save order", variant: "destructive" });
+      }
+    } catch {
+      toast({ title: "Error", description: "Failed to save order", variant: "destructive" });
+    } finally {
+      setIsSavingOrder(false);
+    }
+  };
+
   const filteredMembers = teamMembers.filter(member =>
     member.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
     member.role.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -191,11 +251,23 @@ export default function AdminTeamPage() {
             <p className="text-muted-foreground font-body">Add, edit, or remove team member profiles.</p>
           </div>
         </div>
-        <Button asChild className="bg-primary hover:bg-primary/90 text-primary-foreground">
-          <Link href="/admin/team/new">
-            <PlusCircle className="mr-2 h-5 w-5" /> Add Team Member
-          </Link>
-        </Button>
+        <div className="flex items-center gap-3">
+          {hasReordered && (
+            <Button 
+              onClick={handleSaveOrder} 
+              disabled={isSavingOrder}
+              className="bg-accent hover:bg-accent/90 text-accent-foreground animate-pulse"
+            >
+              <Save className="mr-2 h-5 w-5" /> 
+              {isSavingOrder ? 'Saving...' : 'Save Order'}
+            </Button>
+          )}
+          <Button asChild className="bg-primary hover:bg-primary/90 text-primary-foreground">
+            <Link href="/admin/team/new">
+              <PlusCircle className="mr-2 h-5 w-5" /> Add Team Member
+            </Link>
+          </Button>
+        </div>
       </div>
 
       <Card className="shadow-lg">
@@ -231,6 +303,7 @@ export default function AdminTeamPage() {
             <Table>
               <TableHeader>
                 <TableRow>
+                  <TableHead className="w-[100px]">Order</TableHead>
                   <TableHead>Avatar</TableHead>
                   <TableHead>Name</TableHead>
                   <TableHead>Role</TableHead>
@@ -241,17 +314,44 @@ export default function AdminTeamPage() {
               <TableBody>
                 {filteredMembers.length === 0 ? (
                   <TableRow>
-                    <TableCell colSpan={5} className="text-center text-muted-foreground py-8">
+                    <TableCell colSpan={6} className="text-center text-muted-foreground py-8">
                       {searchTerm ? 'No members found matching your search.' : 'No team members available.'}
                     </TableCell>
                   </TableRow>
                 ) : (
-                  filteredMembers.map((member) => (
+                  filteredMembers.map((member, index) => (
                     <TableRow key={member.id}>
                       <TableCell>
-                        <Avatar>
-                          <AvatarImage src={member.imageUrl} alt={member.name} />
-                          <AvatarFallback>{member.name.substring(0, 2).toUpperCase()}</AvatarFallback>
+                        {canReorder ? (
+                          <div className="flex flex-col items-center justify-center gap-1 opacity-70">
+                            <button 
+                              onClick={() => moveUp(index)}
+                              disabled={index === 0}
+                              className={`p-1 rounded hover:bg-accent hover:text-accent-foreground transition-colors ${index === 0 ? 'opacity-30 cursor-not-allowed' : 'cursor-pointer'}`}
+                              title="Move Up"
+                            >
+                              <ArrowUp className="h-4 w-4" />
+                            </button>
+                            <button 
+                              onClick={() => moveDown(index)}
+                              disabled={index === filteredMembers.length - 1}
+                              className={`p-1 rounded hover:bg-accent hover:text-accent-foreground transition-colors ${index === filteredMembers.length - 1 ? 'opacity-30 cursor-not-allowed' : 'cursor-pointer'}`}
+                              title="Move Down"
+                            >
+                              <ArrowDown className="h-4 w-4" />
+                            </button>
+                          </div>
+                        ) : (
+                          <span className="text-xs text-muted-foreground">-</span>
+                        )}
+                      </TableCell>
+                      <TableCell>
+                        <Avatar className="h-10 w-10 border border-primary/20">
+                          <AvatarImage src={member.imageUrl} alt={member.name} className="object-cover" />
+                          <AvatarFallback className="bg-muted text-primary font-semibold flex items-center justify-center">
+                            <User className="h-4 w-4 mr-0.5 opacity-60" />
+                            {member.name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase()}
+                          </AvatarFallback>
                         </Avatar>
                       </TableCell>
                       <TableCell className="font-medium">{member.name}</TableCell>

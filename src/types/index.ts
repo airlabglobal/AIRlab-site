@@ -26,7 +26,7 @@ export interface NewsItem {
 
 // Research Types
 export interface ResearchPaper {
-  _id: string;
+  id: string;
   title: string;
   authors: string;
   year: number;
@@ -47,6 +47,7 @@ export interface TeamMember {
   social: {
     linkedin?: string;
   };
+  order?: number;
 }
 
 // History Types

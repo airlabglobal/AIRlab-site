@@ -1,4 +1,4 @@
-import Image from 'next/image'
+import SafeImage from '@/components/ui/SafeImage'
 import { BackButton } from '@/components/ui/back-button'
 import { getDirector } from '@/lib/data-fetchers'
 
@@ -26,7 +26,7 @@ export default async function DirectorPage() {
         </div>
         <div className="flex flex-col md:flex-row items-center md:items-start gap-8 md:gap-12">
           <div className="relative w-64 sm:w-72 md:w-80 aspect-square rounded-2xl md:rounded-tl-3xl md:rounded-br-3xl overflow-hidden shadow-xl border-4 border-primary/10 shrink-0 mx-auto md:mx-0 motion-safe:animate-slide-up">
-            <Image
+            <SafeImage
               src={director.imageUrl}
               alt={director.name}
               fill

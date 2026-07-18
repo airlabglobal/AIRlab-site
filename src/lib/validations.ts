@@ -28,7 +28,7 @@ export const newsSchema = z.object({
 
 // Research validation schema
 export const researchSchema = z.object({
-  _id: z.string().optional(),
+  id: z.string().optional(),
   title: z.string().min(3, 'Title must be at least 3 characters').max(300),
   authors: z.string().min(2, 'Authors field is required'),
   year: z.number().min(1900).max(new Date().getFullYear() + 1),
@@ -52,6 +52,7 @@ export const teamMemberSchema = z.object({
     github: z.string().url().optional().or(z.literal('')),
     email: z.string().email().optional().or(z.literal('')),
   }),
+  order: z.number().optional(),
 });
 
 // Director validation schema

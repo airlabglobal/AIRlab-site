@@ -30,4 +30,13 @@ if (process.env.NODE_ENV === 'development') {
 
 // Export a module-scoped MongoClient promise. By doing this in a
 // separate module, the client can be shared across functions.
+export const mapDoc = (doc: any) => {
+    if (!doc) return doc;
+    const { _id, ...rest } = doc;
+    return {
+        ...rest,
+        id: _id ? _id.toString() : rest.id,
+    };
+};
+
 export default clientPromise;

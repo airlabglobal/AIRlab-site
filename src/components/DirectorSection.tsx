@@ -1,4 +1,4 @@
-import Image from 'next/image'
+import SafeImage from '@/components/ui/SafeImage'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { ArrowRight } from 'lucide-react'
@@ -21,7 +21,7 @@ export default async function DirectorSection() {
         {director ? (
           <div className="grid md:grid-cols-5 gap-12 items-center bg-card p-8 rounded-xl shadow-xl overflow-hidden">
             <div className="md:col-span-2 opacity-0 animate-slide-in-from-left">
-              <Image
+              <SafeImage
                 src={director.imageUrl}
                 alt={director.name}
                 width={800}

@@ -22,7 +22,7 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 
 interface ResearchPaper {
-  _id: string;
+  id: string;
   title: string;
   authors: string;
   year: number;
@@ -220,8 +220,8 @@ export default function AdminResearchPage() {
                   </TableRow>
                 ) : (
                   filteredPapers.map((paper) => (
-                  <TableRow key={paper._id}>
-                    <TableCell className="font-medium">{paper._id}</TableCell>
+                  <TableRow key={paper.id}>
+                    <TableCell className="font-medium">{paper.id}</TableCell>
                     <TableCell className="max-w-xs truncate">{paper.title}</TableCell>
                     <TableCell>{paper.authors}</TableCell>
                     <TableCell>{paper.year}</TableCell>
@@ -238,7 +238,7 @@ export default function AdminResearchPage() {
                         <Button
                           variant="destructive"
                           size="sm"
-                          onClick={() => handleDelete(paper._id)}
+                          onClick={() => handleDelete(paper.id)}
                         >
                           <Trash2 className="h-4 w-4 mr-1" />
                           Delete

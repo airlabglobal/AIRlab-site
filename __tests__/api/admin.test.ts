@@ -1,6 +1,7 @@
 /**
  * API Route Tests for Admin Endpoints
  */
+export {};
 
 const BASE_URL = process.env.TEST_BASE_URL || 'http://localhost:3000';
 let authCookie = '';
@@ -183,9 +184,9 @@ describe('Admin API Routes', () => {
 
       expect(response.status).toBe(201);
       const resData = await response.json();
-      expect(resData.data._id).toBeDefined();
+      expect(resData.data.id).toBeDefined();
 
-      await authFetch(`/api/admin/research?id=${resData.data._id}`, { method: 'DELETE' });
+      await authFetch(`/api/admin/research?id=${resData.data.id}`, { method: 'DELETE' });
     });
   });
 
@@ -204,7 +205,7 @@ describe('Admin API Routes', () => {
         imageUrl: 'https://example.com/images/test.jpg',
         bio: 'Test bio',
         category: 'leading',
-        social: { linkedin: '', twitter: '', github: '', email: '' }
+        social: { linkedin: 'https://linkedin.com/in/test', twitter: '', github: '', email: '' }
       };
 
       const response = await authFetch('/api/admin/team', {
@@ -218,6 +219,23 @@ describe('Admin API Routes', () => {
       expect(resData.data.id).toBeDefined();
 
       await authFetch(`/api/admin/team?id=${resData.data.id}`, { method: 'DELETE' });
+    });
+
+    it('should reorder team members', async () => {
+      const response = await authFetch('/api/admin/team/reorder', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          updates: [
+            { id: 'fake-team-id-1', order: 1 },
+            { id: 'fake-team-id-2', order: 0 }
+          ]
+        })
+      });
+
+      expect(response.status).toBe(200);
+      const resData = await response.json();
+      expect(resData.success).toBe(true);
     });
   });
 

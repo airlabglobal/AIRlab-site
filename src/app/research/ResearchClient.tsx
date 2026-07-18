@@ -3,7 +3,6 @@ import PageWrapper from '@/components/layout/PageWrapper';
 import Section from '@/components/ui/Section';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import Image from 'next/image';
 import Link from 'next/link';
 import { FileText, ExternalLink, ArrowRight } from 'lucide-react';
 import type { ResearchPaper } from '@/types';
@@ -16,6 +15,8 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog';
 import { useState } from 'react';
+import { DEFAULT_IMAGE } from '@/data/socials';
+import SafeImage from '@/components/ui/SafeImage';
 
 export default function ResearchClient({ initialResearch }: { initialResearch: ResearchPaper[] }) {
   const researchPapers = initialResearch;
@@ -33,10 +34,10 @@ export default function ResearchClient({ initialResearch }: { initialResearch: R
         {hasResearch ? (
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {researchPapers.map((paper) => (
-              <Card key={paper._id} className="overflow-hidden shadow-lg hover:shadow-xl transition-shadow group flex flex-col">
+              <Card key={paper.id} className="overflow-hidden shadow-lg hover:shadow-xl transition-shadow group flex flex-col">
                 <div className="relative h-48 w-full overflow-hidden">
-                  <Image
-                    src={paper.imageUrl || "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=600&h=400&fit=crop"}
+                  <SafeImage
+                    src={paper.imageUrl || DEFAULT_IMAGE}
                     alt={paper.title}
                     fill
                     className="object-cover group-hover:scale-105 transition-transform duration-300"
@@ -76,8 +77,8 @@ export default function ResearchClient({ initialResearch }: { initialResearch: R
                       </DialogHeader>
                       <div className="space-y-6">
                         <div className="relative aspect-video rounded-lg overflow-hidden">
-                          <Image
-                            src={paper.imageUrl || "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=600&h=400&fit=crop"}
+                          <SafeImage
+                            src={paper.imageUrl || DEFAULT_IMAGE}
                             alt={paper.title}
                             fill
                             className="object-cover"
