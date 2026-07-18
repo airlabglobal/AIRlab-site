@@ -163,7 +163,7 @@ export default function NewTeamMemberPage() {
 
               <div className="grid grid-cols-4 items-center gap-4">
                 <Label htmlFor="email" className="text-right">
-                  Email *
+                  Email
                 </Label>
                 <Input
                   id="email"
@@ -171,7 +171,6 @@ export default function NewTeamMemberPage() {
                   value={member.email}
                   onChange={(e) => setMember({ ...member, email: e.target.value })}
                   className="col-span-3"
-                  required
                 />
               </div>
 

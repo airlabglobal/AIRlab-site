@@ -3,6 +3,7 @@
  * 
  * Tests complete CRUD operations for admin panel
  */
+export {};
 
 const BASE_URL = process.env.TEST_BASE_URL || 'http://localhost:3000';
 let authCookie = '';
@@ -169,7 +170,7 @@ describe('Admin Workflow Integration', () => {
       });
       expect(updateResponse.status).toBe(200);
 
-      const deleteResponse = await authFetch(`/api/admin/research?id=${created._id}`, {
+      const deleteResponse = await authFetch(`/api/admin/research?id=${created.id}`, {
         method: 'DELETE'
       });
       expect(deleteResponse.status).toBe(200);
@@ -184,7 +185,7 @@ describe('Admin Workflow Integration', () => {
         imageUrl: 'https://example.com/images/wf.jpg',
         bio: 'Workflow bio',
         category: 'pioneer',
-        social: { linkedin: '', twitter: '', github: '', email: '' }
+        social: { linkedin: 'https://linkedin.com/in/wf', twitter: '', github: '', email: '' }
       };
 
       const createResponse = await authFetch('/api/admin/team', {

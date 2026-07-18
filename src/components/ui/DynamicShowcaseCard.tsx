@@ -1,4 +1,4 @@
-import Image from 'next/image';
+import SafeImage from '@/components/ui/SafeImage';
 import Link from 'next/link';
 import { ArrowRight, FileText, ExternalLink } from 'lucide-react';
 import {
@@ -45,10 +45,10 @@ export default function DynamicShowcaseCard({
       "overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-300 ease-in-out transform hover:-translate-y-2 group",
       "motion-safe:animate-float motion-reduce:animate-none",
       className
-      )}>
+    )}>
       <CardHeader className="p-0">
         <div className="aspect-video relative overflow-hidden bg-muted">
-          <Image
+          <SafeImage
             src={imageUrl}
             alt={title}
             fill
@@ -59,7 +59,7 @@ export default function DynamicShowcaseCard({
             blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R//2Q=="
             data-ai-hint={imageHint}
           />
-           <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
+          <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
         </div>
       </CardHeader>
       <CardContent className="p-6">
@@ -95,7 +95,7 @@ export default function DynamicShowcaseCard({
             </DialogHeader>
             <div className="space-y-6">
               <div className="relative aspect-video rounded-lg overflow-hidden">
-                <Image
+                <SafeImage
                   src={imageUrl}
                   alt={title}
                   fill

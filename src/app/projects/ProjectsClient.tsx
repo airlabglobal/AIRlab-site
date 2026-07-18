@@ -2,7 +2,6 @@
 import PageWrapper from '@/components/layout/PageWrapper';
 import Section from '@/components/ui/Section';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import Image from 'next/image';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -17,6 +16,8 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog';
 import { useState } from 'react';
+import { DEFAULT_IMAGE } from '@/data/socials';
+import SafeImage from '@/components/ui/SafeImage';
 
 export default function ProjectsClient({ initialProjects }: { initialProjects: Project[] }) {
   const projects = initialProjects;
@@ -36,8 +37,8 @@ export default function ProjectsClient({ initialProjects }: { initialProjects: P
               <Card key={project.id} className="flex flex-col overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 group">
                 <CardHeader className="p-0">
                   <div className="relative aspect-video">
-                    <Image
-                      src={project.imageUrl}
+                    <SafeImage
+                      src={project.imageUrl || DEFAULT_IMAGE}
                       alt={project.title}
                       fill
                       className="object-cover group-hover:scale-105 transition-transform duration-500"
@@ -79,8 +80,8 @@ export default function ProjectsClient({ initialProjects }: { initialProjects: P
                       </DialogHeader>
                       <div className="space-y-6">
                         <div className="relative aspect-video rounded-lg overflow-hidden">
-                          <Image
-                            src={project.imageUrl}
+                          <SafeImage
+                            src={project.imageUrl || DEFAULT_IMAGE}
                             alt={project.title}
                             fill
                             className="object-cover"

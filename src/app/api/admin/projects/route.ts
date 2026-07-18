@@ -1,15 +1,17 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { ObjectId } from 'mongodb';
 import { isAuthenticated } from '@/lib/auth';
 import { projectSchema } from '@/lib/validations';
 import { Project } from '@/types';
-import clientPromise from '@/lib/mongodb';
+import clientPromise, { mapDoc } from '@/lib/mongodb';
 
 export async function GET() {
   try {
     const client = await clientPromise;
     const db = client.db();
 
-    const projects = await db.collection('projects').find({}, { projection: { _id: 0 } }).toArray();
+    const rawProjects = await db.collection('projects').find({}).toArray();
+    const projects = rawProjects.map(mapDoc);
 
     return NextResponse.json({ success: true, data: projects });
   } catch (error) {
@@ -45,13 +47,14 @@ export async function POST(request: NextRequest) {
     const client = await clientPromise;
     const db = client.db();
 
-    newProject.id = Date.now().toString(); // Consistent simple ID generation
-
-    // insertOne mutates the object by adding _id, so we spread and omit the _id from the response
     const projectToInsert = { ...newProject };
-    await db.collection('projects').insertOne(projectToInsert);
+    delete (projectToInsert as any).id;
+    delete (projectToInsert as any)._id;
 
-    return NextResponse.json({ success: true, data: newProject }, { status: 201 });
+    const result = await db.collection('projects').insertOne(projectToInsert as any);
+    const createdProject = { ...newProject, id: result.insertedId.toString() };
+
+    return NextResponse.json({ success: true, data: createdProject }, { status: 201 });
   } catch (error) {
     console.error('Failed to create project:', error);
     return NextResponse.json(
@@ -82,12 +85,23 @@ export async function PUT(request: NextRequest) {
     }
 
     const updatedProject = validationResult.data as Project;
+    const id = updatedProject.id;
+    if (!id) {
+      return NextResponse.json({ success: false, error: 'Project ID required' }, { status: 400 });
+    }
+
     const client = await clientPromise;
     const db = client.db();
 
+    const filter = ObjectId.isValid(id)
+      ? { $or: [{ _id: new ObjectId(id) }, { id: id }] }
+      : { id: id };
+
+    const { _id, id: _, ...updateFields } = updatedProject as any;
+
     const result = await db.collection('projects').updateOne(
-      { id: updatedProject.id },
-      { $set: updatedProject }
+      filter,
+      { $set: updateFields }
     );
 
     if (result.matchedCount === 0) {
@@ -130,7 +144,11 @@ export async function DELETE(request: NextRequest) {
     const client = await clientPromise;
     const db = client.db();
 
-    const result = await db.collection('projects').deleteOne({ id });
+    const filter = ObjectId.isValid(id)
+      ? { $or: [{ _id: new ObjectId(id) }, { id: id }] }
+      : { id: id };
+
+    const result = await db.collection('projects').deleteOne(filter);
 
     if (result.deletedCount === 0) {
       return NextResponse.json(

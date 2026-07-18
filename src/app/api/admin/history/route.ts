@@ -1,15 +1,16 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { ObjectId } from 'mongodb';
 import { isAuthenticated } from '@/lib/auth';
 import { historySchema } from '@/lib/validations';
-import clientPromise from '@/lib/mongodb';
+import clientPromise, { mapDoc } from '@/lib/mongodb';
 
 export async function GET() {
   try {
     const client = await clientPromise;
     const db = client.db();
 
-    // Convert year to sorting integer roughly
-    const history = await db.collection('history').find({}, { projection: { _id: 0 } }).toArray();
+    const rawHistory = await db.collection('history').find({}).toArray();
+    const history = rawHistory.map(mapDoc);
 
     history.sort((a, b) => {
       if (a.year === 'Present' && b.year !== 'Present') return 1;
@@ -47,15 +48,17 @@ export async function POST(request: NextRequest) {
     }
 
     const newItem = validationResult.data;
-    const id = `${newItem.year}-${newItem.event.toLowerCase().replace(/\\s+/g, '-')}`;
-
     const client = await clientPromise;
     const db = client.db();
 
-    const docToInsert = { ...newItem, id };
-    await db.collection('history').insertOne(docToInsert);
+    const docToInsert = { ...newItem };
+    delete (docToInsert as any).id;
+    delete (docToInsert as any)._id;
 
-    return NextResponse.json({ success: true, data: docToInsert }, { status: 201 });
+    const result = await db.collection('history').insertOne(docToInsert as any);
+    const createdItem = { ...newItem, id: result.insertedId.toString() };
+
+    return NextResponse.json({ success: true, data: createdItem }, { status: 201 });
   } catch (error) {
     console.error('Failed to create history item:', error);
     return NextResponse.json({ success: false, error: 'Failed to create history in database' }, { status: 500 });
@@ -77,12 +80,23 @@ export async function PUT(request: NextRequest) {
     }
 
     const updatedItem = validationResult.data;
+    const id = updatedItem.id;
+    if (!id) {
+      return NextResponse.json({ success: false, error: 'History ID required' }, { status: 400 });
+    }
+
     const client = await clientPromise;
     const db = client.db();
 
+    const filter = ObjectId.isValid(id)
+      ? { $or: [{ _id: new ObjectId(id) }, { id: id }] }
+      : { id: id };
+
+    const { _id, id: _, ...updateFields } = updatedItem as any;
+
     const result = await db.collection('history').updateOne(
-      { id: updatedItem.id },
-      { $set: updatedItem }
+      filter,
+      { $set: updateFields }
     );
 
     if (result.matchedCount === 0) {
@@ -113,7 +127,11 @@ export async function DELETE(request: NextRequest) {
     const client = await clientPromise;
     const db = client.db();
 
-    const result = await db.collection('history').deleteOne({ id });
+    const filter = ObjectId.isValid(id)
+      ? { $or: [{ _id: new ObjectId(id) }, { id: id }] }
+      : { id: id };
+
+    const result = await db.collection('history').deleteOne(filter);
 
     if (result.deletedCount === 0) {
       return NextResponse.json({ success: false, error: 'History item not found' }, { status: 404 });
