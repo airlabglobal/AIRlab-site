@@ -10,19 +10,16 @@ import type { Project } from '@/types';
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
-import { useState } from 'react';
 import { DEFAULT_IMAGE } from '@/data/socials';
 import SafeImage from '@/components/ui/SafeImage';
 
 export default function ProjectsClient({ initialProjects }: { initialProjects: Project[] }) {
   const projects = initialProjects;
   const hasProjects = projects.length > 0;
-  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
 
   return (
     <PageWrapper>
@@ -65,7 +62,7 @@ export default function ProjectsClient({ initialProjects }: { initialProjects: P
                 <CardFooter className="p-6 pt-0 flex gap-2">
                   <Dialog>
                     <DialogTrigger asChild>
-                      <Button variant="link" className="text-accent p-0 hover:text-primary" onClick={() => setSelectedProject(project)}>
+                      <Button variant="link" className="text-accent p-0 hover:text-primary">
                         Learn More <ArrowRight className="ml-2 h-4 w-4" />
                       </Button>
                     </DialogTrigger>

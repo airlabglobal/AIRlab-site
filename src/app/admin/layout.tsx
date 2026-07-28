@@ -2,13 +2,16 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import Image from 'next/image';
+import { Menu, Lock } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Lock, LogOut } from 'lucide-react';
+import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { useToast } from '@/hooks/use-toast';
 import { safeFetch } from '@/lib/fetch-utils';
+import AdminSidebar from '@/components/admin/AdminSidebar';
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -16,6 +19,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const router = useRouter();
   const { toast } = useToast();
 
@@ -39,7 +43,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     e.preventDefault();
     setError('');
     setIsSubmitting(true);
-    
+
     try {
       const data = await safeFetch('/api/auth/login', {
         method: 'POST',
@@ -59,7 +63,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         setError(data.error || 'Invalid password');
         setPassword('');
       }
-    } catch (error) {
+    } catch {
       setError('Authentication failed. Please try again.');
       setPassword('');
     } finally {
@@ -84,7 +88,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
   if (isLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
+      <div className="min-h-screen flex items-center justify-center bg-background">
         <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
       </div>
     );
@@ -124,8 +128,8 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                   <p className="text-sm text-destructive font-body">{error}</p>
                 )}
               </div>
-              <Button 
-                type="submit" 
+              <Button
+                type="submit"
                 className="w-full bg-primary hover:bg-primary/90"
                 disabled={isSubmitting}
               >
@@ -149,29 +153,38 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   }
 
   return (
-    <div className="min-h-screen bg-background">
-      <header className="border-b bg-card shadow-sm sticky top-0 z-10">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-4">
-          <div className="flex items-center justify-between">
-            <div>
-              <h1 className="text-2xl font-bold font-headline text-primary">AIRLAB Admin</h1>
-              <p className="text-sm text-muted-foreground font-body">Content Management System</p>
-            </div>
-            <Button
-              onClick={handleLogout}
-              variant="outline"
-              size="sm"
-              className="border-destructive text-destructive hover:bg-destructive/10"
-            >
-              <LogOut className="h-4 w-4 mr-2" />
-              Logout
-            </Button>
-          </div>
+    <div className="min-h-screen bg-background md:flex">
+      {/* Desktop sidebar */}
+      <aside className="hidden md:block w-64 shrink-0 border-r border-border">
+        <div className="fixed w-64 h-screen">
+          <AdminSidebar onLogout={handleLogout} />
         </div>
-      </header>
-      <main className="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {children}
-      </main>
+      </aside>
+
+      <div className="flex-1 min-w-0">
+        {/* Mobile top bar */}
+        <header className="md:hidden sticky top-0 z-20 flex items-center justify-between h-16 px-4 border-b border-border bg-card">
+          <div className="flex items-center gap-2">
+            <Image src="/images/main_logo.png" alt="AIRLAB Logo" width={28} height={28} />
+            <span className="font-headline font-bold text-foreground">AIRLAB Admin</span>
+          </div>
+          <Sheet open={isSidebarOpen} onOpenChange={setIsSidebarOpen}>
+            <SheetTrigger asChild>
+              <Button variant="ghost" size="icon">
+                <Menu className="h-6 w-6" />
+                <span className="sr-only">Open admin menu</span>
+              </Button>
+            </SheetTrigger>
+            <SheetContent side="left" className="p-0 w-72">
+              <AdminSidebar onNavigate={() => setIsSidebarOpen(false)} onLogout={handleLogout} />
+            </SheetContent>
+          </Sheet>
+        </header>
+
+        <main className="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          {children}
+        </main>
+      </div>
     </div>
   );
 }

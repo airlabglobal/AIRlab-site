@@ -13,13 +13,14 @@ import Link from "next/link";
 import { getTeamByCategory } from "@/lib/data-fetchers";
 import { FaLinkedin } from "react-icons/fa6";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import type { TeamMember } from "@/types";
 
 export default async function TeamPage() {
   const leadingTeam = await getTeamByCategory('leading');
   const pioneerVolunteers = await getTeamByCategory('pioneer');
   const volunteers = await getTeamByCategory('volunteers');
 
-  const renderMemberCard = (member: any) => (
+  const renderMemberCard = (member: TeamMember) => (
     <Card
       key={member.id}
       className="text-center overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 group flex flex-col items-center"
@@ -68,19 +69,20 @@ export default async function TeamPage() {
     <PageWrapper>
       <Section title="Our Team" subtitle="Meet the Minds Behind AIRLAB">
         <p className="font-body text-lg text-center text-foreground/80 max-w-3xl mx-auto mb-12">
-          AIRLAB is powered by a dedicated team of researchers, faculty, and
-          students passionate about advancing Artificial Intelligence and
-          Robotics to solve real-world challenges.
+          AIRLAB is powered by a dedicated team of faculty, researchers, and
+          undergraduate and graduate students passionate about advancing
+          Artificial Intelligence and Robotics to solve real-world
+          challenges.
         </p>
-        <h3 className="mb-4 text-2xl font-bold tracking-tight text-white">Leading Team</h3>
+        <h3 className="mb-4 text-2xl font-bold tracking-tight text-foreground">Leading Team</h3>
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 mb-10">
           {leadingTeam.map(renderMemberCard)}
         </div>
-        <h3 className="mb-4 text-2xl font-bold tracking-tight text-white">Pioneer Volunteers</h3>
+        <h3 className="mb-4 text-2xl font-bold tracking-tight text-foreground">Pioneer Volunteers</h3>
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 mb-10">
           {pioneerVolunteers.map(renderMemberCard)}
         </div>
-        <h3 className="mb-4 text-2xl font-bold tracking-tight text-white">Volunteers</h3>
+        <h3 className="mb-4 text-2xl font-bold tracking-tight text-foreground">Volunteers</h3>
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
           {volunteers.map(renderMemberCard)}
         </div>

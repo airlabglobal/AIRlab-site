@@ -70,9 +70,9 @@ export default function AdminDashboardPage() {
   const summaryStats = [
     { title: "Total Projects", value: stats.projects, icon: Bot, color: "text-primary", link: "/admin/projects" },
     { title: "Research Papers", value: stats.research, icon: FileText, color: "text-accent", link: "/admin/research" },
-    { title: "Team Members", value: stats.team, icon: Users, color: "text-green-500", link: "/admin/team" },
-    { title: "News & Events", value: stats.news, icon: Newspaper, color: "text-orange-500", link: "/admin/news" },
-    { title: "History Items", value: stats.history, icon: Clock, color: "text-purple-500", link: "/admin/history" },
+    { title: "Team Members", value: stats.team, icon: Users, color: "text-chart-1", link: "/admin/team" },
+    { title: "News & Events", value: stats.news, icon: Newspaper, color: "text-chart-4", link: "/admin/news" },
+    { title: "History Items", value: stats.history, icon: Clock, color: "text-chart-5", link: "/admin/history" },
   ];
 
   const quickActions = [
@@ -90,18 +90,18 @@ export default function AdminDashboardPage() {
         <h2 className="font-headline text-3xl font-semibold mb-6">Overview</h2>
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-5">
           {summaryStats.map((stat) => (
-            <Card key={stat.title} className="shadow-lg hover:shadow-xl transition-shadow">
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <Card key={stat.title} className="shadow-lg hover:shadow-xl transition-shadow flex flex-col h-full">
+              <CardHeader className="flex flex-row items-start justify-between space-y-0 pb-2">
                 <CardTitle className="text-sm font-medium font-body">{stat.title}</CardTitle>
-                <stat.icon className={`h-5 w-5 ${stat.color}`} />
+                <stat.icon className={`h-5 w-5 shrink-0 ${stat.color}`} />
               </CardHeader>
-              <CardContent>
+              <CardContent className="flex flex-col flex-grow">
                 {loading ? (
                   <Skeleton className="h-10 w-16" />
                 ) : (
                   <>
                     <div className="text-3xl font-bold font-headline mb-2">{stat.value}</div>
-                    <Button asChild variant="link" className="p-0 h-auto text-primary hover:text-primary/80">
+                    <Button asChild variant="link" className="p-0 h-auto mt-auto self-start text-primary hover:text-primary/80">
                       <Link href={stat.link}>
                         View all →
                       </Link>
@@ -116,13 +116,13 @@ export default function AdminDashboardPage() {
 
       <section>
         <h2 className="font-headline text-3xl font-semibold mb-6">Quick Actions</h2>
-        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-5">
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {quickActions.map((action) => (
-            <Button key={action.label} asChild variant="outline" size="lg" className="justify-start text-left h-auto py-4 shadow hover:shadow-md transition-shadow">
+            <Button key={action.label} asChild variant="outline" size="lg" className="w-full justify-start text-left h-auto py-4 shadow hover:shadow-md transition-shadow whitespace-normal">
               <Link href={action.link}>
-                <action.icon className="h-6 w-6 mr-3 text-primary" />
-                <div>
-                  <span className="block font-semibold font-body">{action.label}</span>
+                <action.icon className="h-6 w-6 mr-3 text-primary shrink-0" />
+                <div className="min-w-0">
+                  <span className="block font-semibold font-body leading-snug">{action.label}</span>
                   <span className="block text-xs text-muted-foreground">Click to manage</span>
                 </div>
               </Link>
@@ -151,15 +151,15 @@ export default function AdminDashboardPage() {
               </div>
               <div className="flex items-center justify-between">
                 <span className="text-sm font-body">Team Members</span>
-                <span className="text-2xl font-bold font-headline text-green-500">{stats.team}</span>
+                <span className="text-2xl font-bold font-headline text-chart-1">{stats.team}</span>
               </div>
               <div className="flex items-center justify-between">
                 <span className="text-sm font-body">News & Events</span>
-                <span className="text-2xl font-bold font-headline text-orange-500">{stats.news}</span>
+                <span className="text-2xl font-bold font-headline text-chart-4">{stats.news}</span>
               </div>
               <div className="flex items-center justify-between">
                 <span className="text-sm font-body">History Items</span>
-                <span className="text-2xl font-bold font-headline text-purple-500">{stats.history}</span>
+                <span className="text-2xl font-bold font-headline text-chart-5">{stats.history}</span>
               </div>
             </div>
           </CardContent>

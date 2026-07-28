@@ -1,11 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { ObjectId } from 'mongodb';
+import { ObjectId, Document } from 'mongodb';
 import { isAuthenticated } from '@/lib/auth';
 import { teamMemberSchema } from '@/lib/validations';
 import { TeamMember } from '@/types';
 import clientPromise, { mapDoc } from '@/lib/mongodb';
 
-const mapAndSortDocs = (docs: any[]) => {
+const mapAndSortDocs = (docs: Document[]) => {
   return docs
     .map(mapDoc)
     .sort((a, b) => (a.order !== undefined && b.order !== undefined ? a.order - b.order : (a.order || 0) - (b.order || 0)));
@@ -72,8 +72,8 @@ export async function POST(request: NextRequest) {
     const client = await clientPromise;
     const db = client.db();
 
-    const docToInsert = { ...newMember, category };
-    delete (docToInsert as any).id;
+    const docToInsert: Record<string, unknown> = { ...newMember, category };
+    delete docToInsert.id;
     const insertResult = await db.collection('team').insertOne(docToInsert);
 
     newMember.id = insertResult.insertedId.toString();
@@ -112,12 +112,12 @@ export async function PUT(request: NextRequest) {
     const client = await clientPromise;
     const db = client.db();
 
-    const updateObj: any = { ...updatedMember };
+    const updateObj: Record<string, unknown> = { ...updatedMember };
     if (category) {
       updateObj.category = category;
     }
 
-    let query: any;
+    let query: Record<string, unknown>;
     if (updatedMember.id && ObjectId.isValid(updatedMember.id)) {
       query = { _id: new ObjectId(updatedMember.id) };
     } else if (category && updatedMember.id) {
@@ -160,7 +160,7 @@ export async function DELETE(request: NextRequest) {
     const client = await clientPromise;
     const db = client.db();
 
-    let query: any;
+    let query: Record<string, unknown>;
     if (ObjectId.isValid(id)) {
       query = { _id: new ObjectId(id) };
     } else if (category && id) {

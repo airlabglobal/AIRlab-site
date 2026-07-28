@@ -51,11 +51,10 @@ export async function POST(request: NextRequest) {
     const client = await clientPromise;
     const db = client.db();
 
-    const docToInsert = { ...newItem };
-    delete (docToInsert as any).id;
-    delete (docToInsert as any)._id;
+    const docToInsert: Record<string, unknown> = { ...newItem };
+    delete docToInsert.id;
 
-    const result = await db.collection('history').insertOne(docToInsert as any);
+    const result = await db.collection('history').insertOne(docToInsert);
     const createdItem = { ...newItem, id: result.insertedId.toString() };
 
     return NextResponse.json({ success: true, data: createdItem }, { status: 201 });
@@ -92,7 +91,8 @@ export async function PUT(request: NextRequest) {
       ? { $or: [{ _id: new ObjectId(id) }, { id: id }] }
       : { id: id };
 
-    const { _id, id: _, ...updateFields } = updatedItem as any;
+    const updateFields: Record<string, unknown> = { ...updatedItem };
+    delete updateFields.id;
 
     const result = await db.collection('history').updateOne(
       filter,
