@@ -3,8 +3,11 @@ import { ObjectId } from 'mongodb';
 import clientPromise, { mapDoc } from './mongodb';
 import { Project, NewsItem, ResearchPaper, HistoryItem, TeamMember, Director } from '@/types';
 
+const isDbConfigured = !!process.env.MONGODB_URI;
+
 export async function getProjects(): Promise<Project[]> {
     noStore();
+    if (!isDbConfigured) return [];
     const client = await clientPromise;
     const data = await client.db().collection('projects').find({}).toArray();
     const mapped = data.map(mapDoc);
@@ -14,6 +17,7 @@ export async function getProjects(): Promise<Project[]> {
 
 export async function getNews(): Promise<NewsItem[]> {
     noStore();
+    if (!isDbConfigured) return [];
     const client = await clientPromise;
     const data = await client.db().collection('news').find({}).sort({ date: -1 }).toArray();
     const mapped = data.map(mapDoc);
@@ -22,6 +26,7 @@ export async function getNews(): Promise<NewsItem[]> {
 
 export async function getNewsById(id: string): Promise<NewsItem | null> {
     noStore();
+    if (!isDbConfigured) return null;
     const client = await clientPromise;
     const filter = ObjectId.isValid(id)
         ? { $or: [{ _id: new ObjectId(id) }, { id }] }
@@ -33,6 +38,7 @@ export async function getNewsById(id: string): Promise<NewsItem | null> {
 
 export async function getResearch(): Promise<ResearchPaper[]> {
     noStore();
+    if (!isDbConfigured) return [];
     const client = await clientPromise;
     const data = await client.db().collection('research').find({}).toArray();
     const mapped = data.map(mapDoc);
@@ -41,6 +47,7 @@ export async function getResearch(): Promise<ResearchPaper[]> {
 
 export async function getHistory(): Promise<HistoryItem[]> {
     noStore();
+    if (!isDbConfigured) return [];
     const client = await clientPromise;
     const data = await client.db().collection('history').find({}).toArray();
     const mapped = data.map(mapDoc);
@@ -62,21 +69,17 @@ export async function getHistory(): Promise<HistoryItem[]> {
 
 export async function getTeamByCategory(category: string): Promise<TeamMember[]> {
     noStore();
+    if (!isDbConfigured) return [];
     const client = await clientPromise;
     const data = await client.db().collection('team').find({ category }, { projection: { category: 0 } }).toArray();
-    const mapped = data.map(doc => {
-        const { _id, ...rest } = doc;
-        return {
-            ...rest,
-            id: _id ? _id.toString() : rest.id,
-        };
-    });
-    (mapped as any[]).sort((a, b) => (a.order !== undefined && b.order !== undefined ? a.order - b.order : (a.order || 0) - (b.order || 0)));
+    const mapped = data.map(mapDoc);
+    mapped.sort((a, b) => (a.order !== undefined && b.order !== undefined ? a.order - b.order : (a.order || 0) - (b.order || 0)));
     return JSON.parse(JSON.stringify(mapped));
 }
 
 export async function getDirector(): Promise<Director | null> {
     noStore();
+    if (!isDbConfigured) return null;
     const client = await clientPromise;
     const data = await client.db().collection('director').findOne({}, { projection: { _id: 0 } });
     if (!data) return null;

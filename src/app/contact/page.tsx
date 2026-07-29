@@ -72,8 +72,10 @@ export default function ContactPage() {
             <div>
               <h3 className="font-headline text-2xl font-semibold text-primary mb-4">Contact Details</h3>
               <p className="font-body text-foreground/80 mb-6">
-                We are always excited to hear from prospective students, researchers, industry partners, and the general public.
-                Feel free to reach out to us through any of the channels below.
+                We are always excited to hear from schools and young learners
+                curious about AI and robotics, undergraduate and graduate
+                students, researchers, and industry partners. Feel free to
+                reach out to us through any of the channels below.
               </p>
               <ul className="space-y-4">
                 <li className="flex items-start">

@@ -4,7 +4,7 @@ interface SectionProps {
   id?: string;
   className?: string;
   children: React.ReactNode;
-  title?: string;
+  title?: React.ReactNode;
   subtitle?: string;
   titleClassName?: string;
   asymmetric?: boolean; // Prop to enable asymmetric layout if needed at section level

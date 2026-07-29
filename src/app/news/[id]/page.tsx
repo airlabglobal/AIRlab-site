@@ -51,9 +51,9 @@ export default async function NewsDetailPage({ params }: PageProps) {
         <div className="space-y-6 animate-slide-up" style={{ animationDelay: '0.1s', animationFillMode: 'both' }}>
           <div className="flex items-center gap-4 flex-wrap">
             {newsItem.type && (
-              <Badge 
-                variant={newsItem.type === 'Event' ? 'secondary' : 'default'} 
-                className={`text-sm py-1 px-4 shadow-sm ${newsItem.type === 'Event' ? 'bg-purple-500 hover:bg-purple-600 text-white' : ''}`}
+              <Badge
+                variant={newsItem.type === 'Event' ? 'event' : 'default'}
+                className="text-sm py-1 px-4 shadow-sm"
               >
                 {newsItem.type}
               </Badge>

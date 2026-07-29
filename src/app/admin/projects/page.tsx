@@ -232,7 +232,7 @@ export default function AdminProjectsPage() {
                     <TableCell>{project.title}</TableCell>
                     <TableCell>
                       <Badge variant={project.status === 'Completed' ? 'default' : 'secondary'}
-                             className={project.status === 'Completed' ? 'bg-green-600 text-white' : 'bg-yellow-500 text-black'}>
+                             className={project.status !== 'Completed' ? 'bg-chart-4 text-event-foreground' : ''}>
                         {project.status}
                       </Badge>
                     </TableCell>

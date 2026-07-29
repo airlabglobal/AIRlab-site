@@ -6,7 +6,6 @@ import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
-  CardDescription,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
@@ -20,9 +19,9 @@ import {
   Newspaper,
   Handshake,
   ArrowRight,
+  Sparkles,
 } from "lucide-react";
 import Image from "next/image";
-import type { Project, NewsItem } from "@/types";
 import { getProjects, getNews } from "@/lib/data-fetchers";
 import { formatDate } from "@/lib/utils";
 
@@ -41,21 +40,18 @@ export default async function Home() {
       {" "}
       {/* Override PageWrapper padding for full-width hero */}
       {/* Hero Section */}
-      <Section className="bg-gradient-to-br from-background to-muted/30 !py-16 md:!py-24 lg:!py-32 relative overflow-hidden">
+      <Section className="bg-gradient-to-br from-background to-muted/30 !py-6 md:!py-8 lg:!py-10 relative overflow-hidden">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid md:grid-cols-2 gap-8 items-center">
             <div className="text-center md:text-left opacity-0 animate-slide-in-from-left" style={{ animationFillMode: 'both' }}>
-              <h1 className="font-headline text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-6">
-                <span className="block">Pioneering the Future</span>
-                <span className="block text-primary">
-                  of Intelligent Systems
-                </span>
+              <h1 className="text-balance font-headline text-4xl md:text-5xl font-bold mb-5 max-w-xl mx-auto md:mx-0">
+                Pioneering the Future of{' '}
+                <span className="text-primary">Intelligent Systems</span>
               </h1>
-              <p className="font-body text-lg md:text-xl text-foreground/80 mb-8 max-w-xl mx-auto md:mx-0">
-                Welcome to AIRLAB, the Artificial Intelligence & Robotics
-                Laboratory at the University of Lagos. We're advancing the
-                frontiers of AI, machine learning, and robotics to solve
-                Africa's most pressing challenges.
+              <p className="text-pretty font-body text-lg md:text-xl text-foreground/80 mb-8 max-w-xl mx-auto md:mx-0">
+                AIRLAB is the AI &amp; Robotics Laboratory at the University of
+                Lagos, building intelligent systems to solve Africa&apos;s
+                most pressing challenges.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
                 <Button
@@ -91,20 +87,13 @@ export default async function Home() {
         </div>
       </Section>
       {/* Robot Video Showcase Section */}
-      <section className="w-full py-12 md:py-20 bg-gradient-to-b from-transparent via-muted/30 to-transparent relative overflow-hidden">
+      <Section
+        title={<>Robot Playing <span className="text-primary">Soccer</span></>}
+        subtitle="Robot Showcase"
+        className="bg-gradient-to-b from-transparent via-muted/30 to-transparent relative overflow-hidden"
+      >
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-10 opacity-0 animate-slide-up" style={{ animationDelay: '0.1s', animationFillMode: 'both' }}>
-            <Badge variant="outline" className="mb-3 px-3 py-1 border-primary/30 text-primary font-medium">
-              Robot Showcase
-            </Badge>
-            <h2 className="font-headline text-3xl sm:text-4xl lg:text-5xl font-bold text-foreground mb-4">
-              Robot Playing <span className="text-primary">Soccer</span>
-            </h2>
-            <p className="font-body text-lg text-muted-foreground max-w-xl mx-auto">
-              A quick showcase of our robot playing soccer.
-            </p>
-          </div>
-          <div className="max-w-[340px] sm:max-w-[360px] md:max-w-[380px] mx-auto rounded-2xl md:rounded-3xl overflow-hidden shadow-2xl border-4 border-primary/20 bg-black relative opacity-0 animate-slide-up hover:shadow-primary/20 hover:scale-[1.02] transition-all duration-500" style={{ animationDelay: '0.3s', animationFillMode: 'both' }}>
+          <div className="max-w-[340px] sm:max-w-[360px] md:max-w-[380px] mx-auto rounded-lg overflow-hidden shadow-xl border border-border bg-black relative opacity-0 animate-slide-up hover:shadow-2xl hover:-translate-y-1 transition-all duration-300" style={{ animationDelay: '0.3s', animationFillMode: 'both' }}>
             <video
               src="/robot.mp4"
               autoPlay
@@ -116,7 +105,7 @@ export default async function Home() {
             />
           </div>
         </div>
-      </section>
+      </Section>
       {/* Lab Highlights Section */}
       <Section title="Our Focus Areas" subtitle="Driving Innovation">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
@@ -229,8 +218,8 @@ export default async function Home() {
                     {item.type && (
                       <div className="absolute top-4 right-4 z-10">
                         <Badge
-                          variant={item.type === 'Event' ? 'secondary' : 'default'}
-                          className={`shadow-md ${item.type === 'Event' ? 'bg-purple-500 hover:bg-purple-600 text-white' : ''}`}
+                          variant={item.type === 'Event' ? 'event' : 'default'}
+                          className="shadow-md"
                         >
                           {item.type}
                         </Badge>
@@ -312,17 +301,24 @@ export default async function Home() {
       >
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <p className="font-body text-lg text-foreground/80 max-w-2xl mx-auto mb-8">
-            AIRLAB welcomes passionate individuals and organizations to join our
-            mission of advancing AI and robotics. Whether you're a prospective
-            student, researcher, or industry partner, we offer exciting
-            opportunities to collaborate and innovate.
+            AIRLAB welcomes every stage of the journey into AI and robotics —
+            from school children and young adults discovering STEM for the
+            first time, to undergraduate and graduate researchers, and the
+            organizations who partner with us. There's a place here for you.
           </p>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-4xl mx-auto">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
             {[
+              {
+                title: "Community Outreach",
+                description:
+                  "School visits, robotics demos, and hands-on workshops that introduce children and young adults to AI and robotics.",
+                link: "/contact",
+                icon: <Sparkles className="h-8 w-8 mb-3 text-primary" />,
+              },
               {
                 title: "Prospective Students",
                 description:
-                  "Join our dynamic community of researchers and contribute to groundbreaking AI and robotics projects.",
+                  "Undergraduate and graduate students can join our research community and contribute to real AI and robotics projects.",
                 link: "/contact",
                 icon: <Users className="h-8 w-8 mb-3 text-primary" />,
               },

@@ -4,8 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
-import { Newspaper, ArrowRight, Calendar, ExternalLink } from 'lucide-react';
-import type { NewsItem } from '@/types';
+import { Newspaper, ArrowRight, Calendar } from 'lucide-react';
 import { getNews } from '@/lib/data-fetchers';
 import { formatDate } from '@/lib/utils';
 
@@ -18,7 +17,7 @@ export default async function NewsPage() {
       <Section title="News & Events" subtitle="Stay Updated with AIRLAB">
         <p className="font-body text-lg text-center text-foreground/80 max-w-3xl mx-auto mb-12">
           Keep up with the latest news, events, achievements, and announcements from AIRLAB.
-          Discover our recent breakthroughs, collaborations, and community engagements.
+          Discover our recent breakthroughs, collaborations, and outreach programs for students and young innovators.
         </p>
         {hasNews ? (
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -30,9 +29,9 @@ export default async function NewsPage() {
               >
                 {item.type && (
                   <div className="absolute top-4 right-4 z-10">
-                    <Badge 
-                      variant={item.type === 'Event' ? 'secondary' : 'default'} 
-                      className={`shadow-md ${item.type === 'Event' ? 'bg-purple-500 hover:bg-purple-600 text-white' : ''}`}
+                    <Badge
+                      variant={item.type === 'Event' ? 'event' : 'default'}
+                      className="shadow-md"
                     >
                       {item.type}
                     </Badge>

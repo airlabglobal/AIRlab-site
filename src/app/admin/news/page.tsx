@@ -233,8 +233,8 @@ export default function AdminNewsPage() {
                     <TableCell className="font-medium">{item.id}</TableCell>
                     <TableCell className="max-w-xs truncate">{item.title}</TableCell>
                     <TableCell>
-                      <Badge variant={item.type === 'Event' ? 'secondary' : 'outline'}
-                             className={item.type === 'Event' ? 'bg-purple-500 text-white' : 'border-blue-500 text-blue-500'}>
+                      <Badge variant={item.type === 'Event' ? 'event' : 'outline'}
+                             className={item.type !== 'Event' ? 'border-accent text-accent' : ''}>
                         {item.type || 'News'}
                       </Badge>
                     </TableCell>

@@ -47,11 +47,10 @@ export async function POST(request: NextRequest) {
     const client = await clientPromise;
     const db = client.db();
 
-    const projectToInsert = { ...newProject };
-    delete (projectToInsert as any).id;
-    delete (projectToInsert as any)._id;
+    const projectToInsert: Record<string, unknown> = { ...newProject };
+    delete projectToInsert.id;
 
-    const result = await db.collection('projects').insertOne(projectToInsert as any);
+    const result = await db.collection('projects').insertOne(projectToInsert);
     const createdProject = { ...newProject, id: result.insertedId.toString() };
 
     return NextResponse.json({ success: true, data: createdProject }, { status: 201 });
@@ -97,7 +96,8 @@ export async function PUT(request: NextRequest) {
       ? { $or: [{ _id: new ObjectId(id) }, { id: id }] }
       : { id: id };
 
-    const { _id, id: _, ...updateFields } = updatedProject as any;
+    const updateFields: Record<string, unknown> = { ...updatedProject };
+    delete updateFields.id;
 
     const result = await db.collection('projects').updateOne(
       filter,

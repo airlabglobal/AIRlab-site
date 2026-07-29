@@ -138,10 +138,10 @@ export default function AdminTeamPage() {
           variant: "destructive",
         });
       }
-    } catch (err: any) {
+    } catch (err) {
       toast({
         title: "Error",
-        description: err.message || "An unexpected error occurred",
+        description: err instanceof Error ? err.message : "An unexpected error occurred",
         variant: "destructive",
       });
     }

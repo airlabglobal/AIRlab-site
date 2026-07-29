@@ -4,7 +4,7 @@ import Section from '@/components/ui/Section';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
-import { FileText, ExternalLink, ArrowRight } from 'lucide-react';
+import { FileText, ArrowRight } from 'lucide-react';
 import type { ResearchPaper } from '@/types';
 import {
   Dialog,
@@ -14,14 +14,12 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
-import { useState } from 'react';
 import { DEFAULT_IMAGE } from '@/data/socials';
 import SafeImage from '@/components/ui/SafeImage';
 
 export default function ResearchClient({ initialResearch }: { initialResearch: ResearchPaper[] }) {
   const researchPapers = initialResearch;
   const hasResearch = researchPapers.length > 0;
-  const [selectedPaper, setSelectedPaper] = useState<ResearchPaper | null>(null);
 
   return (
     <PageWrapper>
@@ -64,7 +62,7 @@ export default function ResearchClient({ initialResearch }: { initialResearch: R
                 <div className="p-4 bg-muted/30 mt-auto">
                   <Dialog>
                     <DialogTrigger asChild>
-                      <Button variant="link" className="text-primary hover:text-primary/80 p-0" onClick={() => setSelectedPaper(paper)}>
+                      <Button variant="link" className="text-primary hover:text-primary/80 p-0">
                         Learn More <ArrowRight className="ml-2 h-4 w-4" />
                       </Button>
                     </DialogTrigger>

@@ -1,8 +1,7 @@
 import type { Metadata } from 'next';
 import './globals.css';
 import { ThemeProvider } from '@/components/theme/ThemeProvider';
-import Header from '@/components/layout/Header';
-import Footer from '@/components/layout/Footer';
+import SiteChrome from '@/components/layout/SiteChrome';
 import { Toaster } from '@/components/ui/toaster';
 import { ErrorBoundary } from '@/components/ErrorBoundary';
 
@@ -39,9 +38,7 @@ export default function RootLayout({
             enableSystem
             disableTransitionOnChange
           >
-            <Header />
-            <main className="flex-grow">{children}</main>
-            <Footer />
+            <SiteChrome>{children}</SiteChrome>
             <Toaster />
           </ThemeProvider>
         </ErrorBoundary>
