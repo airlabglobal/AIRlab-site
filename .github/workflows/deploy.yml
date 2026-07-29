@@ -1,0 +1,69 @@
+name: Deploy to Production
+
+on:
+  push:
+    branches:
+      - main # Change to your default branch if different (e.g. master)
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      - name: Lint Code
+        run: npm run lint
+
+      - name: Build Project
+        run: npm run build
+
+      - name: Prepare Standalone Build
+        run: |
+          # The standalone build needs the public folder and .next/static folder
+          # copied into it to work fully on its own.
+          cp -r public .next/standalone/public
+          cp -r .next/static .next/standalone/.next/static
+          cp ecosystem.config.js .next/standalone/ecosystem.config.js
+
+      - name: Copy Files to Server
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.SERVER_IP }}
+          username: ${{ secrets.SERVER_USER }}
+          password: ${{ secrets.SERVER_PASSWORD }}
+          source: ".next/standalone"
+          target: ${{ secrets.SERVER_DEPLOY_DIR }}
+          strip_components: 2 # Strips the `.next/standalone/` part of the path so files are placed in root of target
+
+      - name: Restart Server Process
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SERVER_IP }}
+          username: ${{ secrets.SERVER_USER }}
+          password: ${{ secrets.SERVER_PASSWORD }}
+          script: |
+            cd ${{ secrets.SERVER_DEPLOY_DIR }}
+            
+            # Start pm2 process if it doesn't exist, otherwise reload it
+            pm2 describe airlab-site > /dev/null
+            if [ $? -eq 0 ]; then
+              pm2 reload ecosystem.config.js
+            else
+              pm2 start ecosystem.config.js
+            fi
+            
+            # Save pm2 process list so it starts on server reboot
+            pm2 save
