@@ -114,6 +114,56 @@ npm run typecheck    # Check TypeScript
 npm run lint         # Run linter
 ```
 
+## Production Deployment (Server Architecture)
+
+The production environment for `airol.unilag.edu.ng` is hosted on a Linux VPS and managed via a manual Git deployment process.
+
+### Architecture Overview
+- **Web Server:** Nginx (Configured as a reverse proxy to forward traffic from `80`/`443` to the local Node.js server on port `3000`).
+- **Process Manager:** PM2 (Maintains the Next.js production build and ensures it restarts on server reboot using the `ecosystem.config.js` file).
+### How to Deploy Updates
+
+To deploy new changes to the live website, follow these exact steps:
+
+1. **SSH into the Server:**
+   ```bash
+   ssh admin@<SERVER_IP>
+   ```
+2. **Navigate to the Project Directory:**
+   ```bash
+   cd /var/www/airol-site
+   ```
+3. **Pull the Latest Code from GitHub:**
+   ```bash
+   git pull origin main
+   ```
+4. **Install Dependencies:**
+   *(Note: The `--legacy-peer-deps` flag is required to bypass strict ESLint peer dependency warnings during installation).*
+   ```bash
+   npm install --legacy-peer-deps
+   ```
+5. **Rebuild the Next.js Application:**
+   ```bash
+   npm run build
+   ```
+6. **Restart the Live Server:**
+   ```bash
+   pm2 reload ecosystem.config.js
+   ```
+
+### Important Note on Node.js & Server OS
+The production server runs on an older Linux distribution (Ubuntu 18.04). Because of this, it uses an older version of the C-library (`GLIBC 2.27`). 
+Standard modern Node.js binaries (Node 18/20+) require `GLIBC 2.28+` and will fail to run. 
+
+**DO NOT update Node.js via `nvm` or standard `apt` repositories on the server.** 
+Node.js 20 was manually installed via an [unofficial build](https://unofficial-builds.nodejs.org/) compiled specifically for older `glibc-217` architectures and placed in `/usr/local/node`.
+
+### Environment Variables
+Production environment variables are NOT stored in GitHub. If you need to update them, you must SSH into the server and edit the file directly:
+```bash
+sudo nano /var/www/airol-site/.env.local
+```
+
 ---
 
 Made with ❤️ by the AIRLAB Team
